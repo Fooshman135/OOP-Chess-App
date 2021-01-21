@@ -86,23 +86,46 @@ def generate_empty_board():
 
 
 def pieces_into_starting_positions(board):
-    # board is a list of Square objects.
     # This function assigns a piece to each Square as the starting position.
+    # board is a dictionary of Square objects.
+    # It is not necessary for all the Square objects in board to be empty.
+    
+
+    for square in board.values():
+        if square.number_index == 2:
+            square.current_occupant = Pawn(square, 1)               # White pawns
+        elif square.number_index == 7:
+            square.current_occupant = Pawn(square, 0)               # Black pawns
+        elif square.number_index == 1:
+            if square.letter_index == 1 or square.letter_index == 8:
+                square.current_occupant = Rook(square, 1)           # White rooks
+            elif square.letter_index == 2 or square.letter_index == 7:
+                square.current_occupant = Knight(square, 1)         # White knights
+            elif square.letter_index == 3 or square.letter_index == 6:
+                square.current_occupant = Bishop(square, 1)         # White bishops
+            elif square.letter_index == 4:
+                square.current_occupant = Queen(square, 1)          # White queen
+            elif square.letter_index == 5:
+                square.current_occupant = King(square, 1)           # White king 
+            else:
+                raise Exception("This is an error!")         
+        elif square.number_index == 8:
+            if square.letter_index == 1 or square.letter_index == 8:
+                square.current_occupant = Rook(square, 0)           # Black rooks
+            elif square.letter_index == 2 or square.letter_index == 7:
+                square.current_occupant = Knight(square, 0)         # Black knights
+            elif square.letter_index == 3 or square.letter_index == 6:
+                square.current_occupant = Bishop(square, 0)         # Black bishops
+            elif square.letter_index == 4:
+                square.current_occupant = Queen(square, 0)          # Black queen
+            elif square.letter_index == 5:
+                square.current_occupant = King(square, 0)           # Black king   
+            else:
+                raise Exception("This is an error!")    
+        else:
+            pass
 
 
-
-    #  # Now place the pieces in their starting positions on the board.
-    #  if j == 2:
-    #      list_of_squares[-1].occupant_type = Pawn()
-    #      list_of_squares[-1].occupant_color = color_number_to_text(1)
-    #  if j == 7:
-    #      list_of_squares[-1].occupant_type = Pawn()
-    #      list_of_squares[-1].occupant_color = color_number_to_text(0)
-
-
-
-
-    pass
 
 
 
