@@ -91,7 +91,11 @@ def tests_for__generate_empty_board():
 	list_of_squares = generate_empty_board()
 
 	for square in list_of_squares:
-	 	print(letter_index_to_letter(square.letter_index), square.number_index, "    ", square.square_color, sep='')
+		letter = letter_index_to_letter(list_of_squares[square].letter_index)
+		number = list_of_squares[square].number_index
+		color = list_of_squares[square].square_color
+		print(letter, number, "    ", color, sep='')
+
 
 
 

@@ -5,83 +5,80 @@ from Model import *
 
 
 def letter_index_to_letter(letter_index):
-	
-	if letter_index == 1:
-		x = "a"
-	elif letter_index == 2:
-		x = "b"
-	elif letter_index == 3:
-		x = "c"
-	elif letter_index == 4:
-		x = "d"
-	elif letter_index == 5:
-		x = "e"
-	elif letter_index == 6:
-		x = "f"
-	elif letter_index == 7:
-		x = "g"
-	elif letter_index == 8:
-		x = "h"
-	else:
-		# Throw error
-		raise Exception("This is an error!")
-	
-	return x
+    
+    if letter_index == 1:
+        x = "a"
+    elif letter_index == 2:
+        x = "b"
+    elif letter_index == 3:
+        x = "c"
+    elif letter_index == 4:
+        x = "d"
+    elif letter_index == 5:
+        x = "e"
+    elif letter_index == 6:
+        x = "f"
+    elif letter_index == 7:
+        x = "g"
+    elif letter_index == 8:
+        x = "h"
+    else:
+        # Throw error
+        raise Exception("This is an error!")
+    
+    return x
 
 
 
 
 def color_number_to_text(num):
 
-	# Black = 0, White = 1
+    # Black = 0, White = 1
 
-	if num == 0:
-		text = "Black"
-	elif num == 1:
-		text = "White"
-	else:
-		# Throw error
-		raise Exception("This is an error!")		
+    if num == 0:
+        text = "Black"
+    elif num == 1:
+        text = "White"
+    else:
+        # Throw error
+        raise Exception("This is an error!")        
 
-	return text
+    return text
 
 
 
 def get_square_from_indexes(array_of_squares,letter_index_here, number_index_here):
-	
-	x = None
+    
+    x = None
 
-	for i in range(len(array_of_squares)):
-		if (array_of_squares[i].letter_index == letter_index_here and array_of_squares[i].number_index == number_index_here):
-			x = array_of_squares[i]
-			break
+    for i in range(len(array_of_squares)):
+        if (array_of_squares[i].letter_index == letter_index_here and array_of_squares[i].number_index == number_index_here):
+            x = array_of_squares[i]
+            break
 
-	if x is None:
-		# Throw error
-		raise Exception("This is an error!")
+    if x is None:
+        # Throw error
+        raise Exception("This is an error!")
 
-	return x
+    return x
 
 
 
 
 def generate_empty_board():
 
-	# Generate the empty board by instantiating 64 Square objects.
+    # Generate the empty board by instantiating 64 Square objects and return them in a dictionary.
 
-	list_of_squares = []
+    dict_of_squares = {}
+    color = 1
 
-	color = 1
+    for letter_index in range(1,9):
+        color += 1      # Flip the square color back (every time we increment the row).
+        for number_index in range(1,9):
+            dict_of_squares[letter_index_to_letter(letter_index) + str(number_index)] = Square(letter_index, number_index, color_number_to_text(color % 2))
+            color += 1      # Flip the square color
 
-	# In the following nested for loops, "i" is the letter_index and "j" is the number_index.
-
-	for i in range(1,9):
-	    color += 1      # Flip the square color back (every time we increment the row).
-	    for j in range(1,9):
-	        list_of_squares.append(Square(i, j, color_number_to_text(color % 2)))
-	        color += 1      # Flip the square color
-
-	return list_of_squares
+    return dict_of_squares
 
 
 
@@ -89,8 +86,8 @@ def generate_empty_board():
 
 
 def pieces_into_starting_positions(board):
-	# board is a list of Square objects.
-	# This function assigns a piece to each Square as the starting position.
+    # board is a list of Square objects.
+    # This function assigns a piece to each Square as the starting position.
 
 
 
@@ -105,7 +102,7 @@ def pieces_into_starting_positions(board):
 
 
 
-	pass
+    pass
 
 
 

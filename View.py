@@ -6,6 +6,8 @@ from Model import *
 
 def print_current_board_cli():
 
+    # board is a dictionary of 64 square objects.
+
     # ♟♙♞♘♝♗♛♕♚♔♜♖
 
 
