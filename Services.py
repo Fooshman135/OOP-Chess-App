@@ -116,10 +116,5 @@ def pieces_into_starting_positions(board):
 
 
 
-if __name__ == '__main__':
-   # globals()[sys.argv[1]]()
-   globals()[sys.argv[1]](sys.argv[2])
-
-
 
 
