@@ -4,6 +4,34 @@ from Model import *
 
 
 
+def letter_index_to_letter(letter_index):
+	
+	# x = None
+
+	if letter_index == 1:
+		x = "a"
+	elif letter_index == 2:
+		x = "b"
+	elif letter_index == 3:
+		x = "c"
+	elif letter_index == 4:
+		x = "d"
+	elif letter_index == 5:
+		x = "e"
+	elif letter_index == 6:
+		x = "f"
+	elif letter_index == 7:
+		x = "g"
+	elif letter_index == 8:
+		x = "h"
+	else:
+		# Throw error
+		raise Exception("This is an error!")
+	
+	return x
+
+
+
 
 def color_number_to_text(num):
 
@@ -83,6 +111,15 @@ def pieces_into_starting_positions(board):
 	# board is a list of Square objects.
 	# This function assigns a piece to each Square as the starting position.
 	pass
+
+
+
+
+
+if __name__ == '__main__':
+   # globals()[sys.argv[1]]()
+   globals()[sys.argv[1]](sys.argv[2])
+
 
 
 
