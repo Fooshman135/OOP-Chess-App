@@ -6,8 +6,6 @@ from Model import *
 
 def letter_index_to_letter(letter_index):
 	
-	# x = None
-
 	if letter_index == 1:
 		x = "a"
 	elif letter_index == 2:
@@ -37,16 +35,20 @@ def color_number_to_text(num):
 
 	# Black = 0, White = 1
 
-	if num % 2 == 0:
+	if num == 0:
 		text = "Black"
-	else:
+	elif num == 1:
 		text = "White"
+	else:
+		# Throw error
+		raise Exception("This is an error!")		
 
 	return text
 
 
 
 def get_square_from_indexes(array_of_squares,letter_index_here, number_index_here):
+	
 	x = None
 
 	for i in range(len(array_of_squares)):
@@ -54,11 +56,9 @@ def get_square_from_indexes(array_of_squares,letter_index_here, number_index_her
 			x = array_of_squares[i]
 			break
 
-
 	if x is None:
 		# Throw error
 		raise Exception("This is an error!")
-
 
 	return x
 
@@ -84,25 +84,6 @@ def generate_empty_board():
 	return list_of_squares
 
 
-	       #  # Now place the pieces in their starting positions on the board.
-	       #  if j == 2:
-	       #      list_of_squares[-1].occupant_type = Pawn()
-	       #      list_of_squares[-1].occupant_color = color_number_to_text(1)
-	       #  if j == 7:
-	       #      list_of_squares[-1].occupant_type = Pawn()
-	       #      list_of_squares[-1].occupant_color = color_number_to_text(0)
-
-
-
-	       #  # For testing purposes, show the properties of the current square.
-	       # print(list_of_squares[-1].letter_index)
-	       # print(list_of_squares[-1].number_index)
-	       #  print(list_of_squares[-1].square_color)
-	       #  # print(list_of_squares[-1].occupant_type)
-	       # #  print(list_of_squares[-1].occupant_color)
-	       #  print("")
-
-
 
 
 
@@ -110,6 +91,20 @@ def generate_empty_board():
 def pieces_into_starting_positions(board):
 	# board is a list of Square objects.
 	# This function assigns a piece to each Square as the starting position.
+
+
+
+    #  # Now place the pieces in their starting positions on the board.
+    #  if j == 2:
+    #      list_of_squares[-1].occupant_type = Pawn()
+    #      list_of_squares[-1].occupant_color = color_number_to_text(1)
+    #  if j == 7:
+    #      list_of_squares[-1].occupant_type = Pawn()
+    #      list_of_squares[-1].occupant_color = color_number_to_text(0)
+
+
+
+
 	pass
 
 

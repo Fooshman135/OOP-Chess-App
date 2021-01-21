@@ -78,6 +78,23 @@ def unit_test_for__letter_index_to_letter():
 
 
 
+#############################
+
+
+# Tests for generate_empty_board() function.
+
+def tests_for__generate_empty_board():
+
+
+	print("Test by showing the letter and number and color of each square in the board.")
+
+	list_of_squares = generate_empty_board()
+
+	for square in list_of_squares:
+	 	print(letter_index_to_letter(square.letter_index), square.number_index, "    ", square.square_color, sep='')
+
+
+
 
 #############################
 
@@ -88,9 +105,9 @@ def unit_test_for__letter_index_to_letter():
 
 # unit_test_for__get_square_from_indexes()
 
-#unit_test_for__letter_index_to_letter()
+# unit_test_for__letter_index_to_letter()
 
-
+# tests_for__generate_empty_board()
 
 
 
