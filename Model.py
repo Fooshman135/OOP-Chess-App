@@ -61,10 +61,10 @@ class Pawn(Piece):
         self.color = color  # Should be a Player object.
         if self.color == 0:
             # Black
-            self.unicode = ♙
+            self.unicode = "♙"
         else:
             # White
-            self.unicode = ♟
+            self.unicode = "♟"
         
 
 
@@ -102,10 +102,10 @@ class Rook(Piece):
         self.color = color  # Should be a Player object.
         if self.color == 0:
             # Black
-            self.unicode = ♖
+            self.unicode = "♖"
         else:
             # White
-            self.unicode = ♜
+            self.unicode = "♜"
         
 
 
@@ -151,10 +151,10 @@ class Knight(Piece):
         self.color = color  # Should be a Player object.
         if self.color == 0:
             # Black
-            self.unicode = ♘
+            self.unicode = "♘"
         else:
             # White
-            self.unicode = ♞
+            self.unicode = "♞"
         
 
 
@@ -168,10 +168,10 @@ class Bishop(Piece):
         self.color = color  # Should be a Player object.
         if self.color == 0:
             # Black
-            self.unicode = ♗
+            self.unicode = "♗"
         else:
             # White
-            self.unicode = ♝
+            self.unicode = "♝"
         
 
 
@@ -185,11 +185,34 @@ class King(Piece):
         self.color = color  # Should be a Player object.
         if self.color == 0:
             # Black
-            self.unicode = ♔
+            self.unicode = "♔"
         else:
             # White
-            self.unicode = ♚
+            self.unicode = "♚"
+
+
+
         
+
+    def is_move_legal(self, target_square):
+        # Returns bool depending on whether the piece can legally move into the target square.
+
+        # First, return the set of all squares that the King can move to assuming an empty board.
+        # There are 8 logical checks we need to perform, see which are legal squares and which are off the board.
+
+
+
+        # Second, filter out squares which already have one of your other pieces on it.
+
+
+
+        # Third, filter out squares which put the King in check.
+
+
+
+
+        pass
+
 
 
 
@@ -202,10 +225,10 @@ class Queen(Piece):
         self.color = color  # Should be a Player object.
         if self.color == 0:
             # Black
-            self.unicode = ♕
+            self.unicode = "♕"
         else:
             # White
-            self.unicode = ♛
+            self.unicode = "♛"
         
 
 
