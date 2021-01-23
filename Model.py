@@ -1,7 +1,5 @@
 # Model
 
-# from abc import ABCMeta, abstractmethod
-
 
 
 class Square(object):
@@ -24,18 +22,16 @@ class Square(object):
         pass
 
 
-    def set_starting_position_piece(self, my_piece):
-
-        pass
-
 
 
 
 class Board(object):
 
-    def __init__(self, dict_of_64_squares):
+    def __init__(self, dict_of_64_squares, is_current, whose_turn):
         self.dict_of_64_squares = dict_of_64_squares
-        self.is_current_state = 0
+        self.is_current = is_current
+        self.whose_turn = whose_turn
+
 
 
 
@@ -228,7 +224,7 @@ class King(Piece):
     def get_moves(self):
 
 
-        # Not sure if this method is needed....
+        # Not sure if this method is needed, because I may just have users input the square they want to move into.
 
 
         # First, return the set of all squares that the King can move to assuming an empty board.
@@ -247,9 +243,6 @@ class King(Piece):
 
 
 
-
-
-        
 
     def is_move_legal(self, target_square):
 
@@ -280,6 +273,7 @@ class King(Piece):
 
 
         # Finally, check to make sure that moving there doesn't result in your King being put in check.
+
         # new_board = 
 
         if is_king_in_check(new_board) == 1:
@@ -326,13 +320,24 @@ class Player:
 class Turn:
 
     # One instance created per player per turn.
+    # Maybe this class can be used for hypothetical turns as well.
 
-    def __init__(self, ordinal_number, player, piece, starting_square, ending_square, notation):
+    # The confirmed attribute is a bool for signaling whether the turn was actually taken by the player.
+
+    def __init__(self, ordinal_number, player, piece, starting_square, ending_square, notation, confirmed):
         pass
 
 
 
 
+class Game:
 
+    # One instance per game.
+
+
+    def __init__(self, white_player, black_player, list_of_confirmed_turns, current_board):
+
+
+        pass
 
 

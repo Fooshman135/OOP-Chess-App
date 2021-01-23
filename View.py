@@ -9,7 +9,7 @@ def print_board_white_bottom_cli(board):
     # board is a dictionary of 64 square objects.
 
     # The following dictionary comprehension assigns a space to empty squares, and assigns the piece's unicode to occupied squares.
-    unicode_dict = {k: (" " if v.current_occupant == None else v.current_occupant.unicode) for (k,v) in board.items()}
+    unicode_dict = {k: (" " if v.current_occupant == None else v.current_occupant.unicode) for (k,v) in board.dict_of_64_squares.items()}
 
 
     # Now produce the strings used to show the board.
