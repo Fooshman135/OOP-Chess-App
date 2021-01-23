@@ -15,7 +15,7 @@ pieces_into_starting_positions(board)
 
 
 # Now print the board
-print_current_board_white_bottom_cli(board)
+print_board_white_bottom_cli(board)
 
  
 

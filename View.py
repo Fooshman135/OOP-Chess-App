@@ -4,7 +4,7 @@ from Model import *
 
 
 
-def print_current_board_white_bottom_cli(board):
+def print_board_white_bottom_cli(board):
 
     # board is a dictionary of 64 square objects.
 

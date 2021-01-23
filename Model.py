@@ -31,6 +31,15 @@ class Square(object):
 
 
 
+class Board(object):
+
+    def __init__(self, dict_of_64_squares):
+        self.dict_of_64_squares = dict_of_64_squares
+        self.is_current_state = 0
+
+
+
+
 
 
 
@@ -178,44 +187,6 @@ class Bishop(Piece):
 
 
 
-class King(Piece):
-
-    def __init__(self, current_square, color):
-        self.current_square = current_square
-        self.color = color  # Should be a Player object.
-        if self.color == 0:
-            # Black
-            self.unicode = "♔"
-        else:
-            # White
-            self.unicode = "♚"
-
-
-
-        
-
-    def is_move_legal(self, target_square):
-        # Returns bool depending on whether the piece can legally move into the target square.
-
-        # First, return the set of all squares that the King can move to assuming an empty board.
-        # There are 8 logical checks we need to perform, see which are legal squares and which are off the board.
-
-
-
-        # Second, filter out squares which already have one of your other pieces on it.
-
-
-
-        # Third, filter out squares which put the King in check.
-
-
-
-
-        pass
-
-
-
-
 
 
 class Queen(Piece):
@@ -230,6 +201,108 @@ class Queen(Piece):
             # White
             self.unicode = "♛"
         
+
+
+
+
+
+
+
+
+
+class King(Piece):
+
+    def __init__(self, current_square, color):
+        self.current_square = current_square
+        self.color = color  # Should be a Player object.
+        if self.color == 0:
+            # Black
+            self.unicode = "♔"
+        else:
+            # White
+            self.unicode = "♚"
+
+
+
+
+    def get_moves(self):
+
+
+        # Not sure if this method is needed....
+
+
+        # First, return the set of all squares that the King can move to assuming an empty board.
+        # There are 8 logical checks we need to perform, see which are legal squares and which are off the board.
+
+
+
+        # Second, filter out squares which already have one of your other pieces on it.
+
+
+
+        # Third, filter out squares which put the King in check.
+
+
+        pass
+
+
+
+
+
+        
+
+    def is_move_legal(self, target_square):
+
+        # Returns bool depending on whether the piece can legally move into the target square.
+
+
+        # First get the current square's indexes and the target square's indexes.
+        x1 = self.current_square.letter_index
+        y1 = self.current_square.number_index
+
+        x2 = target_square.letter_index
+        y2 = target_square.number_index
+
+
+        # Then check to see if the target square can be reached, assuming an empty board.
+        # Need to confirm that target_square is one square away from the current_square.
+        if not((x2 in [x1 - 1, x1, x1 + 1]) and (y2 in [y1 - 1, y1, y1 + 1]) and ((x2 != x1) or (y2 != y1))):
+            return 0       
+
+
+        # Then check to see if the target square is occupied by one of your own pieces.
+        if target_square.current_occupant != None and target_square.current_occupant.color == self.color:
+            return 0           
+
+
+        # Then check to see if any square along the way is occupied.
+        # This step is not needed for the King!
+
+
+        # Finally, check to make sure that moving there doesn't result in your King being put in check.
+        # new_board = 
+
+        if is_king_in_check(new_board) == 1:
+            return 0
+
+
+        # If you've reached this point, then the move is legal!
+        return 1
+
+        
+
+
+
+
+
+
+    def is_king_in_check(self, proposed_board):
+        # proposed_board is a board in a state that you want to examine if the king is in check.
+        # Returns bool depending on whether the proposed board has your king in check.
+
+        pass
+
+
 
 
 
