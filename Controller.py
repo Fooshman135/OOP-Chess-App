@@ -10,9 +10,13 @@ from View import *
 board = generate_empty_board()
 
 
+# Next, create the two players.
+white_player = Player(1)
+black_player = Player(0)
+
 
 # Next, add the pieces to the starting positions on the board.
-pieces_into_starting_positions(board)
+pieces_into_starting_positions(board, white_player, black_player)
 
 
 # Now instantiate a Board object.

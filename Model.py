@@ -26,7 +26,7 @@ class Player:
         self.color = color
         self.points = 0
         self.captured_enemy_pieces = []
-        if color = 0:
+        if color == 0:
             # Black
             self.is_current_turn = 0
         else:
