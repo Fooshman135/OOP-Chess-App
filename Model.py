@@ -2,6 +2,35 @@
 
 
 
+
+
+class Game:
+
+    # One instance per game.
+
+
+    def __init__(self, white_player, black_player, list_of_confirmed_turns, current_board):
+        self.white_player = white_player
+        self.black_player = black_player
+        self.list_of_confirmed_turns = list_of_confirmed_turns
+        self.current_board = current_board
+
+
+
+
+
+
+class Player:
+
+    def __init__(self,color, points, captured_enemy_pieces):
+        self.color = color
+
+
+
+
+
+
+
 class Square(object):
 
     def __init__(self, letter_index, number_index, square_color):
@@ -25,6 +54,8 @@ class Square(object):
 
 
 
+
+
 class Board(object):
 
     def __init__(self, dict_of_64_squares, is_current, whose_turn):
@@ -36,6 +67,69 @@ class Board(object):
 
     def duplicate_board(self):
         return Board(se.f.dict_of_64_squares, self.is_current, self.whose_turn)
+
+
+
+
+
+
+
+
+class Turn:
+
+    # One instance created per player per turn.
+    # Maybe this class can be used for hypothetical turns as well.
+
+    # The capture attribute is a bool of signaling whether the turn involving capturing an enemy piece.
+    # The confirmed attribute is a bool for signaling whether the turn was actually taken by the player.
+
+    def __init__(self, ordinal_number, starting_board, player, piece, starting_square, ending_square, capture, notation, confirmed):
+        self.ordinal_number = ordinal_number
+        self.starting_board = starting_board
+        self.player = player
+        self.piece = piece
+        self.starting_square = starting_square
+        self.ending_square = ending_square
+        self.capture = capture
+        self.notation = notation
+        self.confirmed = confirmed
+
+
+
+    def is_legal_move(self):
+        pass
+
+
+
+
+    def create_new_board_from_turn(self):
+        # This function takes an initial board object and a turn object, and it returns a new board object that is the result of taking that turn.
+        # This function should not worry about game logic or turn legality.
+
+
+        # Create a new board object which is the same as the inital board object. We will return this new board later.
+        new_board = self.starting_board.duplicate_board()
+
+
+        # Update the turn's starting square on the board.
+        # First get the starting square from the turn.
+        # Then find the analogous square in the board.
+        # Then set that square's occupant to be None.
+        new_board.dict_of_64_squares[
+            letter_index_to_letter(self.starting_square.letter_index) + str(self.starting_square.number_index)
+        ].current_occupant = None
+
+
+
+        # Update the turn's ending square on the board.
+        new_board.dict_of_64_squares[
+            letter_index_to_letter(self.ending_square.letter_index) + str(self.ending_square.number_index)
+        ].current_occupant = self.piece
+
+        # Return the updated board.
+        return new_board
+
+
 
 
 
@@ -303,93 +397,6 @@ class King(Piece):
 
 
 
-
-
-
-class Player:
-
-    def __init__(self,color, points, captured_enemy_pieces):
-        self.color = color
-
-
-
-
-
-
-
-
-
-class Turn:
-
-    # One instance created per player per turn.
-    # Maybe this class can be used for hypothetical turns as well.
-
-    # The capture attribute is a bool of signaling whether the turn involving capturing an enemy piece.
-    # The confirmed attribute is a bool for signaling whether the turn was actually taken by the player.
-
-    def __init__(self, ordinal_number, starting_board, player, piece, starting_square, ending_square, capture, notation, confirmed):
-        self.ordinal_number = ordinal_number
-        self.starting_board = starting_board
-        self.player = player
-        self.piece = piece
-        self.starting_square = starting_square
-        self.ending_square = ending_square
-        self.capture = capture
-        self.notation = notation
-        self.confirmed = confirmed
-
-
-
-    def is_legal_move(self):
-        pass
-
-
-
-
-    def create_new_board_from_turn(self):
-        # This function takes an initial board object and a turn object, and it returns a new board object that is the result of taking that turn.
-        # This function should not worry about game logic or turn legality.
-
-
-        # Create a new board object which is the same as the inital board object. We will return this new board later.
-        new_board = self.starting_board.duplicate_board()
-
-
-        # Update the turn's starting square on the board.
-        # First get the starting square from the turn.
-        # Then find the analogous square in the board.
-        # Then set that square's occupant to be None.
-        new_board.dict_of_64_squares[
-            letter_index_to_letter(self.starting_square.letter_index) + str(self.starting_square.number_index)
-        ].current_occupant = None
-
-
-
-        # Update the turn's ending square on the board.
-        new_board.dict_of_64_squares[
-            letter_index_to_letter(self.ending_square.letter_index) + str(self.ending_square.number_index)
-        ].current_occupant = self.piece
-
-        # Return the updated board.
-        return new_board
-
-
-
-
-
-
-
-
-class Game:
-
-    # One instance per game.
-
-
-    def __init__(self, white_player, black_player, list_of_confirmed_turns, current_board):
-        self.white_player = white_player
-        self.black_player = black_player
-        self.list_of_confirmed_turns = list_of_confirmed_turns
-        self.current_board = current_board
 
 
 
