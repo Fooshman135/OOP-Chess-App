@@ -1,6 +1,7 @@
 # Services
 
 from Model import *
+from View import *
 
 
 
@@ -135,11 +136,11 @@ def pieces_into_starting_positions(board, white_player, black_player):
 
 
 
-def game_loop(game):
+def game_loop(current_game):
     """
     High level approach for each turn:
-    
-    - Show user the current board state (last confirmed turn’s ending_board attribute?).
+
+    - Show user the current board state.
     - Ask user to select a starting square whose occupying piece is to be moved.
     - Asks user to select an ending square to move that piece to.
     - Create and instantiate a Turn object.
@@ -164,5 +165,19 @@ def game_loop(game):
     """
 
     pass
+
+    while True:
+        # Show user the current board state
+
+        show_current_board_state(current_game.current_board)
+
+
+
+
+
+        break       # Remove this break statement eventually.
+
+
+
 
 

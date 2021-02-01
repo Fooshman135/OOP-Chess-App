@@ -36,11 +36,6 @@ del my_board
 
 
 
-# Now print the board.
-print_board_white_bottom_cli(my_game.current_board)
-
- 
-
 # Begin game cycle.
 game_loop(my_game)
 

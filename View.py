@@ -5,16 +5,30 @@ from Globals import *
 
 
 
-def display_text_to_user(display_text):
 
-    # if GUI == FALSE:
+def show_current_board_state(board):
+
+    if GUI is False:
+        # CLI
+
+        message = "Here is what the board currently looks like:"
+        print_text_to_cli(message)
+
+        print_board_white_bottom_cli(board)
 
 
-    pass
+    else:
+        #GUI
+        pass
 
 
 
 
+
+
+def print_text_to_cli(display_text):
+
+    print("{}\n".format(display_text))
 
 
 
