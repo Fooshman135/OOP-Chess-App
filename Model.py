@@ -14,6 +14,7 @@ class Game:
         self.black_player = black_player
         self.current_board = current_board
 
+        self.whose_turn = white_player
         self.list_of_confirmed_turns = []
         
 
@@ -25,9 +26,12 @@ class Game:
 class Player:
 
     def __init__(self,color):
-        self.color = color
+        self.color = color    # This should be either 0 or 1.
+
         self.points = 0
         self.captured_enemy_pieces = []
+        
+        # The is_current_turn attribute may not be necessary.
         if color == 0:
             # Black
             self.is_current_turn = 0
@@ -95,13 +99,13 @@ class Turn:
     # The is_capture attribute is a bool of signaling whether the turn involving capturing an enemy piece.
     # The is_confirmed attribute is a bool for signaling whether the turn was actually taken by the player.
 
-    def __init__(self, ordinal_number, starting_board, player, starting_square, ending_square):
-        self.ordinal_number = ordinal_number
+    def __init__(self, starting_board, player, starting_square, ending_square):
         self.starting_board = starting_board
         self.player = player
         self.starting_square = starting_square
         self.ending_square = ending_square
 
+        self.ordinal_number = None
         self.ending_board = None
         self.notation = None
         self.is_confirmed = 0
@@ -113,6 +117,10 @@ class Turn:
 
 
     def is_legal_move(self):
+
+        # First check to see if the target square is distinct from the starting square.
+        if self.starting_square.letter_index == self.ending_square.letter_index and self.starting_square.number_index == self.ending_square.number_index:
+            return 0
 
         # Then check to see if the target square can be reached, assuming an empty board.
         if self.starting_square.current_occupant.target_can_be_reached(self.ending_square) == 0:
@@ -165,6 +173,8 @@ class Turn:
 
 
 
+    def set_ordinal_number(self):
+        pass
 
 
     def set_is_capture(self):

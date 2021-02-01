@@ -6,6 +6,7 @@ from Globals import *
 
 
 
+
 def show_current_board_state(board):
 
     if GUI is False:
@@ -20,6 +21,47 @@ def show_current_board_state(board):
     else:
         #GUI
         pass
+
+
+
+
+def request_user_input(whose_turn):
+
+    if GUI is False:
+        #CLI
+
+        from Services import color_number_to_text
+
+        message = "\nIt is now {}'s turn!".format(color_number_to_text(whose_turn.color))
+        print_text_to_cli(message)
+
+        prompt = "Type in the square containing the piece you want to move (such as 'e2'): "
+        source_square_input = input(prompt).strip() 
+
+        # Need to perform validation on user input.
+        ## Is the syntax valid? Does it actually identify one of the 64 possible squares?
+        ## Does the square contain on of the player's pieces? It should!
+
+        # TODO
+
+        prompt2 = "Now type in the square that you want to move the selected piece to (such as 'e4'): "
+        destination_square_input = input(prompt2).strip()  
+        
+
+        # Need to perform validation on user input.
+        ## Is the syntax valid? Does it actually identify one of the 64 possible squares?
+        ## Is this square distinct from the first square?
+
+        # TODO
+
+        return source_square_input, destination_square_input
+
+
+
+    else:
+        #GUI
+        pass
+
 
 
 

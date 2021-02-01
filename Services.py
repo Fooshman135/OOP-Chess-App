@@ -50,7 +50,7 @@ def color_number_to_text(num):
 
 def get_square_from_indexes(array_of_squares,letter_index_here, number_index_here):
 
-    # IS THIS NEEDED ANYMORE NOW THAT WE USE DICTIONARIES INSTEAD OF LISTS?
+    # TODO (IS THIS NEEDED ANYMORE NOW THAT WE USE DICTIONARIES INSTEAD OF LISTS?)
     
     x = None
 
@@ -167,15 +167,30 @@ def game_loop(current_game):
     pass
 
     while True:
-        # Show user the current board state
 
+        # Show user the current board state
         show_current_board_state(current_game.current_board)
 
+        # Ask user to select a starting square whose occupying piece is to be moved, and an ending square to move that piece to.
+        source_input, destination_input = request_user_input(current_game.whose_turn)
+
+        # Convert user inputs into the two squares on the board.
+        source_square = current_game.current_board.dict_of_64_squares[source_input]
+        destination_square = current_game.current_board.dict_of_64_squares[destination_input]
+
+        # Create and instantiate a Turn object.
+        current_turn = Turn(starting_board = current_game.current_board, player = current_game.whose_turn, starting_square = source_square, ending_square = destination_square)
+
+        # Confirm move is legal using piece-specific logic. [Reject move otherwise, display error text, ask for new inputs]
+        if current_turn.is_legal_move() == 0:
+            # Reject move.
+            pass    # TODO
 
 
 
 
-        break       # Remove this break statement eventually.
+
+        break       # TODO (Remove this break statement eventually)
 
 
 
