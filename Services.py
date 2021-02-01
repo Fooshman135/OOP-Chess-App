@@ -90,6 +90,7 @@ def generate_empty_board():
 def pieces_into_starting_positions(board, white_player, black_player):
     # This function assigns a piece to each Square as the starting position.
     # board is a dictionary of Square objects.
+    # white_player and black_player are both Player objects.
     # It is not necessary for all the Square objects in board to be empty, as they will be overwritten.
     
 

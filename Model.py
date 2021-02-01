@@ -9,11 +9,13 @@ class Game:
     # One instance per game.
 
 
-    def __init__(self, white_player, black_player, list_of_confirmed_turns, current_board):
+    def __init__(self, white_player, black_player, current_board):
         self.white_player = white_player
         self.black_player = black_player
-        self.list_of_confirmed_turns = list_of_confirmed_turns
         self.current_board = current_board
+
+        self.list_of_confirmed_turns = []
+        
 
 
 
