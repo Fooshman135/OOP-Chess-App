@@ -48,6 +48,8 @@ def color_number_to_text(num):
 
 
 def get_square_from_indexes(array_of_squares,letter_index_here, number_index_here):
+
+    # IS THIS NEEDED ANYMORE NOW THAT WE USE DICTIONARIES INSTEAD OF LISTS?
     
     x = None
 

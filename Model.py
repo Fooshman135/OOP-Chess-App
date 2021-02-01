@@ -82,19 +82,21 @@ class Turn:
     # One instance created per player per turn.
     # Maybe this class can be used for hypothetical turns as well.
 
-    # The capture attribute is a bool of signaling whether the turn involving capturing an enemy piece.
-    # The confirmed attribute is a bool for signaling whether the turn was actually taken by the player.
+    # The is_capture attribute is a bool of signaling whether the turn involving capturing an enemy piece.
+    # The is_confirmed attribute is a bool for signaling whether the turn was actually taken by the player.
 
-    def __init__(self, ordinal_number, starting_board, player, piece, starting_square, ending_square, capture, notation, confirmed):
+    def __init__(self, ordinal_number, starting_board, player, starting_square, ending_square):
         self.ordinal_number = ordinal_number
         self.starting_board = starting_board
         self.player = player
-        self.piece = piece
         self.starting_square = starting_square
         self.ending_square = ending_square
-        self.capture = capture
-        self.notation = notation
-        self.confirmed = confirmed
+
+        self.ending_board = None
+        self.notation = None
+        self.is_confirmed = 0
+        self.is_capture = None
+
 
 
 
@@ -112,7 +114,6 @@ class Turn:
         # Create a new board object which is the same as the inital board object. We will return this new board later.
         new_board = self.starting_board.duplicate_board()
 
-
         # Update the turn's starting square on the board.
         # First get the starting square from the turn.
         # Then find the analogous square in the board.
@@ -121,18 +122,28 @@ class Turn:
             letter_index_to_letter(self.starting_square.letter_index) + str(self.starting_square.number_index)
         ].current_occupant = None
 
-
-
         # Update the turn's ending square on the board.
         new_board.dict_of_64_squares[
             letter_index_to_letter(self.ending_square.letter_index) + str(self.ending_square.number_index)
-        ].current_occupant = self.piece
+        ].current_occupant = self.starting_square.current_occupant
 
-        # Return the updated board.
-        return new_board
+        # Set the updated board as the ending_board.
+        self.ending_board = new_board
 
 
 
+    def set_notation(self):
+        pass
+
+
+
+    def set_is_capture(self):
+        pass
+
+
+
+    def confirm(self):
+        pass
 
 
 
