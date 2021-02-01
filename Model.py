@@ -22,8 +22,10 @@ class Game:
 
 class Player:
 
-    def __init__(self,color, points, captured_enemy_pieces):
+    def __init__(self,color):
         self.color = color
+        self.points = 0
+        self.captured_enemy_pieces = []
 
 
 
@@ -160,6 +162,7 @@ class Pawn(Piece):
     def __init__(self, current_square, color):
         self.current_square = current_square
         self.color = color  # Should be a Player object.
+        self.turn_captured = None
         if self.color == 0:
             # Black
             self.unicode = "♙"
@@ -201,6 +204,7 @@ class Rook(Piece):
     def __init__(self, current_square, color):
         self.current_square = current_square
         self.color = color  # Should be a Player object.
+        self.turn_captured = None
         if self.color == 0:
             # Black
             self.unicode = "♖"
@@ -250,6 +254,7 @@ class Knight(Piece):
     def __init__(self, current_square, color):
         self.current_square = current_square
         self.color = color  # Should be a Player object.
+        self.turn_captured = None
         if self.color == 0:
             # Black
             self.unicode = "♘"
@@ -267,6 +272,7 @@ class Bishop(Piece):
     def __init__(self, current_square, color):
         self.current_square = current_square
         self.color = color  # Should be a Player object.
+        self.turn_captured = None
         if self.color == 0:
             # Black
             self.unicode = "♗"
@@ -286,6 +292,7 @@ class Queen(Piece):
     def __init__(self, current_square, color):
         self.current_square = current_square
         self.color = color  # Should be a Player object.
+        self.turn_captured = None
         if self.color == 0:
             # Black
             self.unicode = "♕"
@@ -343,6 +350,8 @@ class King(Piece):
     def is_move_legal(self, target_square):
 
         # Returns bool depending on whether the piece can legally move into the target square.
+
+        # SHOULD THIS BE A TURN METHOD INSTEAD OF A KING METHOD?
 
 
         # First get the current square's indexes and the target square's indexes.
