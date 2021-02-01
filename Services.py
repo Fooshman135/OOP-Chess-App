@@ -128,11 +128,6 @@ def pieces_into_starting_positions(board):
 
 
 
-def create_new_board_from_turn():
-    # This function takes an initial board object and a turn, and it returns a new board object that is the result of taking that turn.
-    # This function should probably end up being a method of the Turn object (???).
-
-    pass
 
 
 
