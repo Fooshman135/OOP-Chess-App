@@ -26,6 +26,12 @@ class Player:
         self.color = color
         self.points = 0
         self.captured_enemy_pieces = []
+        if color = 0:
+            # Black
+            self.is_current_turn = 0
+        else:
+            # White
+            self.is_current_turn = 1
 
 
 
@@ -96,6 +102,8 @@ class Turn:
         self.notation = None
         self.is_confirmed = 0
         self.is_capture = None
+        self.is_check = None
+        self.is_checkmate = None
 
 
 
@@ -132,14 +140,22 @@ class Turn:
 
 
 
-    def set_notation(self):
-        pass
-
 
 
     def set_is_capture(self):
         pass
 
+
+    def set_is_check(self):
+        pass
+
+
+    def set_is_checkmate(self):
+        pass
+
+
+    def set_notation(self):
+        pass
 
 
     def confirm(self):
