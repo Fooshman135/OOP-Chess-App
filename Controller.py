@@ -28,10 +28,22 @@ my_board = Board(dict_of_64_squares = dict_of_squares, is_current=1, whose_turn=
 my_game = Game(white_player, black_player, current_board = my_board)
 
 
+# Delete unused objects, now that their data is saved within the Game object.
+del white_player
+del black_player
+del dict_of_squares
+del my_board
+
 
 
 # Now print the board.
 print_board_white_bottom_cli(my_game.current_board)
 
  
+
+# Begin game cycle.
+game_loop(my_game)
+
+
+
 

@@ -87,8 +87,6 @@ class Board(object):
 
 
 
-
-
 class Turn:
 
     # One instance created per player per turn.

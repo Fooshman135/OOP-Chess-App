@@ -135,9 +135,34 @@ def pieces_into_starting_positions(board, white_player, black_player):
 
 
 
+def game_loop(game):
+    """
+    High level approach for each turn:
+    
+    - Show user the current board state (last confirmed turn’s ending_board attribute?).
+    - Ask user to select a starting square whose occupying piece is to be moved.
+    - Asks user to select an ending square to move that piece to.
+    - Create and instantiate a Turn object.
+    - Confirm move is legal using piece-specific logic. [Reject move otherwise, display error text, ask for new inputs]
+    - If move is castle-ing, do additional logic to check that it’s valid.
+    - Set ending_board attribute. [DONE]
+    - Confirm that King is not put in check by this move. [Reject move otherwise, display error text, ask for new inputs].
+    - Set is_check attribute.
+    - Set is_checkmate attribute (only if is_check attribute is set to 1 in previous step).
+    - Set is_capture attribute.
+    - Set notation attribute.
+    - Show ending_board to user.
+    - Ask user to confirm move. [If rejected, destroy Turn object and return to top step.]
+    - If confirmed, do confirmation tasks: 
+        Turn.is_confirmed = 1, 
+        Update relevant Piece attributes, 
+        Update relevant Square attributes, 
+        Update Board is_current attribute, 
+        Update Game current_board attribute, 
+        Update Player captured_enemy_pieces and points and is_current_turn attributes.
 
+    """
 
-
-
+    pass
 
 

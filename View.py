@@ -1,6 +1,22 @@
 # View
 
 from Model import *
+from Globals import *
+
+
+
+def display_text_to_user(display_text):
+
+    # if GUI == FALSE:
+
+
+    pass
+
+
+
+
+
+
 
 
 
