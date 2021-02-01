@@ -38,7 +38,6 @@ class Player:
 
 
 
-
 class Square(object):
 
     def __init__(self, letter_index, number_index, square_color):
@@ -58,6 +57,11 @@ class Square(object):
         # Return None if square is not occupied.
         pass
 
+
+
+    def get_threats(self):
+        # Return the set of opponents pieces (or squares?) that can attack this piece.
+        pass
 
 
 
@@ -109,12 +113,33 @@ class Turn:
 
 
     def is_legal_move(self):
-        pass
+
+        # Then check to see if the target square can be reached, assuming an empty board.
+        if self.starting_square.current_occupant.target_can_be_reached(self.ending_square) == 0:
+            return 0
+
+        # Then check to see if the target square is occupied by one of your own pieces.
+        if self.ending_square.current_occupant != None and self.ending_square.current_occupant.owner.color == self.player.color:
+            return 0
+
+        # Then check to see if any square along the way is occupied.
+        if self.starting_square.current_occupant.path_to_target_is_blocked(self.ending_square) == 0:
+            return 0
+
+        # Finally, check to make sure that moving there doesn't result in your King being put in check.
+        # First create the proposed board.
+        self.set_ending_board()
+        # Then check the proposed board for putting your King in check.
+        if is_king_in_check(self.ending_board) == 1:
+            return 0
+
+        # If you've reached this point, then the move is legal!
+        return 1
 
 
 
 
-    def create_new_board_from_turn(self):
+    def set_ending_board(self):
         # This function takes an initial board object and a turn object, and it returns a new board object that is the result of taking that turn.
         # This function should not worry about game logic or turn legality.
 
@@ -165,6 +190,8 @@ class Turn:
 
 
 
+
+
 class Piece(object):
 
 
@@ -173,9 +200,7 @@ class Piece(object):
 
 
 
-    def get_threats(self):
-        # Return the set of opponents pieces (or squares?) that can attack this piece.
-        pass
+
 
 
 
@@ -186,11 +211,11 @@ class Piece(object):
 
 class Pawn(Piece):
 
-    def __init__(self, current_square, color):
+    def __init__(self, current_square, owner):
         self.current_square = current_square
-        self.color = color  # Should be a Player object.
+        self.owner = owner  # Should be a Player object.
         self.turn_captured = None
-        if self.color == 0:
+        if self.owner.color == 0:
             # Black
             self.unicode = "♙"
         else:
@@ -228,11 +253,11 @@ class Pawn(Piece):
 
 class Rook(Piece):
 
-    def __init__(self, current_square, color):
+    def __init__(self, current_square, owner):
         self.current_square = current_square
-        self.color = color  # Should be a Player object.
+        self.owner = owner  # Should be a Player object.
         self.turn_captured = None
-        if self.color == 0:
+        if self.owner.color == 0:
             # Black
             self.unicode = "♖"
         else:
@@ -278,11 +303,11 @@ class Rook(Piece):
 
 class Knight(Piece):
 
-    def __init__(self, current_square, color):
+    def __init__(self, current_square, owner):
         self.current_square = current_square
-        self.color = color  # Should be a Player object.
+        self.owner = owner  # Should be a Player object.
         self.turn_captured = None
-        if self.color == 0:
+        if self.owner.color == 0:
             # Black
             self.unicode = "♘"
         else:
@@ -296,11 +321,11 @@ class Knight(Piece):
 
 class Bishop(Piece):
 
-    def __init__(self, current_square, color):
+    def __init__(self, current_square, owner):
         self.current_square = current_square
-        self.color = color  # Should be a Player object.
+        self.owner = owner  # Should be a Player object.
         self.turn_captured = None
-        if self.color == 0:
+        if self.owner.color == 0:
             # Black
             self.unicode = "♗"
         else:
@@ -316,11 +341,11 @@ class Bishop(Piece):
 
 class Queen(Piece):
 
-    def __init__(self, current_square, color):
+    def __init__(self, current_square, owner):
         self.current_square = current_square
-        self.color = color  # Should be a Player object.
+        self.owner = owner  # Should be a Player object.
         self.turn_captured = None
-        if self.color == 0:
+        if self.owner.color == 0:
             # Black
             self.unicode = "♕"
         else:
@@ -338,15 +363,45 @@ class Queen(Piece):
 
 class King(Piece):
 
-    def __init__(self, current_square, color):
+    def __init__(self, current_square, owner):
         self.current_square = current_square
-        self.color = color  # Should be a Player object.
-        if self.color == 0:
+        self.owner = owner  # Should be a Player object.
+        if self.owner.color == 0:
             # Black
             self.unicode = "♔"
         else:
             # White
             self.unicode = "♚"
+
+
+
+
+    def target_can_be_reached(self, target_square):
+
+        # Need to confirm that target_square is one square away from the current_square.
+
+        x1 = self.current_square.letter_index
+        y1 = self.current_square.number_index
+        x2 = target_square.letter_index
+        y2 = target_square.number_index
+
+        if not((x2 in [x1 - 1, x1, x1 + 1]) and (y2 in [y1 - 1, y1, y1 + 1]) and ((x2 != x1) or (y2 != y1))):
+            return 0       
+
+
+
+
+    def path_to_target_is_blocked(self, target_square):
+        # The king's path is never blocked because he can only move one square.
+        return 0
+
+
+
+    def is_king_in_check(self, proposed_board):
+        # proposed_board is a board in a state that you want to examine if the king is in check.
+        # Returns bool depending on whether the proposed board has your king in check.
+
+        pass
 
 
 
@@ -370,66 +425,6 @@ class King(Piece):
 
 
         pass
-
-
-
-
-    def is_move_legal(self, target_square):
-
-        # Returns bool depending on whether the piece can legally move into the target square.
-
-        # SHOULD THIS BE A TURN METHOD INSTEAD OF A KING METHOD?
-
-
-        # First get the current square's indexes and the target square's indexes.
-        x1 = self.current_square.letter_index
-        y1 = self.current_square.number_index
-
-        x2 = target_square.letter_index
-        y2 = target_square.number_index
-
-
-        # Then check to see if the target square can be reached, assuming an empty board.
-        # Need to confirm that target_square is one square away from the current_square.
-        if not((x2 in [x1 - 1, x1, x1 + 1]) and (y2 in [y1 - 1, y1, y1 + 1]) and ((x2 != x1) or (y2 != y1))):
-            return 0       
-
-
-        # Then check to see if the target square is occupied by one of your own pieces.
-        if target_square.current_occupant != None and target_square.current_occupant.color == self.color:
-            return 0           
-
-
-        # Then check to see if any square along the way is occupied.
-        # This step is not needed for the King!
-
-
-        # Finally, check to make sure that moving there doesn't result in your King being put in check.
-
-        # new_board = 
-
-        if is_king_in_check(new_board) == 1:
-            return 0
-
-
-        # If you've reached this point, then the move is legal!
-        return 1
-
-        
-
-
-
-
-
-
-    def is_king_in_check(self, proposed_board):
-        # proposed_board is a board in a state that you want to examine if the king is in check.
-        # Returns bool depending on whether the proposed board has your king in check.
-
-        pass
-
-
-
 
 
 
