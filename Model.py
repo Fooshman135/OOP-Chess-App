@@ -94,7 +94,18 @@ class Board(object):
 
 
     def duplicate_board(self):
-        return Board(se.f.dict_of_64_squares, self.is_current, self.whose_turn)
+        return Board(self.dict_of_64_squares, self.is_current, self.whose_turn)
+
+
+
+    def is_king_in_check(self, king_color):
+        # Used for INPUT VALIDATION TYPE 6
+        
+        # self is a board in a state that you want to examine to see if the king is in check.
+        # king_color identifies which King you want to examine. Values can be either 0 or 1.
+        # Returns bool depending on whether the proposed board has your king in check.
+
+        pass    # TODO
 
 
 
@@ -144,7 +155,7 @@ class Turn:
         # First create the proposed board.
         self.set_ending_board()
         # Then check the proposed board for putting your King in check.
-        if is_king_in_check(self.ending_board) is True:
+        if self.ending_board.is_king_in_check(self.player.color) is True:
             return False
 
         # If you've reached this point, then the move is legal!
@@ -157,6 +168,7 @@ class Turn:
         # This function takes an initial board object and a turn object, and it returns a new board object that is the result of taking that turn.
         # This function should not worry about game logic or turn legality.
 
+        from Services import letter_index_to_letter
 
         # Create a new board object which is the same as the inital board object. We will return this new board later.
         new_board = self.starting_board.duplicate_board()
@@ -240,20 +252,17 @@ class Pawn(Piece):
         
 
 
-    def get_moves(self):
+
+
+    def target_can_be_reached(self, target_square):
+        # Used for INPUT VALIDATION TYPE 4
         pass
 
 
-    def get_attacks(self):
+    def path_to_target_is_blocked(self, target_square):
+        # Used for INPUT VALIDATION TYPE 5
         pass
 
-
-
-
-
-
-    def get_unicode_character(self):
-        return self.unicode
 
 
 
@@ -261,6 +270,15 @@ class Pawn(Piece):
         # Checks to see if the pawn can be promoted.
         pass
 
+
+
+    def get_moves(self):
+        pass
+
+
+    def get_attacks(self):
+        # Returns a list of squares (or pieces?) that this piece can move to in an attack.
+        pass
 
 
 
@@ -282,26 +300,14 @@ class Rook(Piece):
         
 
 
-    def get_moves(self):
-        # Return a list of square objects that this piece can move to on this turn.
 
-        # First retrieve the letter_index and the number_index from the current square.
-        # Then produce the two indices for each square that this piece could move to assuming an empty board.
-        # Then eliminate squares which are blocked by your own pieces or are behind a piece.
-
-        # Finally, determine which of the remaining squares are occupied by an opponent's piece.
+    def target_can_be_reached(self, target_square):
+        # Used for INPUT VALIDATION TYPE 4
         pass
 
 
-
-    def is_move_legal(self, target_square):
-        # Returns bool depending on whether the piece can legally move into the target square.
-        pass
-
-
-
-
-    def get_attacks(self):
+    def path_to_target_is_blocked(self, target_square):
+        # Used for INPUT VALIDATION TYPE 5
         pass
 
 
@@ -309,8 +315,8 @@ class Rook(Piece):
 
 
 
-    def get_unicode_character(self):
-        return self.unicode
+
+
 
 
 
@@ -333,6 +339,21 @@ class Knight(Piece):
 
 
 
+    def target_can_be_reached(self, target_square):
+        # Used for INPUT VALIDATION TYPE 4
+        pass 
+        
+
+
+
+    def path_to_target_is_blocked(self, target_square):
+        # Used for INPUT VALIDATION TYPE 5
+        # The knight's path is never blocked because it leaps over other pieces.
+        return False
+
+
+
+
 
 
 class Bishop(Piece):
@@ -348,6 +369,17 @@ class Bishop(Piece):
             # White
             self.unicode = "♝"
         
+
+
+
+    def target_can_be_reached(self, target_square):
+        # Used for INPUT VALIDATION TYPE 4
+        pass
+
+
+    def path_to_target_is_blocked(self, target_square):
+        # Used for INPUT VALIDATION TYPE 5
+        pass
 
 
 
@@ -369,6 +401,16 @@ class Queen(Piece):
             self.unicode = "♛"
         
 
+
+
+    def target_can_be_reached(self, target_square):
+        # Used for INPUT VALIDATION TYPE 4
+        pass
+
+
+    def path_to_target_is_blocked(self, target_square):
+        # Used for INPUT VALIDATION TYPE 5
+        pass
 
 
 
@@ -393,9 +435,9 @@ class King(Piece):
 
 
     def target_can_be_reached(self, target_square):
+        # Used for INPUT VALIDATION TYPE 4
 
         # Need to confirm that target_square is one square away from the current_square.
-
         x1 = self.current_square.letter_index
         y1 = self.current_square.number_index
         x2 = target_square.letter_index
@@ -408,16 +450,13 @@ class King(Piece):
 
 
     def path_to_target_is_blocked(self, target_square):
+        # Used for INPUT VALIDATION TYPE 5
         # The king's path is never blocked because he can only move one square.
         return False
 
 
 
-    def is_king_in_check(self, proposed_board):
-        # proposed_board is a board in a state that you want to examine if the king is in check.
-        # Returns bool depending on whether the proposed board has your king in check.
 
-        pass    # TODO
 
 
 
