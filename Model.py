@@ -76,8 +76,8 @@ class Square(object):
 
 
     def get_threats(self):
-        # Return the set of opponents pieces (or squares?) that can attack this piece.
-        pass
+        # Return the set of opponents pieces (or squares?) that can attack this square.
+        pass    #TODO
 
 
 
@@ -100,7 +100,7 @@ class Board(object):
 
     def is_king_in_check(self, king_color):
         # Used for INPUT VALIDATION TYPE 6
-        
+
         # self is a board in a state that you want to examine to see if the king is in check.
         # king_color identifies which King you want to examine. Values can be either 0 or 1.
         # Returns bool depending on whether the proposed board has your king in check.
@@ -115,7 +115,7 @@ class Board(object):
 class Turn:
 
     # One instance created per player per turn.
-    # Maybe this class can be used for hypothetical turns as well.
+    # This class can be used for hypothetical turns as well (meaning turns which haven't been confirmed yet).
 
     # The is_capture attribute is a bool of signaling whether the turn involving capturing an enemy piece.
     # The is_confirmed attribute is a bool for signaling whether the turn was actually taken by the player.
@@ -151,7 +151,7 @@ class Turn:
             return False
 
 
-        # INPUT VALIDATION TYPE 6: Check to make sure that moving there doesn't result in your King being put in check.
+        # INPUT VALIDATION TYPE 6: Check to make sure that the move doesn't result in your King being put in check.
         # First create the proposed board.
         self.set_ending_board()
         # Then check the proposed board for putting your King in check.
@@ -165,8 +165,8 @@ class Turn:
 
 
     def set_ending_board(self):
-        # This function takes an initial board object and a turn object, and it returns a new board object that is the result of taking that turn.
-        # This function should not worry about game logic or turn legality.
+        # This method returns a new board object that is the result of taking this turn.
+        # This method should not worry about game logic or turn legality.
 
         from Services import letter_index_to_letter
 
@@ -192,27 +192,27 @@ class Turn:
 
 
     def set_ordinal_number(self):
-        pass
+        pass    #TODO
 
 
     def set_is_capture(self):
-        pass
+        pass    #TODO
 
 
     def set_is_check(self):
-        pass
+        pass    #TODO
 
 
     def set_is_checkmate(self):
-        pass
+        pass    #TODO
 
 
     def set_notation(self):
-        pass
+        pass    #TODO
 
 
     def confirm(self):
-        pass
+        pass    #TODO
 
 
 
@@ -222,8 +222,11 @@ class Turn:
 
 class Piece(object):
 
+    # Does this class provide any value?
+
 
     def get_current_square(self):
+        # Is this function necessary?
         return self.current_square
 
 
@@ -256,29 +259,29 @@ class Pawn(Piece):
 
     def target_can_be_reached(self, target_square):
         # Used for INPUT VALIDATION TYPE 4
-        pass
+        pass    #TODO
 
 
     def path_to_target_is_blocked(self, target_square):
         # Used for INPUT VALIDATION TYPE 5
-        pass
+        pass    #TODO
 
 
 
 
     def check_for_promotion(self):
         # Checks to see if the pawn can be promoted.
-        pass
+        pass    #TODO
 
 
 
     def get_moves(self):
-        pass
+        pass    #TODO
 
 
     def get_attacks(self):
         # Returns a list of squares (or pieces?) that this piece can move to in an attack.
-        pass
+        pass    #TODO
 
 
 
@@ -303,12 +306,12 @@ class Rook(Piece):
 
     def target_can_be_reached(self, target_square):
         # Used for INPUT VALIDATION TYPE 4
-        pass
+        pass    #TODO
 
 
     def path_to_target_is_blocked(self, target_square):
         # Used for INPUT VALIDATION TYPE 5
-        pass
+        pass    #TODO
 
 
 
@@ -341,7 +344,7 @@ class Knight(Piece):
 
     def target_can_be_reached(self, target_square):
         # Used for INPUT VALIDATION TYPE 4
-        pass 
+        pass    #TODO
         
 
 
@@ -374,12 +377,12 @@ class Bishop(Piece):
 
     def target_can_be_reached(self, target_square):
         # Used for INPUT VALIDATION TYPE 4
-        pass
+        pass    #TODO
 
 
     def path_to_target_is_blocked(self, target_square):
         # Used for INPUT VALIDATION TYPE 5
-        pass
+        pass    #TODO
 
 
 
@@ -405,12 +408,12 @@ class Queen(Piece):
 
     def target_can_be_reached(self, target_square):
         # Used for INPUT VALIDATION TYPE 4
-        pass
+        pass    #TODO
 
 
     def path_to_target_is_blocked(self, target_square):
         # Used for INPUT VALIDATION TYPE 5
-        pass
+        pass    #TODO
 
 
 

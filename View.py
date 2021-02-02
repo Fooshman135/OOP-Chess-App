@@ -28,7 +28,7 @@ def show_current_board_state(board):
 
     else:
         #GUI
-        pass
+        pass    #TODO
 
 
 
@@ -45,7 +45,7 @@ def declare_whose_turn_it_is(whose_turn):
 
     else:
         #GUI
-        pass
+        pass    #TODO
 
 
 
@@ -80,7 +80,7 @@ def request_user_input_for_square(source):
 
     else:
         #GUI
-        pass
+        pass    #TODO
 
 
 
@@ -98,11 +98,9 @@ def validate_user_input_square_selection(user_input):
     if len(user_input) != 2:
         return False
 
-
     # Test 2: First character should be a letter between a and h inclusive.
     if user_input[0] not in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']:
         return False
-
 
     # Test 3: Second character should be a number between 1 and 8 inclusive.
     if user_input[1] not in ['1', '2', '3', '4', '5', '6', '7', '8']:
@@ -132,7 +130,7 @@ def display_error_message(error_type):
 
     else:
         #GUI
-        pass
+        pass    #TODO
 
 
 
