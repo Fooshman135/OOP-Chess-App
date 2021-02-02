@@ -31,6 +31,32 @@ def letter_index_to_letter(letter_index):
 
 
 
+def letter_to_letter_index(letter):
+    
+    if letter_index == "a":
+        x = 1
+    elif letter_index == "b":
+        x = 2
+    elif letter_index == "c":
+        x = 3
+    elif letter_index == "d":
+        x = 4
+    elif letter_index == "e":
+        x = 5
+    elif letter_index == "f":
+        x = 6
+    elif letter_index == "g":
+        x = 7
+    elif letter_index == "h":
+        x = 8
+    else:
+        # Throw error
+        raise Exception("This is an error!")
+    
+    return x
+
+
+
 
 def color_number_to_text(num):
 
@@ -143,6 +169,7 @@ def game_loop(current_game):
     - Show user the current board state.
     - Ask user to select a starting square whose occupying piece is to be moved.
     - Asks user to select an ending square to move that piece to.
+    - Validate user input.
     - Create and instantiate a Turn object.
     - Confirm move is legal using piece-specific logic. [Reject move otherwise, display error text, ask for new inputs]
     - If move is castle-ing, do additional logic to check that it’s valid.
@@ -155,7 +182,7 @@ def game_loop(current_game):
     - Show ending_board to user.
     - Ask user to confirm move. [If rejected, destroy Turn object and return to top step.]
     - If confirmed, do confirmation tasks: 
-        Turn.is_confirmed = 1, 
+        Set.is_confirmed = 1, 
         Update relevant Piece attributes, 
         Update relevant Square attributes, 
         Update Board is_current attribute, 
@@ -191,6 +218,7 @@ def game_loop(current_game):
 
 
         break       # TODO (Remove this break statement eventually)
+
 
 
 

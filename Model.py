@@ -59,12 +59,6 @@ class Square(object):
 
 
 
-    def get_current_piece(self):
-        # Return None if square is not occupied.
-        pass
-
-
-
     def get_threats(self):
         # Return the set of opponents pieces (or squares?) that can attack this piece.
         pass

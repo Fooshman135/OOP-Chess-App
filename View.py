@@ -35,24 +35,35 @@ def request_user_input(whose_turn):
         message = "\nIt is now {}'s turn!".format(color_number_to_text(whose_turn.color))
         print_text_to_cli(message)
 
-        prompt = "Type in the square containing the piece you want to move (such as 'e2'): "
-        source_square_input = input(prompt).strip() 
+        while True:
 
-        # Need to perform validation on user input.
-        ## Is the syntax valid? Does it actually identify one of the 64 possible squares?
-        ## Does the square contain on of the player's pieces? It should!
+            prompt = "Type in the square containing the piece you want to move (such as 'e2'): "
+            source_square_input = input(prompt).strip() 
 
-        # TODO
+            # Need to perform validation on user input.
+            ## Is the syntax valid? Does it actually identify one of the 64 possible squares?
+            if validate_user_input_square_selection(source_square_input) is False:
+                # Input was invalid.
+                message = "\nInvalid input: Doesn't map to a square on the board"
+                print_text_to_cli(message)
+                continue
 
-        prompt2 = "Now type in the square that you want to move the selected piece to (such as 'e4'): "
-        destination_square_input = input(prompt2).strip()  
-        
+            ## Does the square contain one of the player's pieces? It should!
+            ### Retrieve the square object and check its current occupant's color.
+            
+            
 
-        # Need to perform validation on user input.
-        ## Is the syntax valid? Does it actually identify one of the 64 possible squares?
-        ## Is this square distinct from the first square?
+            
 
-        # TODO
+            prompt2 = "Now type in the square that you want to move the selected piece to (such as 'e4'): "
+            destination_square_input = input(prompt2).strip()  
+            
+
+            # Need to perform validation on user input.
+            ## Is the syntax valid? Does it actually identify one of the 64 possible squares?
+            ## Is this square distinct from the first square?
+
+            # TODO
 
         return source_square_input, destination_square_input
 
@@ -61,6 +72,29 @@ def request_user_input(whose_turn):
     else:
         #GUI
         pass
+
+
+
+
+def validate_user_input_square_selection(user_input):
+    # Confirm that user_input uniquely identifies a square on the board.
+
+    # Test 1: String should be only two characters.
+    if len(user_input) != 2:
+        return False
+
+
+    # Test 2: First character should be a letter between a and h inclusive.
+    if user_input[0] not in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']:
+        return False
+
+
+    # Test 3: Second character should be a number between 1 and 8 inclusive.
+    if user_input[1] not in range(1,9):
+        return False
+
+    # If all tests pass, the input is valid.
+    return True
 
 
 
