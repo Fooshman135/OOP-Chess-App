@@ -7,6 +7,15 @@ from Globals import *
 
 
 
+
+
+def print_text_to_cli(display_text):
+
+    print("{}\n".format(display_text))
+
+
+
+
 def show_current_board_state(board):
 
     if GUI is False:
@@ -17,7 +26,6 @@ def show_current_board_state(board):
 
         print_board_white_bottom_cli(board)
 
-
     else:
         #GUI
         pass
@@ -25,7 +33,7 @@ def show_current_board_state(board):
 
 
 
-def request_user_input(whose_turn):
+def declare_whose_turn_it_is(whose_turn):
 
     if GUI is False:
         #CLI
@@ -35,39 +43,41 @@ def request_user_input(whose_turn):
         message = "\nIt is now {}'s turn!".format(color_number_to_text(whose_turn.color))
         print_text_to_cli(message)
 
+    else:
+        #GUI
+        pass
+
+
+
+
+def request_user_input_for_square(source):
+
+    # whose_turn is the Player whose turn it is.
+    # source is a bool. True means it's a source square. False means it's a destination square.
+
+    if GUI is False:
+        #CLI
+
+
+        if source is True:
+            prompt = "Type in the square containing the piece you want to move (such as 'e2'): "
+        else:
+            prompt = "Now type in the square that you want to move the selected piece to (such as 'e4'): "
+
+
         while True:
 
-            prompt = "Type in the square containing the piece you want to move (such as 'e2'): "
-            source_square_input = input(prompt).strip() 
+            square_input = input(prompt).strip()
 
-            # Need to perform validation on user input.
-            ## Is the syntax valid? Does it actually identify one of the 64 possible squares?
+            # INPUT VALIDATION TYPE 1: Is the syntax valid? Does it actually identify one of the 64 possible squares?
             if validate_user_input_square_selection(source_square_input) is False:
                 # Input was invalid.
                 message = "\nInvalid input: Doesn't map to a square on the board"
                 print_text_to_cli(message)
                 continue
 
-            ## Does the square contain one of the player's pieces? It should!
-            ### Retrieve the square object and check its current occupant's color.
-            
-            
-
-            
-
-            prompt2 = "Now type in the square that you want to move the selected piece to (such as 'e4'): "
-            destination_square_input = input(prompt2).strip()  
-            
-
-            # Need to perform validation on user input.
-            ## Is the syntax valid? Does it actually identify one of the 64 possible squares?
-            ## Is this square distinct from the first square?
-
-            # TODO
-
-        return source_square_input, destination_square_input
-
-
+            # Input was valid.
+            return square_input
 
     else:
         #GUI
@@ -76,8 +86,12 @@ def request_user_input(whose_turn):
 
 
 
+
+
+
 def validate_user_input_square_selection(user_input):
     # Confirm that user_input uniquely identifies a square on the board.
+    # user_input should be a string.
 
     # Test 1: String should be only two characters.
     if len(user_input) != 2:
@@ -97,14 +111,6 @@ def validate_user_input_square_selection(user_input):
     return True
 
 
-
-
-
-
-
-def print_text_to_cli(display_text):
-
-    print("{}\n".format(display_text))
 
 
 

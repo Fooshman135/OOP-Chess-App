@@ -167,9 +167,8 @@ def game_loop(current_game):
     High level approach for each turn:
 
     - Show user the current board state.
-    - Ask user to select a starting square whose occupying piece is to be moved.
-    - Asks user to select an ending square to move that piece to.
-    - Validate user input.
+    - Declare whose turn it is.
+    - Get user inputs for starting square and ending square, and perform validation types 1 and 2 and 3.
     - Create and instantiate a Turn object.
     - Confirm move is legal using piece-specific logic. [Reject move otherwise, display error text, ask for new inputs]
     - If move is castle-ing, do additional logic to check that it’s valid.
@@ -198,12 +197,11 @@ def game_loop(current_game):
         # Show user the current board state
         show_current_board_state(current_game.current_board)
 
-        # Ask user to select a starting square whose occupying piece is to be moved, and an ending square to move that piece to.
-        source_input, destination_input = request_user_input(current_game.whose_turn)
+        # Declare whose turn it is now.
+        declare_whose_turn_it_is(current_game.whose_turn)
 
-        # Convert user inputs into the two squares on the board.
-        source_square = current_game.current_board.dict_of_64_squares[source_input]
-        destination_square = current_game.current_board.dict_of_64_squares[destination_input]
+        # Get validated user inputs.
+        source_square, destination_square = get_and_validate_two_user_inputs(current_game)
 
         # Create and instantiate a Turn object.
         current_turn = Turn(starting_board = current_game.current_board, player = current_game.whose_turn, starting_square = source_square, ending_square = destination_square)
@@ -220,6 +218,61 @@ def game_loop(current_game):
         break       # TODO (Remove this break statement eventually)
 
 
+
+
+def get_and_validate_two_user_inputs(game):
+    # Display whose turn it is.
+    # Ask for source square input.
+    # Retrieve corresponding square and validate it contains player's own piece.
+    # Ask for destination square input.
+    # Retrieve corresponding square and validate it is distinct from source square.
+    # Return the two square objects.
+
+
+    while True:
+
+        # Ask user to select a starting square whose occupying piece is to be moved.
+        source_input = request_user_input_for_square(source=True)
+
+
+        # INPUT VALIDATION TYPE 2: Confirm that the source input maps to a square that contains one of the player's pieces.
+        if game.current_board.dict_of_64_squares[source_input].current_occupant is None 
+        or game.current_board.dict_of_64_squares[source_input].current_occupant.owner.color != game.whose_turn.color:
+            # Starting square does not contain a piece belonging to the current player.
+            # Inform player their selection was invalid and why.
+
+            # TODO
+
+            continue
+
+
+        # Starting square does contain a piece belonging to the current player.
+        source_square = game.current_board.dict_of_64_squares[source_input]
+        break
+
+
+    while True:
+        
+        # Ask user to select an ending square to move that piece to. 
+        destination_input = request_user_input_for_square(source=False)
+
+
+        # INPUT VALIDATION TYPE 3: Confirm that the destination input maps to a square which is distinct from the first square.
+        if source_input == destination_input:
+            # Ending square is the same as starting square.
+            # Inform player their selection was invalid and why.
+
+            # TODO
+
+            continue
+
+
+        # Ending square is not the same as starting square
+        destination_square = game.current_board.dict_of_64_squares[destination_input]
+        break
+
+
+    return source_square, destination_square
 
 
 
