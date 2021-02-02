@@ -59,6 +59,22 @@ class Square(object):
 
 
 
+    def contains_current_players_piece(self, current_player):
+        # Used for INPUT VALIDATION TYPES 2 and 3.
+        # Returns True if current_occupant belong's to the player whose turn it is now.
+        if self.current_occupant is None:
+            return False
+        elif self.current_occupant.owner.color != current_player.color:
+            return False
+        else:
+            return True
+
+
+
+
+
+
+
     def get_threats(self):
         # Return the set of opponents pieces (or squares?) that can attack this piece.
         pass
@@ -111,32 +127,28 @@ class Turn:
 
 
     def is_legal_move(self):
+        # Used for INPUT VALIDATION TYPES 4 and 5 and 6.
 
-        # First check to see if the target square is distinct from the starting square.
-        if self.starting_square.letter_index == self.ending_square.letter_index and self.starting_square.number_index == self.ending_square.number_index:
-            return 0
 
-        # Then check to see if the target square can be reached, assuming an empty board.
-        if self.starting_square.current_occupant.target_can_be_reached(self.ending_square) == 0:
-            return 0
+        # INPUT VALIDATION TYPE 4: Check to see if the target square can be reached, assuming an empty board.
+        if self.starting_square.current_occupant.target_can_be_reached(self.ending_square) is False:
+            return False
 
-        # Then check to see if the target square is occupied by one of your own pieces.
-        if self.ending_square.current_occupant != None and self.ending_square.current_occupant.owner.color == self.player.color:
-            return 0
 
-        # Then check to see if any square along the way is occupied.
-        if self.starting_square.current_occupant.path_to_target_is_blocked(self.ending_square) == 0:
-            return 0
+        # INPUT VALIDATION TYPE 5: Check to see if any square along the path is occupied.
+        if self.starting_square.current_occupant.path_to_target_is_blocked(self.ending_square) is False:
+            return False
 
-        # Finally, check to make sure that moving there doesn't result in your King being put in check.
+
+        # INPUT VALIDATION TYPE 6: Check to make sure that moving there doesn't result in your King being put in check.
         # First create the proposed board.
         self.set_ending_board()
         # Then check the proposed board for putting your King in check.
-        if is_king_in_check(self.ending_board) == 1:
-            return 0
+        if is_king_in_check(self.ending_board) is True:
+            return False
 
         # If you've reached this point, then the move is legal!
-        return 1
+        return True
 
 
 
@@ -390,14 +402,14 @@ class King(Piece):
         y2 = target_square.number_index
 
         if not((x2 in [x1 - 1, x1, x1 + 1]) and (y2 in [y1 - 1, y1, y1 + 1]) and ((x2 != x1) or (y2 != y1))):
-            return 0       
+            return False     
 
 
 
 
     def path_to_target_is_blocked(self, target_square):
         # The king's path is never blocked because he can only move one square.
-        return 0
+        return False
 
 
 
@@ -405,7 +417,7 @@ class King(Piece):
         # proposed_board is a board in a state that you want to examine if the king is in check.
         # Returns bool depending on whether the proposed board has your king in check.
 
-        pass
+        pass    # TODO
 
 
 
@@ -428,7 +440,7 @@ class King(Piece):
         # Third, filter out squares which put the King in check.
 
 
-        pass
+        pass    # TODO
 
 
 

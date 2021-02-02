@@ -70,10 +70,9 @@ def request_user_input_for_square(source):
             square_input = input(prompt).strip()
 
             # INPUT VALIDATION TYPE 1: Is the syntax valid? Does it actually identify one of the 64 possible squares?
-            if validate_user_input_square_selection(source_square_input) is False:
+            if validate_user_input_square_selection(square_input) is False:
                 # Input was invalid.
-                message = "\nInvalid input: Doesn't map to a square on the board"
-                print_text_to_cli(message)
+                display_error_message(1)
                 continue
 
             # Input was valid.
@@ -90,8 +89,10 @@ def request_user_input_for_square(source):
 
 
 def validate_user_input_square_selection(user_input):
+    # Used for INPUT VALIDATION TYPE 1.
     # Confirm that user_input uniquely identifies a square on the board.
     # user_input should be a string.
+
 
     # Test 1: String should be only two characters.
     if len(user_input) != 2:
@@ -104,7 +105,7 @@ def validate_user_input_square_selection(user_input):
 
 
     # Test 3: Second character should be a number between 1 and 8 inclusive.
-    if user_input[1] not in range(1,9):
+    if user_input[1] not in ['1', '2', '3', '4', '5', '6', '7', '8']:
         return False
 
     # If all tests pass, the input is valid.
@@ -112,6 +113,26 @@ def validate_user_input_square_selection(user_input):
 
 
 
+
+
+def display_error_message(error_type):
+
+    if GUI is False:
+        #CLI
+
+        if error_type == 1:
+            message = "\nInvalid input: Doesn't map to a square on the board."
+        elif error_type == 2:
+            message = "\nInvalid input: Starting square doesn't contain one of your pieces."
+        elif error_type == 3:
+            message = "\nInvalid input: Ending square contains one of your pieces."
+        
+        print_text_to_cli(message)
+
+
+    else:
+        #GUI
+        pass
 
 
 
