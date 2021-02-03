@@ -129,7 +129,7 @@ class Turn:
         self.ordinal_number = None
         self.ending_board = None
         self.notation = None
-        self.is_confirmed = 0
+        self.is_confirmed is False
         self.is_capture = None
         self.is_check = None
         self.is_checkmate = None
@@ -164,7 +164,8 @@ class Turn:
 
         # INPUT VALIDATION TYPE 6: Check to make sure that the move doesn't result in your King being put in check.
         # First create the proposed board.
-        self.set_ending_board()
+        if self.ending_board is None:
+            self.set_ending_board()
         # Then check the proposed board for putting your King in check.
         if self.ending_board.is_king_in_check(self.player.color) is True:
             return False

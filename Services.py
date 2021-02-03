@@ -172,7 +172,7 @@ def game_loop(current_game):
     - Create and instantiate a Turn object.
     - Confirm move is legal using piece-specific logic. [Reject move otherwise, display error text, ask for new inputs]
     - If move is castle-ing, do additional logic to check that it’s valid.
-    - Set ending_board attribute. [DONE]
+    - Set ending_board attribute.
     - Confirm that King is not put in check by this move. [Reject move otherwise, display error text, ask for new inputs].
     - Set is_check attribute.
     - Set is_checkmate attribute (only if is_check attribute is set to 1 in previous step).
