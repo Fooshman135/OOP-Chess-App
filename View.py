@@ -15,6 +15,31 @@ def print_text_to_cli(display_text):
 
 
 
+def get_text_input_from_cli(prompt):
+    try:
+        user_input = raw_input(prompt).strip()    # Python 2.X
+    except NameError:
+        user_input = input(prompt).strip()      # Python 3.X
+    return user_input
+
+
+
+
+def press_key_to_continue():
+    """Prompts the user to hit a button before displaying the next menu."""
+
+    if GUI is False:
+        #CLI
+        
+        message = "Press Enter to continue... "
+        get_text_input_from_cli(message)
+        print_text_to_cli("")           # Prints a blank line.
+
+    else:
+        #GUI
+        pass    #TODO
+
+
 
 def show_current_board_state(board):
 
@@ -67,7 +92,9 @@ def request_user_input_for_square(source):
 
         while True:
 
-            square_input = input(prompt).strip()
+            square_input = get_text_input_from_cli(prompt)
+
+            # square_input = input(prompt).strip()
 
             # INPUT VALIDATION TYPE 1: Is the syntax valid? Does it actually identify one of the 64 possible squares?
             if validate_user_input_square_selection(square_input) is False:
@@ -124,8 +151,15 @@ def display_error_message(error_type):
             message = "\nInvalid input: Starting square doesn't contain one of your pieces."
         elif error_type == 3:
             message = "\nInvalid input: Ending square contains one of your pieces."
-        
+        elif error_type == 4:
+            message = "\nInvalid input: Ending square is out of reach for this piece."
+        elif error_type == 5:
+            message = "\nInvalid input: Path to ending square is blocked."
+        elif error_type == 6:
+            message = "\nInvalid input: This move would put your own king in check."
+
         print_text_to_cli(message)
+        press_key_to_continue()
 
 
     else:

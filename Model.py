@@ -137,19 +137,30 @@ class Turn:
 
 
 
-    def is_legal_move(self):
-        # Used for INPUT VALIDATION TYPES 4 and 5 and 6.
-
+    def is_legal_move_can_reach(self):
+        # Used for INPUT VALIDATION TYPE 4
 
         # INPUT VALIDATION TYPE 4: Check to see if the target square can be reached, assuming an empty board.
         if self.starting_square.current_occupant.target_can_be_reached(self.ending_square) is False:
             return False
+        else:
+            return True
 
+
+
+    def is_legal_move_path_unblocked(self):
+        # Used for INPUT VALIDATION TYPE 5
 
         # INPUT VALIDATION TYPE 5: Check to see if any square along the path is occupied.
         if self.starting_square.current_occupant.path_to_target_is_blocked(self.ending_square) is False:
             return False
+        else:
+            return True
 
+
+
+    def is_legal_move_king_safe(self):
+        # Used for INPUT VALIDATION TYPE 6
 
         # INPUT VALIDATION TYPE 6: Check to make sure that the move doesn't result in your King being put in check.
         # First create the proposed board.
@@ -157,9 +168,8 @@ class Turn:
         # Then check the proposed board for putting your King in check.
         if self.ending_board.is_king_in_check(self.player.color) is True:
             return False
-
-        # If you've reached this point, then the move is legal!
-        return True
+        else:
+            return True
 
 
 

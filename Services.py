@@ -206,13 +206,23 @@ def game_loop(current_game):
         # Create and instantiate a Turn object.
         current_turn = Turn(starting_board = current_game.current_board, player = current_game.whose_turn, starting_square = source_square, ending_square = destination_square)
 
-
-        # Confirm move is legal using piece-specific logic. [Reject move otherwise, display error text, ask for new inputs]
-        if current_turn.is_legal_move() is False:
+        # Confirm move is legal for validation type 4.
+        if current_turn.is_legal_move_can_reach() is False:
             # Reject move.
-            pass    # TODO
+            display_error_message(4)
+            continue
 
+        # Confirm move is legal for validation type 5.
+        if current_turn.is_legal_move_path_unblocked() is False:
+            # Reject move.
+            display_error_message(5)
+            continue
 
+        # Confirm move is legal for validation type 6.
+        if current_turn.is_legal_move_king_safe() is False:
+            # Reject move.
+            display_error_message(6)
+            continue
 
 
 
