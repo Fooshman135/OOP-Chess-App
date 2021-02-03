@@ -49,7 +49,7 @@ def show_current_board_state(board):
         message = "Here is what the board currently looks like:"
         print_text_to_cli(message)
 
-        print_board_white_bottom_cli(board)
+        print_board_cli(board, white_on_bottom=WHITE_ON_BOTTOM)
 
     else:
         #GUI
@@ -167,8 +167,9 @@ def display_error_message(error_type):
 
 
 
-def print_board_white_bottom_cli(board):
+def print_board_cli(board, white_on_bottom = True):
     # board is a dictionary of 64 square objects.
+    # white_on_bottom is True if the white player is displayed on the bottom and the black player is displayed on the top. False otherwise.
 
     from Services import letter_index_to_letter
 
@@ -176,18 +177,33 @@ def print_board_white_bottom_cli(board):
     unicode_dict = {k: (" " if v.current_occupant == None else v.current_occupant.unicode) for (k,v) in board.dict_of_64_squares.items()}
 
     # Now produce the strings used to show the board.
-    title =            "      a   b   c   d   e   f   g   h  "
+ 
     horizontal_line =  "    _________________________________"
+
+    if white_on_bottom is True:
+        outer_range = range(8,0,-1)
+        inner_range = range(1,9)
+        title = "      a   b   c   d   e   f   g   h  "
+    else:
+        outer_range = range(1,9)
+        inner_range = range(8,0,-1)
+        title = "      h   g   f   e   d   c   b   a  "
 
     print(title)
 
-    for number_index in range(8,0,-1):
+    for number_index in outer_range:
         print(horizontal_line)
         square_index = []
-        for letter_index in range(1,9):
+        for letter_index in inner_range:
             square_index.append(letter_index_to_letter(letter_index) + str(number_index))
 
-        row = "{number}   | {a} | {b} | {c} | {d} | {e} | {f} | {g} | {h} |".format(number = number_index, a = unicode_dict[square_index[0]], b = unicode_dict[square_index[1]], c = unicode_dict[square_index[2]], d = unicode_dict[square_index[3]], e = unicode_dict[square_index[4]], f = unicode_dict[square_index[5]], g = unicode_dict[square_index[6]], h = unicode_dict[square_index[7]])
+        row = "{number}   | {a} | {b} | {c} | {d} | {e} | {f} | {g} | {h} |".format(
+            number = number_index,
+            a = unicode_dict[square_index[0]], b = unicode_dict[square_index[1]],
+            c = unicode_dict[square_index[2]], d = unicode_dict[square_index[3]],
+            e = unicode_dict[square_index[4]], f = unicode_dict[square_index[5]],
+            g = unicode_dict[square_index[6]], h = unicode_dict[square_index[7]]
+            )
         print(row)
 
     print(title)
