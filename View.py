@@ -197,7 +197,7 @@ def print_board_cli(board, white_on_bottom = True):
         for letter_index in inner_range:
             square_index.append(letter_index_to_letter(letter_index) + str(number_index))
 
-        row = "{number}   | {a} | {b} | {c} | {d} | {e} | {f} | {g} | {h} |".format(
+        row = "{number}   | {a} | {b} | {c} | {d} | {e} | {f} | {g} | {h} |  {number}".format(
             number = number_index,
             a = unicode_dict[square_index[0]], b = unicode_dict[square_index[1]],
             c = unicode_dict[square_index[2]], d = unicode_dict[square_index[3]],
@@ -206,5 +206,6 @@ def print_board_cli(board, white_on_bottom = True):
             )
         print(row)
 
+    print()
     print(title)
 

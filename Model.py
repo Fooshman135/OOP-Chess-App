@@ -129,7 +129,7 @@ class Turn:
         self.ordinal_number = None
         self.ending_board = None
         self.notation = None
-        self.is_confirmed is False
+        self.is_confirmed = False
         self.is_capture = None
         self.is_check = None
         self.is_checkmate = None
