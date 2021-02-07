@@ -41,12 +41,16 @@ def press_key_to_continue():
 
 
 
-def show_current_board_state(board):
+def show_board_state(board, is_current=True):
 
     if GUI is False:
         # CLI
 
-        message = "Here is what the board currently looks like:"
+        if is_current is True:
+            message = "Here is what the board currently looks like:"
+        else:
+            message = "Here is what the proposed board would like look:"
+
         print_text_to_cli(message)
 
         print_board_cli(board, white_on_bottom=WHITE_ON_BOTTOM)

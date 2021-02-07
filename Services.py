@@ -190,12 +190,11 @@ def game_loop(current_game):
 
     """
 
-    pass
 
     while True:
 
         # Show user the current board state
-        show_current_board_state(current_game.current_board)
+        show_board_state(current_game.current_board, is_current = True)
 
         # Declare whose turn it is now.
         declare_whose_turn_it_is(current_game.whose_turn)
@@ -224,6 +223,8 @@ def game_loop(current_game):
             display_error_message(6)
             continue
 
+
+        show_board_state(current_turn.ending_board, is_current = False)
 
 
         break       # TODO (Remove this break statement eventually)

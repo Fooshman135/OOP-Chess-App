@@ -88,13 +88,14 @@ class Board(object):
 
     def __init__(self, dict_of_64_squares, is_current, whose_turn):
         self.dict_of_64_squares = dict_of_64_squares
-        self.is_current = is_current
-        self.whose_turn = whose_turn
+        self.is_current = is_current        # A bool
+        self.whose_turn = whose_turn        # A Player object
 
 
 
     def duplicate_board(self):
-        return Board(self.dict_of_64_squares, self.is_current, self.whose_turn)
+        from copy import deepcopy
+        return deepcopy(self)
 
 
 
@@ -185,9 +186,6 @@ class Turn:
         new_board = self.starting_board.duplicate_board()
 
         # Update the turn's starting square on the board.
-        # First get the starting square from the turn.
-        # Then find the analogous square in the board.
-        # Then set that square's occupant to be None.
         new_board.dict_of_64_squares[
             letter_index_to_letter(self.starting_square.letter_index) + str(self.starting_square.number_index)
         ].current_occupant = None
