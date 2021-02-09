@@ -153,7 +153,7 @@ class Turn:
         # Used for INPUT VALIDATION TYPE 5
 
         # INPUT VALIDATION TYPE 5: Check to see if any square along the path is occupied.
-        if self.starting_square.current_occupant.path_to_target_is_unblocked(self.ending_square) is True:
+        if self.starting_square.current_occupant.path_to_target_is_unblocked(self.ending_square, self.starting_board) is True:
             return True
         else:
             return False
@@ -299,9 +299,20 @@ class Pawn(Piece):
             raise Exception("This is an error!")
 
 
-    def path_to_target_is_unblocked(self, target_square):
+    def path_to_target_is_unblocked(self, target_square, board):
         # Used for INPUT VALIDATION TYPE 5
-        pass    #TODO
+        
+        from Services import produce_path_between_two_squares
+        path = produce_path_between_two_squares(self.current_square, target_square, board)
+        if len(path) == 0:
+            # There is no path, and so nothing is blocked.
+            pass
+        else:
+            # There is a path, so need to check each square in the path.
+            for square in path:
+                if square.current_occupant is not None:
+                    return False
+        return True
 
 
 
