@@ -457,7 +457,16 @@ class Queen(Piece):
 
     def target_can_be_reached(self, target_square):
         # Used for INPUT VALIDATION TYPE 4
-        pass    #TODO
+
+        x1 = self.current_square.letter_index
+        y1 = self.current_square.number_index
+        x2 = target_square.letter_index
+        y2 = target_square.number_index
+        
+        if x1 == x2 or y1 == y2 or abs(x1 - x2) == abs(y1 - y2):
+            return True
+        else:
+            return False
 
 
     def path_to_target_is_unblocked(self, target_square):
