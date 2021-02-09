@@ -49,7 +49,7 @@ def show_board_state(board, is_current=True):
         if is_current is True:
             message = "Here is what the board currently looks like:"
         else:
-            message = "Here is what the proposed board would like look:"
+            message = "\nHere is what the proposed board would like look:"
 
         print_text_to_cli(message)
 

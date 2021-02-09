@@ -153,10 +153,10 @@ class Turn:
         # Used for INPUT VALIDATION TYPE 5
 
         # INPUT VALIDATION TYPE 5: Check to see if any square along the path is occupied.
-        if self.starting_square.current_occupant.path_to_target_is_blocked(self.ending_square) is False:
-            return False
-        else:
+        if self.starting_square.current_occupant.path_to_target_is_unblocked(self.ending_square) is True:
             return True
+        else:
+            return False
 
 
 
@@ -271,7 +271,7 @@ class Pawn(Piece):
         pass    #TODO
 
 
-    def path_to_target_is_blocked(self, target_square):
+    def path_to_target_is_unblocked(self, target_square):
         # Used for INPUT VALIDATION TYPE 5
         pass    #TODO
 
@@ -318,7 +318,7 @@ class Rook(Piece):
         pass    #TODO
 
 
-    def path_to_target_is_blocked(self, target_square):
+    def path_to_target_is_unblocked(self, target_square):
         # Used for INPUT VALIDATION TYPE 5
         pass    #TODO
 
@@ -354,14 +354,35 @@ class Knight(Piece):
     def target_can_be_reached(self, target_square):
         # Used for INPUT VALIDATION TYPE 4
         pass    #TODO
+
+        # Need to confirm that target_square is an L-shaped jump away from the current_square.
+        x1 = self.current_square.letter_index
+        y1 = self.current_square.number_index
+        x2 = target_square.letter_index
+        y2 = target_square.number_index
+
+
+        if (
+            (x2 == x1+2 and y2 == y1+1) 
+            or (x2 == x1+2 and y2 == y1-1)
+            or (x2 == x1+1 and y2 == y1+2)
+            or (x2 == x1+1 and y2 == y1-2)
+            or (x2 == x1-2 and y2 == y1+1)
+            or (x2 == x1-2 and y2 == y1-1)
+            or (x2 == x1-1 and y2 == y1+2)
+            or (x2 == x1-1 and y2 == y1-2)
+        ):
+            return True
+        else:
+            return False
         
 
 
 
-    def path_to_target_is_blocked(self, target_square):
+    def path_to_target_is_unblocked(self, target_square):
         # Used for INPUT VALIDATION TYPE 5
         # The knight's path is never blocked because it leaps over other pieces.
-        return False
+        return True
 
 
 
@@ -389,7 +410,7 @@ class Bishop(Piece):
         pass    #TODO
 
 
-    def path_to_target_is_blocked(self, target_square):
+    def path_to_target_is_unblocked(self, target_square):
         # Used for INPUT VALIDATION TYPE 5
         pass    #TODO
 
@@ -420,7 +441,7 @@ class Queen(Piece):
         pass    #TODO
 
 
-    def path_to_target_is_blocked(self, target_square):
+    def path_to_target_is_unblocked(self, target_square):
         # Used for INPUT VALIDATION TYPE 5
         pass    #TODO
 
@@ -455,16 +476,18 @@ class King(Piece):
         x2 = target_square.letter_index
         y2 = target_square.number_index
 
-        if not((x2 in [x1 - 1, x1, x1 + 1]) and (y2 in [y1 - 1, y1, y1 + 1]) and ((x2 != x1) or (y2 != y1))):
-            return False     
+        if (x2 in [x1 - 1, x1, x1 + 1]) and (y2 in [y1 - 1, y1, y1 + 1]) and ((x2 != x1) or (y2 != y1)):
+            return True
+        else:
+            return False
 
 
 
 
-    def path_to_target_is_blocked(self, target_square):
+    def path_to_target_is_unblocked(self, target_square):
         # Used for INPUT VALIDATION TYPE 5
         # The king's path is never blocked because he can only move one square.
-        return False
+        return True
 
 
 
