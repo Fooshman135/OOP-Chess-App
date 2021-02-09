@@ -140,23 +140,13 @@ class Turn:
 
     def is_legal_move_can_reach(self):
         # Used for INPUT VALIDATION TYPE 4
-
-        # INPUT VALIDATION TYPE 4: Check to see if the target square can be reached, assuming an empty board.
-        if self.starting_square.current_occupant.target_can_be_reached(self.ending_square) is False:
-            return False
-        else:
-            return True
+        return self.starting_square.current_occupant.target_can_be_reached(self.ending_square)
 
 
 
     def is_legal_move_path_unblocked(self):
         # Used for INPUT VALIDATION TYPE 5
-
-        # INPUT VALIDATION TYPE 5: Check to see if any square along the path is occupied.
-        if self.starting_square.current_occupant.path_to_target_is_unblocked(self.ending_square, self.starting_board) is True:
-            return True
-        else:
-            return False
+        return self.starting_square.current_occupant.path_to_target_is_unblocked(self.ending_square, self.starting_board)
 
 
 
@@ -231,20 +221,21 @@ class Turn:
 
 class Piece(object):
 
-    # Does this class provide any value?
 
+    def path_to_target_is_unblocked(self, target_square, board):
+        # INPUT VALIDATION TYPE 5: Check to see if any square along the path is occupied.
 
-    def get_current_square(self):
-        # Is this function necessary?
-        return self.current_square
-
-
-
-
-
-
-
-
+        from Services import produce_path_between_two_squares
+        path = produce_path_between_two_squares(self.current_square, target_square, board)
+        if len(path) == 0:
+            # There is no path, and so nothing is blocked.
+            pass
+        else:
+            # There is a path, so need to check each square in the path.
+            for square in path:
+                if square.current_occupant is not None:
+                    return False
+        return True
 
 
 
@@ -267,7 +258,7 @@ class Pawn(Piece):
 
 
     def target_can_be_reached(self, target_square):
-        # Used for INPUT VALIDATION TYPE 4
+        # INPUT VALIDATION TYPE 4: Check to see if the target square can be reached, assuming an empty board.
 
         x1 = self.current_square.letter_index
         y1 = self.current_square.number_index
@@ -297,22 +288,6 @@ class Pawn(Piece):
         else:
             # Throw error
             raise Exception("This is an error!")
-
-
-    def path_to_target_is_unblocked(self, target_square, board):
-        # Used for INPUT VALIDATION TYPE 5
-        
-        from Services import produce_path_between_two_squares
-        path = produce_path_between_two_squares(self.current_square, target_square, board)
-        if len(path) == 0:
-            # There is no path, and so nothing is blocked.
-            pass
-        else:
-            # There is a path, so need to check each square in the path.
-            for square in path:
-                if square.current_occupant is not None:
-                    return False
-        return True
 
 
 
@@ -353,7 +328,7 @@ class Rook(Piece):
 
 
     def target_can_be_reached(self, target_square):
-        # Used for INPUT VALIDATION TYPE 4
+        # INPUT VALIDATION TYPE 4: Check to see if the target square can be reached, assuming an empty board.
 
         x1 = self.current_square.letter_index
         y1 = self.current_square.number_index
@@ -365,21 +340,6 @@ class Rook(Piece):
             return True
         else:
             return False
-
-
-
-    def path_to_target_is_unblocked(self, target_square):
-        # Used for INPUT VALIDATION TYPE 5
-        pass    #TODO
-
-
-
-
-
-
-
-
-
 
 
 
@@ -402,7 +362,7 @@ class Knight(Piece):
 
 
     def target_can_be_reached(self, target_square):
-        # Used for INPUT VALIDATION TYPE 4
+        # INPUT VALIDATION TYPE 4: Check to see if the target square can be reached, assuming an empty board.
 
         # Need to confirm that target_square is an L-shaped jump away from the current_square.
         x1 = self.current_square.letter_index
@@ -428,7 +388,7 @@ class Knight(Piece):
 
 
 
-    def path_to_target_is_unblocked(self, target_square):
+    def path_to_target_is_unblocked(self, target_square, board):
         # Used for INPUT VALIDATION TYPE 5
         # The knight's path is never blocked because it leaps over other pieces.
         return True
@@ -455,7 +415,7 @@ class Bishop(Piece):
 
 
     def target_can_be_reached(self, target_square):
-        # Used for INPUT VALIDATION TYPE 4
+        # INPUT VALIDATION TYPE 4: Check to see if the target square can be reached, assuming an empty board.
 
         x1 = self.current_square.letter_index
         y1 = self.current_square.number_index
@@ -466,13 +426,6 @@ class Bishop(Piece):
             return True
         else:
             return False
-
-
-    def path_to_target_is_unblocked(self, target_square):
-        # Used for INPUT VALIDATION TYPE 5
-        pass    #TODO
-
-
 
 
 
@@ -495,7 +448,7 @@ class Queen(Piece):
 
 
     def target_can_be_reached(self, target_square):
-        # Used for INPUT VALIDATION TYPE 4
+        # INPUT VALIDATION TYPE 4: Check to see if the target square can be reached, assuming an empty board.
 
         x1 = self.current_square.letter_index
         y1 = self.current_square.number_index
@@ -506,14 +459,6 @@ class Queen(Piece):
             return True
         else:
             return False
-
-
-    def path_to_target_is_unblocked(self, target_square):
-        # Used for INPUT VALIDATION TYPE 5
-        pass    #TODO
-
-
-
 
 
 
@@ -535,7 +480,7 @@ class King(Piece):
 
 
     def target_can_be_reached(self, target_square):
-        # Used for INPUT VALIDATION TYPE 4
+        # INPUT VALIDATION TYPE 4: Check to see if the target square can be reached, assuming an empty board.
 
         # Need to confirm that target_square is one square away from the current_square.
         x1 = self.current_square.letter_index
@@ -551,7 +496,7 @@ class King(Piece):
 
 
 
-    def path_to_target_is_unblocked(self, target_square):
+    def path_to_target_is_unblocked(self, target_square, board):
         # Used for INPUT VALIDATION TYPE 5
         # The king's path is never blocked because he can only move one square.
         return True
