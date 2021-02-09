@@ -268,7 +268,35 @@ class Pawn(Piece):
 
     def target_can_be_reached(self, target_square):
         # Used for INPUT VALIDATION TYPE 4
-        pass    #TODO
+
+        x1 = self.current_square.letter_index
+        y1 = self.current_square.number_index
+        x2 = target_square.letter_index
+        y2 = target_square.number_index
+
+        if self.owner.color == 1:
+            # White pawns
+            if x1 == x2 and y2 == y1 + 1:
+                return True
+            elif x1 == x2 and y1 == 2 and y2 == 4:
+                return True
+            elif abs(x2 - x1) == 1 and y2 == y1 + 1 and target_square.current_occupant.owner.color == 0:
+                return True
+            else:
+                return False
+        elif self.owner.color == 0:
+            # Black pawns
+            if x1 == x2 and y2 == y1 - 1:
+                return True
+            elif x1 == x2 and y1 == 7 and y2 == 5:
+                return True
+            elif abs(x2 - x1) == 1 and y2 == y1 - 1 and target_square.current_occupant.owner.color == 1:
+                return True
+            else:
+                return False
+        else:
+            # Throw error
+            raise Exception("This is an error!")
 
 
     def path_to_target_is_unblocked(self, target_square):
@@ -462,7 +490,7 @@ class Queen(Piece):
         y1 = self.current_square.number_index
         x2 = target_square.letter_index
         y2 = target_square.number_index
-        
+
         if x1 == x2 or y1 == y2 or abs(x1 - x2) == abs(y1 - y2):
             return True
         else:
