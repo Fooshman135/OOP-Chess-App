@@ -52,10 +52,9 @@ class Square(object):
         self.square_color = square_color
         self.current_occupant = None
 
-
-    # letter_index: A = 1, B = 2, ..., H = 8
-    # color: White = 1, Black = 2
-    # current_occupant: Points to a Piece object
+        # letter_index: A = 1, B = 2, ..., H = 8
+        # color: White = 1, Black = 2
+        # current_occupant: Points to a Piece object
 
 
 
@@ -68,10 +67,6 @@ class Square(object):
             return False
         else:
             return True
-
-
-
-
 
 
 
@@ -99,14 +94,37 @@ class Board(object):
 
 
 
-    def is_king_in_check(self, king_color):
-        # Used for INPUT VALIDATION TYPE 6
+    def is_king_not_in_check(self, king_color):
+        # INPUT VALIDATION TYPE 6: Check to make sure that the move doesn't result in your King being put in check.
 
         # self is a board in a state that you want to examine to see if the king is in check.
         # king_color identifies which King you want to examine. Values can be either 0 or 1.
         # Returns bool depending on whether the proposed board has your king in check.
 
-        pass    # TODO
+        # First, identify all pieces of the opposite color as the king.
+        opponents_pieces = []
+
+        for square in self.dict_of_64_squares.values():
+            if square.current_occupant is not None:
+                if square.current_occupant.owner.color != king_color:
+                    # square has one of opponents pieces on it.
+                    opponents_pieces.append(square.current_occupant)
+                elif isinstance(square.current_occupant, King):
+                    # This is the square that your King is on.
+                    king_square = square
+
+        if len(opponents_pieces) == 0:
+            raise Exception("This is an error!")
+
+        # Then loop through them and see if any of them can directly attack the king.
+        for threat in opponents_pieces:
+            # threat is a Piece object.
+            if threat.target_can_be_reached(king_square) is True:
+                if threat.path_to_target_is_unblocked(king_square, self) is True:
+                    # Your King can be attacked by this opponent's piece.
+                    return False
+
+        return True
 
 
 
@@ -153,15 +171,11 @@ class Turn:
     def is_legal_move_king_safe(self):
         # Used for INPUT VALIDATION TYPE 6
 
-        # INPUT VALIDATION TYPE 6: Check to make sure that the move doesn't result in your King being put in check.
         # First create the proposed board.
         if self.ending_board is None:
             self.set_ending_board()
         # Then check the proposed board for putting your King in check.
-        if self.ending_board.is_king_in_check(self.player.color) is True:
-            return False
-        else:
-            return True
+        return self.ending_board.is_king_not_in_check(self.player.color)
 
 
 
