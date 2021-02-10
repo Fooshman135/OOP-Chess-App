@@ -47,7 +47,7 @@ def show_board_state(board, is_current=True):
         # CLI
 
         if is_current is True:
-            message = "Here is what the board currently looks like:"
+            message = "\nHere is what the board currently looks like:"
         else:
             message = "\nHere is what the proposed board would like look:"
 
@@ -81,7 +81,6 @@ def declare_whose_turn_it_is(whose_turn):
 
 def request_user_input_for_square(source):
 
-    # whose_turn is the Player whose turn it is.
     # source is a bool. True means it's a source square. False means it's a destination square.
 
     if GUI is False:
@@ -138,6 +137,21 @@ def validate_user_input_square_selection(user_input):
     # If all tests pass, the input is valid.
     return True
 
+
+
+
+def request_user_input_for_move_confirmation():
+    # Returns True if user confirms move, False if user cancels move.
+
+    if GUI is False:
+        #CLI   
+        prompt = "\nConfirm move with 'y' or cancel move with anything else: "
+        confirmation = get_text_input_from_cli(prompt)
+        return confirmation in ['y', 'Y']
+
+    else:
+        #GUI
+        pass    #TODO
 
 
 

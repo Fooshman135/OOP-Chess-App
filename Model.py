@@ -209,7 +209,7 @@ class Turn:
 
 
     def set_is_capture(self):
-        self.is_capture = self.ending_square.current_occupant is not None and self.ending_square.current_occupant.owner.color != self.player.color:
+        self.is_capture = self.ending_square.current_occupant is not None and self.ending_square.current_occupant.owner.color != self.player.color
 
 
 

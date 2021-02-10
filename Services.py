@@ -281,22 +281,33 @@ def game_loop(current_game):
         if current_turn.is_legal_move_can_reach() is False:
             # Reject move.
             display_error_message(4)
+            del current_turn
             continue
 
         # Confirm move is legal for validation type 5.
         if current_turn.is_legal_move_path_unblocked() is False:
             # Reject move.
             display_error_message(5)
+            del current_turn
             continue
 
         # Confirm move is legal for validation type 6.
         if current_turn.is_legal_move_king_safe() is False:
             # Reject move.
             display_error_message(6)
+            del current_turn
             continue
 
         # Show user the proposed board state.
         show_board_state(current_turn.ending_board, is_current = False)
+
+        # Ask user to confirm move.
+        if request_user_input_for_move_confirmation() is False:
+            # User has cancelled move.
+            del current_turn
+            continue
+
+
 
 
         break       # TODO (Remove this break statement eventually)
