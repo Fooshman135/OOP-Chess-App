@@ -270,7 +270,12 @@ def game_loop(current_game):
         source_square, destination_square = get_and_validate_two_user_inputs(current_game)
 
         # Create and instantiate a Turn object.
-        current_turn = Turn(starting_board = current_game.current_board, player = current_game.whose_turn, starting_square = source_square, ending_square = destination_square)
+        current_turn = Turn(
+            starting_board = current_game.current_board, 
+            player = current_game.whose_turn, 
+            starting_square = source_square, 
+            ending_square = destination_square
+        )
 
         # Confirm move is legal for validation type 4.
         if current_turn.is_legal_move_can_reach() is False:

@@ -209,7 +209,8 @@ class Turn:
 
 
     def set_is_capture(self):
-        pass    #TODO
+        self.is_capture = self.ending_square.current_occupant is not None and self.ending_square.current_occupant.owner.color != self.player.color:
+
 
 
     def set_is_check(self):
