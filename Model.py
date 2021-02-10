@@ -70,14 +70,6 @@ class Square(object):
 
 
 
-    def get_threats(self):
-        # Return the set of opponents pieces (or squares?) that can attack this square.
-        pass    #TODO
-
-
-
-
-
 
 class Board(object):
 
@@ -313,16 +305,6 @@ class Pawn(Piece):
 
 
 
-    def get_moves(self):
-        pass    #TODO
-
-
-    def get_attacks(self):
-        # Returns a list of squares (or pieces?) that this piece can move to in an attack.
-        pass    #TODO
-
-
-
 
 
 
@@ -515,38 +497,5 @@ class King(Piece):
         # Used for INPUT VALIDATION TYPE 5
         # The king's path is never blocked because he can only move one square.
         return True
-
-
-
-
-
-
-
-
-    def get_moves(self):
-
-
-        # Not sure if this method is needed, because I may just have users input the square they want to move into.
-
-
-        # First, return the set of all squares that the King can move to assuming an empty board.
-        # There are 8 logical checks we need to perform, see which are legal squares and which are off the board.
-
-
-
-        # Second, filter out squares which already have one of your other pieces on it.
-
-
-
-        # Third, filter out squares which put the King in check.
-
-
-        pass    # TODO
-
-
-
-
-
-
 
 
