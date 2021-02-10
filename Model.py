@@ -130,6 +130,8 @@ class Turn:
 
     # The is_capture attribute is a bool of signaling whether the turn involving capturing an enemy piece.
     # The is_confirmed attribute is a bool for signaling whether the turn was actually taken by the player.
+    # The is_check attribute is a bool for signaling whether the turn puts the opponent's King in check.
+    # The is_checkmate attribute is a bool for signaling whether the turn puts the opponent's King in checkmate.
 
     def __init__(self, starting_board, player, starting_square, ending_square):
         self.starting_board = starting_board
@@ -206,7 +208,8 @@ class Turn:
 
 
     def set_is_check(self):
-        pass    #TODO
+        other_players_color = (self.player.color + 1) % 2
+        self.is_check = not(self.ending_board.is_king_not_in_check(other_players_color))
 
 
     def set_is_checkmate(self):

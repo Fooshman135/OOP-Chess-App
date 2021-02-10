@@ -172,7 +172,7 @@ def display_error_message(error_type):
         elif error_type == 5:
             message = "\nInvalid input: Path to ending square is blocked."
         elif error_type == 6:
-            message = "\nInvalid input: This move would put your own king in check."
+            message = "\nInvalid input: This move would result in your own king being in check."
 
         print_text_to_cli(message)
         press_key_to_continue()
