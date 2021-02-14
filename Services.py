@@ -231,8 +231,10 @@ def pieces_into_starting_positions(board, white_player, black_player):
 
 def game_loop(current_game):
     """
-    High level approach for each turn:
+    This function should be called once per turn (rather than having each turn be a loop iteration).
+    This cleans up unused variables after each turn.
 
+    High level approach for each turn:
     - Show user the current board state.
     - Declare whose turn it is.
     - Get user inputs for starting square and ending square, and perform validation types 1 and 2 and 3.
@@ -248,7 +250,7 @@ def game_loop(current_game):
     - Show ending_board to user.
     - Ask user to confirm move. [If rejected, destroy Turn object and return to top step.]
     - If confirmed, do confirmation tasks: 
-        Set.is_confirmed = 1, 
+        Update is_confirmed Turn attribute, 
         Update relevant Piece attributes, 
         Update relevant Square attributes, 
         Update Board is_current attribute, 
@@ -307,10 +309,14 @@ def game_loop(current_game):
             del current_turn
             continue
 
+        # The move has been confirmed.
+        break
+
+        # Now do all the tasks that happen as a result of move confirmation.
+        current_game.confirm_turn(current_turn)
 
 
 
-        break       # TODO (Remove this break statement eventually)
 
 
 

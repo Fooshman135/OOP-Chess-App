@@ -18,8 +18,17 @@ class Game:
         self.list_of_confirmed_turns = []
         
 
+    def confirm_turn(self, confirmed_turn):
+        pass    #TODO
+        
+        ## Update is_confirmed Turn attribute.
+        current_turn.is_confirmed = True
 
-
+        ## Update relevant Piece attributes, 
+        ## Update relevant Square attributes, 
+        ## Update Board is_current attribute, 
+        ## Update Game current_board attribute, 
+        ## Update Player captured_enemy_pieces and points and is_current_turn attributes.
 
 
 
@@ -213,6 +222,12 @@ class Turn:
 
 
     def set_is_checkmate(self):
+
+        # First confirm that the opponents King is in check.
+        if self.is_check is False:
+            return False
+
+        # Now check every move that the opponent can perform and confirm if any of them can get the King out of check.
         pass    #TODO
 
 
@@ -220,8 +235,6 @@ class Turn:
         pass    #TODO
 
 
-    def confirm(self):
-        pass    #TODO
 
 
 
