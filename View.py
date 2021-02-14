@@ -196,7 +196,7 @@ def print_board_cli(board, white_on_bottom = True):
 
     # Now produce the strings used to show the board.
  
-    horizontal_line =  "    _________________________________"
+    horizontal_line =  "    ---------------------------------"
 
     if white_on_bottom is True:
         outer_range = range(8,0,-1)
