@@ -40,10 +40,10 @@ class Game:
         self.whose_turn.is_current_turn = 0
 
         ## Switch players
-        if confirmed_turn.player is white_player:
-            self.whose_turn = black_player
+        if confirmed_turn.player is self.white_player:
+            self.whose_turn = self.black_player
         else:
-            self.whose_turn = white_player
+            self.whose_turn = self.white_player
 
         ## Update is_current_turn for new current player.
         self.whose_turn.is_current_turn = 1
