@@ -300,6 +300,9 @@ def game_loop(current_game):
             del current_turn
             continue
 
+        # Set captured_piece attribute.
+        current_turn.set_captured_piece()
+
         # Show user the proposed board state.
         show_board_state(current_turn.ending_board, is_current = False)
 

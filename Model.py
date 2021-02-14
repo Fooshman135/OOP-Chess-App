@@ -18,16 +18,29 @@ class Game:
         self.list_of_confirmed_turns = []
         
 
-    def confirm_turn(self, confirmed_turn):
-        pass    #TODO
-        
-        ## Update is_confirmed Turn attribute.
-        current_turn.is_confirmed = True
 
-        ## Update relevant Piece attributes, 
-        ## Update relevant Square attributes, 
-        ## Update Board is_current attribute, 
-        ## Update Game current_board attribute, 
+    def confirm_turn(self, confirmed_turn):
+
+        # Update is_confirmed Turn attribute.
+        confirmed_turn.is_confirmed = True
+
+        # Add turn to list of confirm turns.
+        self.list_of_confirmed_turns.append(confirmed_turn)
+
+        # Update Game current_board attribute.
+        self.current_board = confirmed_turn.ending_board
+
+        # Update current player's captured enemy pieces and points.
+        if confirmed_turn.captured_piece is not None:
+            self.whose_turn.captured_enemy_pieces.append(confirmed_turn.captured_piece)
+
+        # Set up next move.
+        ## Switch players
+        if confirmed_turn.player is white_player:
+            self.whose_turn = black_player
+        else:
+            self.whose_turn = white_player
+        
         ## Update Player captured_enemy_pieces and points and is_current_turn attributes.
 
 
@@ -84,7 +97,7 @@ class Board(object):
 
     def __init__(self, dict_of_64_squares, is_current, whose_turn):
         self.dict_of_64_squares = dict_of_64_squares
-        self.is_current = is_current        # A bool
+        self.is_current = is_current        # A bool        # Is this attribute necessary?
         self.whose_turn = whose_turn        # A Player object
 
 
@@ -151,8 +164,8 @@ class Turn:
         self.ordinal_number = None
         self.ending_board = None
         self.notation = None
-        self.is_confirmed = False
-        self.is_capture = None
+        self.is_confirmed = False   # Is this attribute necessary?
+        self.captured_piece = None
         self.is_check = None
         self.is_checkmate = None
 
@@ -211,8 +224,9 @@ class Turn:
         pass    #TODO
 
 
-    def set_is_capture(self):
-        self.is_capture = self.ending_square.current_occupant is not None and self.ending_square.current_occupant.owner.color != self.player.color
+    def set_captured_piece(self):
+        if self.ending_square.current_occupant is not None and self.ending_square.current_occupant.owner.color != self.player.color:
+            self.captured_piece = self.ending_square.current_occupant
 
 
 
