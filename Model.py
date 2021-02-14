@@ -33,15 +33,21 @@ class Game:
         # Update current player's captured enemy pieces and points.
         if confirmed_turn.captured_piece is not None:
             self.whose_turn.captured_enemy_pieces.append(confirmed_turn.captured_piece)
+            self.whose_turn.points += confirmed_turn.captured_piece.points
 
         # Set up next move.
+        ## Update is_current_turn for old current player.
+        self.whose_turn.is_current_turn = 0
+
         ## Switch players
         if confirmed_turn.player is white_player:
             self.whose_turn = black_player
         else:
             self.whose_turn = white_player
+
+        ## Update is_current_turn for new current player.
+        self.whose_turn.is_current_turn = 1
         
-        ## Update Player captured_enemy_pieces and points and is_current_turn attributes.
 
 
 
@@ -281,14 +287,17 @@ class Pawn(Piece):
 
     def __init__(self, current_square, owner):
         self.current_square = current_square
-        self.owner = owner  # Should be a Player object.
-        self.turn_captured = None
+        self.owner = owner  # Should be a Player object.        
         if self.owner.color == 0:
             # Black
             self.unicode = "♙"
         else:
             # White
             self.unicode = "♟"
+
+        self.turn_captured = None
+        self.points = 1
+
         
 
 
@@ -343,14 +352,16 @@ class Rook(Piece):
     def __init__(self, current_square, owner):
         self.current_square = current_square
         self.owner = owner  # Should be a Player object.
-        self.turn_captured = None
         if self.owner.color == 0:
             # Black
             self.unicode = "♖"
         else:
             # White
             self.unicode = "♜"
-        
+
+        self.turn_captured = None 
+        self.points = 5
+
 
 
 
@@ -377,13 +388,15 @@ class Knight(Piece):
     def __init__(self, current_square, owner):
         self.current_square = current_square
         self.owner = owner  # Should be a Player object.
-        self.turn_captured = None
         if self.owner.color == 0:
             # Black
             self.unicode = "♘"
         else:
             # White
             self.unicode = "♞"
+
+        self.turn_captured = None 
+        self.points = 3
         
 
 
@@ -430,7 +443,6 @@ class Bishop(Piece):
     def __init__(self, current_square, owner):
         self.current_square = current_square
         self.owner = owner  # Should be a Player object.
-        self.turn_captured = None
         if self.owner.color == 0:
             # Black
             self.unicode = "♗"
@@ -438,7 +450,8 @@ class Bishop(Piece):
             # White
             self.unicode = "♝"
         
-
+        self.turn_captured = None 
+        self.points = 3
 
 
     def target_can_be_reached(self, target_square):
@@ -463,7 +476,6 @@ class Queen(Piece):
     def __init__(self, current_square, owner):
         self.current_square = current_square
         self.owner = owner  # Should be a Player object.
-        self.turn_captured = None
         if self.owner.color == 0:
             # Black
             self.unicode = "♕"
@@ -471,7 +483,8 @@ class Queen(Piece):
             # White
             self.unicode = "♛"
         
-
+        self.turn_captured = None 
+        self.points = 9
 
 
     def target_can_be_reached(self, target_square):
