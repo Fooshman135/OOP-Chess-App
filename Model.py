@@ -21,21 +21,25 @@ class Game:
 
     def confirm_turn(self, confirmed_turn):
 
-        # Update is_confirmed Turn attribute.
+        # Finish the old move
+        ## Update is_confirmed Turn attribute.
         confirmed_turn.is_confirmed = True
 
-        # Add turn to list of confirm turns.
+        ## Add turn to list of confirm turns.
         self.list_of_confirmed_turns.append(confirmed_turn)
 
-        # Update Game current_board attribute.
+        ## Update Game current_board attribute.
         self.current_board = confirmed_turn.ending_board
 
-        # Update current player's captured enemy pieces and points.
+        ## Update the moved piece's location.
+        confirmed_turn.starting_square.current_occupant.current_square = confirmed_turn.ending_square
+
+        ## Update current player's captured enemy pieces and points.
         if confirmed_turn.captured_piece is not None:
             self.whose_turn.captured_enemy_pieces.append(confirmed_turn.captured_piece)
             self.whose_turn.points += confirmed_turn.captured_piece.points
 
-        # Set up next move.
+        # Set up the new move.
         ## Update is_current_turn for old current player.
         self.whose_turn.is_current_turn = 0
 
@@ -317,7 +321,7 @@ class Pawn(Piece):
                 return True
             elif x1 == x2 and y1 == 2 and y2 == 4:
                 return True
-            elif abs(x2 - x1) == 1 and y2 == y1 + 1 and target_square.current_occupant.owner.color == 0:
+            elif abs(x2 - x1) == 1 and y2 == y1 + 1 and target_square.current_occupant is not None and target_square.current_occupant.owner.color == 0:
                 return True
             else:
                 return False
@@ -327,7 +331,7 @@ class Pawn(Piece):
                 return True
             elif x1 == x2 and y1 == 7 and y2 == 5:
                 return True
-            elif abs(x2 - x1) == 1 and y2 == y1 - 1 and target_square.current_occupant.owner.color == 1:
+            elif abs(x2 - x1) == 1 and y2 == y1 - 1 and target_square.current_occupant is not None and target_square.current_occupant.owner.color == 1:
                 return True
             else:
                 return False
