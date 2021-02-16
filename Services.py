@@ -315,8 +315,8 @@ def game_loop(current_game):
         # The move has been confirmed.
         break
 
-        # Now do all the tasks that happen as a result of move confirmation.
-        current_game.confirm_turn(current_turn)
+    # Now do all the tasks that happen as a result of move confirmation.
+    current_game.confirm_turn(current_turn)
 
 
 

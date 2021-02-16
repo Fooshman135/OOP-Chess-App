@@ -37,7 +37,8 @@ del my_board
 
 
 # Begin game cycle.
-game_loop(my_game)
+while True:
+  game_loop(my_game)
 
 
 
