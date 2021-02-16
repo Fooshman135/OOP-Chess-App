@@ -130,7 +130,7 @@ def produce_path_between_two_squares(square_one, square_two, board):
                 x += 1
     elif abs(x1 - x2) == abs(y1 - y2):
         # Same diagonal
-        if (x1 < x2 and y1 < y2) or (x1 > x2 and y1 < y2):
+        if (x1 < x2 and y1 < y2) or (x1 > x2 and y1 > y2):
             # Diagonal runs bottom-left to top-right (or vice versa)
             x = min(x1, x2) + 1
             y = min(y1, y2) + 1
@@ -142,7 +142,7 @@ def produce_path_between_two_squares(square_one, square_two, board):
                     path.append(board.dict_of_64_squares[letter_index_to_letter(x) + str(y)])
                     x += 1
                     y += 1
-        elif (x1 < x2 and y1 > y2) or (x1 > x2 and y1 > y2):
+        elif (x1 < x2 and y1 > y2) or (x1 > x2 and y1 < y2):
             # Diagonal runs bottom-right to top-left (or vice versa)
             x = min(x1, x2) + 1
             y = max(y1, y2) - 1

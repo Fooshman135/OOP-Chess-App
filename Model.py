@@ -89,6 +89,11 @@ class Square(object):
         # current_occupant: Points to a Piece object
 
 
+    def get_square_index_string(self):
+        from Services import letter_index_to_letter
+        return letter_index_to_letter(self.letter_index) + str(self.number_index)
+
+
 
     def contains_current_players_piece(self, current_player):
         # Used for INPUT VALIDATION TYPES 2 and 3.
@@ -143,11 +148,19 @@ class Board(object):
         # Then loop through them and see if any of them can directly attack the king.
         for threat in opponents_pieces:
             # threat is a Piece object.
+            ###print("\nCan {x} attack the King?".format(x=threat.__class__.__name__))
             if threat.target_can_be_reached(king_square) is True:
+                ###print("{x} can reach the King".format(x=threat.__class__.__name__))
                 if threat.path_to_target_is_unblocked(king_square, self) is True:
                     # Your King can be attacked by this opponent's piece.
+                    ###print("AND {x} has an unblocked path to the King. FAILED check 6.".format(x=threat.__class__.__name__))
                     return False
+                ###else:
+                    ###print("...but {x} has a blocked path.".format(x=threat.__class__.__name__))
+            ###else:
+                ###print("Nope, {x} cannot reach the King".format(x=threat.__class__.__name__))
 
+        ###print("\nPassed check 6")
         return True
 
 
@@ -272,16 +285,23 @@ class Piece(object):
     def path_to_target_is_unblocked(self, target_square, board):
         # INPUT VALIDATION TYPE 5: Check to see if any square along the path is occupied.
 
+        ###print("Begin check 5...")
         from Services import produce_path_between_two_squares
         path = produce_path_between_two_squares(self.current_square, target_square, board)
+        ###print("Length of path: ", len(path))
         if len(path) == 0:
             # There is no path, and so nothing is blocked.
             pass
         else:
             # There is a path, so need to check each square in the path.
             for square in path:
+                ###print("Square in path: ", square.get_square_index_string())
                 if square.current_occupant is not None:
+                    ###print("This square is blocking the path - FAILED check 5")
                     return False
+                ###else:
+                    ###print("This square is clear.")
+        ###print("Passed check 5")
         return True
 
 
@@ -318,27 +338,30 @@ class Pawn(Piece):
         if self.owner.color == 1:
             # White pawns
             if x1 == x2 and y2 == y1 + 1:
-                return True
+                valid = True
             elif x1 == x2 and y1 == 2 and y2 == 4:
-                return True
+                valid = True
             elif abs(x2 - x1) == 1 and y2 == y1 + 1 and target_square.current_occupant is not None and target_square.current_occupant.owner.color == 0:
-                return True
+                valid = True
             else:
-                return False
+                valid = False
         elif self.owner.color == 0:
             # Black pawns
             if x1 == x2 and y2 == y1 - 1:
-                return True
+                valid = True
             elif x1 == x2 and y1 == 7 and y2 == 5:
-                return True
+                valid = True
             elif abs(x2 - x1) == 1 and y2 == y1 - 1 and target_square.current_occupant is not None and target_square.current_occupant.owner.color == 1:
-                return True
+                valid = True
             else:
-                return False
+                valid = False
         else:
             # Throw error
             raise Exception("This is an error!")
 
+        ###if valid is True:
+            ###print("Pawn passed check 4")
+        return valid
 
 
 
@@ -379,6 +402,7 @@ class Rook(Piece):
 
 
         if x1 == x2 or y1 == y2:
+            ###print("Rook passed check 4")
             return True
         else:
             return False
@@ -425,6 +449,7 @@ class Knight(Piece):
             or (x2 == x1-1 and y2 == y1+2)
             or (x2 == x1-1 and y2 == y1-2)
         ):
+            ###print("Knight passed check 4")
             return True
         else:
             return False
@@ -467,6 +492,7 @@ class Bishop(Piece):
         y2 = target_square.number_index
 
         if abs(x1 - x2) == abs(y1 - y2):
+            ###print("Bishop passed check 4")
             return True
         else:
             return False
@@ -500,6 +526,7 @@ class Queen(Piece):
         y2 = target_square.number_index
 
         if x1 == x2 or y1 == y2 or abs(x1 - x2) == abs(y1 - y2):
+            ###print("Queen passed check 4")
             return True
         else:
             return False
@@ -533,6 +560,7 @@ class King(Piece):
         y2 = target_square.number_index
 
         if (x2 in [x1 - 1, x1, x1 + 1]) and (y2 in [y1 - 1, y1, y1 + 1]) and ((x2 != x1) or (y2 != y1)):
+            ###print("King passed check 4")
             return True
         else:
             return False
