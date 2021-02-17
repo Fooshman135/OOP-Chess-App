@@ -223,20 +223,18 @@ class Turn:
         # This method returns a new board object that is the result of taking this turn.
         # This method should not worry about game logic or turn legality.
 
-        from Services import letter_index_to_letter
+        # from Services import letter_index_to_letter
 
         # Create a new board object which is the same as the inital board object. We will return this new board later.
         new_board = self.starting_board.duplicate_board()
 
         # Update the turn's starting square on the board.
-        new_board.dict_of_64_squares[
-            letter_index_to_letter(self.starting_square.letter_index) + str(self.starting_square.number_index)
-        ].current_occupant = None
+        #new_board.dict_of_64_squares[letter_index_to_letter(self.starting_square.letter_index) + str(self.starting_square.number_index)].current_occupant = None
+        new_board.dict_of_64_squares[self.starting_square.get_square_index_string()].current_occupant = None
 
         # Update the turn's ending square on the board.
-        new_board.dict_of_64_squares[
-            letter_index_to_letter(self.ending_square.letter_index) + str(self.ending_square.number_index)
-        ].current_occupant = self.starting_square.current_occupant
+        #new_board.dict_of_64_squares[letter_index_to_letter(self.ending_square.letter_index) + str(self.ending_square.number_index)].current_occupant = self.starting_square.current_occupant
+        new_board.dict_of_64_squares[self.ending_square.get_square_index_string()].current_occupant = self.starting_square.current_occupant
 
         # Set the updated board as the ending_board.
         self.ending_board = new_board
@@ -438,17 +436,7 @@ class Knight(Piece):
         x2 = target_square.letter_index
         y2 = target_square.number_index
 
-
-        if (
-            (x2 == x1+2 and y2 == y1+1) 
-            or (x2 == x1+2 and y2 == y1-1)
-            or (x2 == x1+1 and y2 == y1+2)
-            or (x2 == x1+1 and y2 == y1-2)
-            or (x2 == x1-2 and y2 == y1+1)
-            or (x2 == x1-2 and y2 == y1-1)
-            or (x2 == x1-1 and y2 == y1+2)
-            or (x2 == x1-1 and y2 == y1-2)
-        ):
+        if abs(x2 - x1) <= 2 and abs(y2 - y1) <= 2 and abs(x2 - x1) + abs(y2 - y1) == 3:
             ###print("Knight passed check 4")
             return True
         else:
@@ -460,6 +448,7 @@ class Knight(Piece):
     def path_to_target_is_unblocked(self, target_square, board):
         # Used for INPUT VALIDATION TYPE 5
         # The knight's path is never blocked because it leaps over other pieces.
+        ###print("Knight passed check 5")
         return True
 
 
@@ -559,7 +548,7 @@ class King(Piece):
         x2 = target_square.letter_index
         y2 = target_square.number_index
 
-        if (x2 in [x1 - 1, x1, x1 + 1]) and (y2 in [y1 - 1, y1, y1 + 1]) and ((x2 != x1) or (y2 != y1)):
+        if abs(x1 - x2) <= 1 and abs(y1 - y2) <= 1 and abs(x1 - x2) + abs(y1 - y2) > 0:
             ###print("King passed check 4")
             return True
         else:
@@ -571,6 +560,7 @@ class King(Piece):
     def path_to_target_is_unblocked(self, target_square, board):
         # Used for INPUT VALIDATION TYPE 5
         # The king's path is never blocked because he can only move one square.
+        ###print("King passed check 5")
         return True
 
 
