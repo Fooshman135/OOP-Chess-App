@@ -73,6 +73,10 @@ class Player:
 
 
 
+    def get_opponents_color_index(self):
+        return (self.color + 1) % 2
+
+
 
 
 
@@ -252,11 +256,12 @@ class Turn:
 
 
     def set_is_check(self):
-        other_players_color = (self.player.color + 1) % 2
-        self.is_check = not(self.ending_board.is_king_not_in_check(other_players_color))
+        self.is_check = not(self.ending_board.is_king_not_in_check(self.player.get_opponents_color_index()))
 
 
     def set_is_checkmate(self):
+
+        # Should this be a Board method instead of a turn method?
 
         # First confirm that the opponents King is in check.
         if self.is_check is False:
@@ -264,6 +269,14 @@ class Turn:
 
         # Now check every move that the opponent can perform and confirm if any of them can get the King out of check.
         pass    #TODO
+
+        # Can the king move to get out of check?
+
+        # Can any of the other pieces move to block the path?
+
+        # Can any piece kill the threatening piece?
+
+
 
 
     def set_notation(self):
