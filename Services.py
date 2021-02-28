@@ -161,20 +161,7 @@ def produce_path_between_two_squares(square_one, square_two, board):
     return path
 
 
-def generate_empty_board():
 
-    # Generate the empty board by instantiating 64 Square objects and return them in a dictionary.
-
-    dict_of_squares = {}
-    color = 1
-
-    for letter_index in range(1,9):
-        color += 1      # Flip the square color back (every time we increment the row).
-        for number_index in range(1,9):
-            dict_of_squares[letter_index_to_letter(letter_index) + str(number_index)] = Square(letter_index, number_index, color_number_to_text(color % 2))
-            color += 1      # Flip the square color
-
-    return dict_of_squares
 
 
 

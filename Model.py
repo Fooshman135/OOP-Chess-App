@@ -80,44 +80,64 @@ class Player:
 
 
 
-class Square(object):
-
-    def __init__(self, letter_index, number_index, square_color):
-        self.letter_index = letter_index
-        self.number_index = number_index
-        self.square_color = square_color
-        self.current_occupant = None
-
-        # letter_index: A = 1, B = 2, ..., H = 8
-        # color: White = 1, Black = 2
-        # current_occupant: Points to a Piece object
-
-
-    def get_square_index_string(self):
-        from Services import letter_index_to_letter
-        return letter_index_to_letter(self.letter_index) + str(self.number_index)
-
-
-
-    def contains_current_players_piece(self, current_player):
-        # Used for INPUT VALIDATION TYPES 2 and 3.
-        # Returns True if current_occupant belong's to the player whose turn it is now.
-        if self.current_occupant is None:
-            return False
-        elif self.current_occupant.owner.color != current_player.color:
-            return False
-        else:
-            return True
-
-
-
-
 class Board(object):
 
-    def __init__(self, dict_of_64_squares, is_current, whose_turn):
-        self.dict_of_64_squares = dict_of_64_squares
+
+    class Square(object):
+
+        def __init__(self, letter_index, number_index, square_color):
+            self.letter_index = letter_index
+            self.number_index = number_index
+            self.square_color = square_color
+            self.current_occupant = None
+
+            # letter_index: A = 1, B = 2, ..., H = 8
+            # color: White = 1, Black = 2
+            # current_occupant: Points to a Piece object
+
+
+        def get_square_index_string(self):
+            from Services import letter_index_to_letter
+            return letter_index_to_letter(self.letter_index) + str(self.number_index)
+
+
+        def contains_current_players_piece(self, current_player):
+            # Used for INPUT VALIDATION TYPES 2 and 3.
+            # Returns True if current_occupant belong's to the player whose turn it is now.
+            if self.current_occupant is None:
+                return False
+            elif self.current_occupant.owner.color != current_player.color:
+                return False
+            else:
+                return True
+
+
+
+    def __init__(self, is_current, whose_turn):
         self.is_current = is_current        # A bool        # Is this attribute necessary?
-        self.whose_turn = whose_turn        # A Player object
+        self.whose_turn = whose_turn        # A Player object    # Is this attribute necessary?
+        # Should there be an attribute for initial_configuration, which calls pieces_into_starting_positions if True?
+
+        self.dict_of_64_squares = self.generate_empty_board()
+
+
+
+
+    def generate_empty_board():
+
+        # Generate the empty board by instantiating 64 Square objects and return them in a dictionary.
+
+        dict_of_squares = {}
+        color = 1
+
+        for letter_index in range(1,9):
+            color += 1      # Flip the square color back (every time we increment the row).
+            for number_index in range(1,9):
+                dict_of_squares[letter_index_to_letter(letter_index) + str(number_index)] = Square(letter_index, number_index, color_number_to_text(color % 2))
+                color += 1      # Flip the square color
+
+        return dict_of_squares
+
 
 
 
