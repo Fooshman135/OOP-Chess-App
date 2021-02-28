@@ -6,19 +6,16 @@
 
 class Game:
 
-    # One instance per game.
-
-
     def __init__(self):
         self.white_player = Player(1)
         self.black_player = Player(0)
-        self.current_board = Board(is_current=1, whose_turn = self.white_player)
-
+        self.current_board = Board(
+            white_player = self.white_player, 
+            black_player = self.black_player,
+            is_current = 1
+        )
         self.whose_turn = self.white_player
         self.list_of_confirmed_turns = []
-        
-        # Next, add the pieces to the starting positions on the board.
-        self.current_board.pieces_into_starting_positions(self.white_player, self.black_player)
         
 
 
@@ -116,13 +113,16 @@ class Board(object):
 
 
 
-    def __init__(self, is_current, whose_turn):
+    def __init__(self, white_player, black_player, is_current = True):
         self.is_current = is_current        # A bool        # Is this attribute necessary?
-        self.whose_turn = whose_turn        # A Player object    # Is this attribute necessary?
-        # Should there be an attribute for initial_configuration, which calls pieces_into_starting_positions if True?
 
+        self.whose_turn = white_player      # Is this attribute necessary?
+
+        # Create the 64 square objects that make up the board.
         self.dict_of_64_squares = self.generate_empty_board()
 
+        # Now place the pieces onto the board in the starting configuration.
+        self.pieces_into_starting_positions(white_player = white_player, black_player = black_player)
 
 
 
