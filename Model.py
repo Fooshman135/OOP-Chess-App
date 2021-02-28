@@ -123,9 +123,11 @@ class Board(object):
 
 
 
-    def generate_empty_board():
+    def generate_empty_board(self):
 
         # Generate the empty board by instantiating 64 Square objects and return them in a dictionary.
+
+        from Services import color_number_to_text, letter_index_to_letter
 
         dict_of_squares = {}
         color = 1
@@ -133,7 +135,7 @@ class Board(object):
         for letter_index in range(1,9):
             color += 1      # Flip the square color back (every time we increment the row).
             for number_index in range(1,9):
-                dict_of_squares[letter_index_to_letter(letter_index) + str(number_index)] = Square(letter_index, number_index, color_number_to_text(color % 2))
+                dict_of_squares[letter_index_to_letter(letter_index) + str(number_index)] = self.Square(letter_index, number_index, color_number_to_text(color % 2))
                 color += 1      # Flip the square color
 
         return dict_of_squares

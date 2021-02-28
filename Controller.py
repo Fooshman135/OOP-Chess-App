@@ -16,7 +16,7 @@ my_board = Board(is_current=1, whose_turn=white_player)
 
 
 # Next, add the pieces to the starting positions on the board.
-pieces_into_starting_positions(dict_of_squares, white_player, black_player)
+pieces_into_starting_positions(my_board, white_player, black_player)
 
 
 # Next, create a Game object.

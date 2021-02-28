@@ -170,12 +170,12 @@ def produce_path_between_two_squares(square_one, square_two, board):
 
 def pieces_into_starting_positions(board, white_player, black_player):
     # This function instantiates all pieces and assigns them to their starting position Squares.
-    # board is a dictionary of Square objects.
+    # board is a Board object.
     # white_player and black_player are both Player objects.
     # It is not necessary for all the Square objects in board to be empty, as they will be overwritten.
     
 
-    for square in board.values():
+    for square in board.dict_of_64_squares.values():
 
         if square.number_index == 1:
             if square.letter_index == 1 or square.letter_index == 8:
