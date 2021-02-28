@@ -168,52 +168,6 @@ def produce_path_between_two_squares(square_one, square_two, board):
 
 
 
-def pieces_into_starting_positions(board, white_player, black_player):
-    # This function instantiates all pieces and assigns them to their starting position Squares.
-    # board is a Board object.
-    # white_player and black_player are both Player objects.
-    # It is not necessary for all the Square objects in board to be empty, as they will be overwritten.
-    
-
-    for square in board.dict_of_64_squares.values():
-
-        if square.number_index == 1:
-            if square.letter_index == 1 or square.letter_index == 8:
-                square.current_occupant = Rook(square, white_player)           # White rooks
-            elif square.letter_index == 2 or square.letter_index == 7:
-                square.current_occupant = Knight(square, white_player)         # White knights
-            elif square.letter_index == 3 or square.letter_index == 6:
-                square.current_occupant = Bishop(square, white_player)         # White bishops
-            elif square.letter_index == 4:
-                square.current_occupant = Queen(square, white_player)          # White queen
-            elif square.letter_index == 5:
-                square.current_occupant = King(square, white_player)           # White king 
-            else:
-                raise Exception("This is an error!")         
-        
-        elif square.number_index == 2:
-            square.current_occupant = Pawn(square, white_player)               # White pawns
-
-        elif square.number_index == 7:
-            square.current_occupant = Pawn(square, black_player)               # Black pawns
-
-        elif square.number_index == 8:
-            if square.letter_index == 1 or square.letter_index == 8:
-                square.current_occupant = Rook(square, black_player)           # Black rooks
-            elif square.letter_index == 2 or square.letter_index == 7:
-                square.current_occupant = Knight(square, black_player)         # Black knights
-            elif square.letter_index == 3 or square.letter_index == 6:
-                square.current_occupant = Bishop(square, black_player)         # Black bishops
-            elif square.letter_index == 4:
-                square.current_occupant = Queen(square, black_player)          # Black queen
-            elif square.letter_index == 5:
-                square.current_occupant = King(square, black_player)           # Black king   
-            else:
-                raise Exception("This is an error!")    
-        else:
-            pass
-
-
 
 
 def game_loop(current_game):
