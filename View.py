@@ -1,7 +1,7 @@
 # View
 
 from Model import *
-from Globals import *
+import Globals
 
 
 
@@ -28,7 +28,7 @@ def get_text_input_from_cli(prompt):
 def press_key_to_continue():
     """Prompts the user to hit a button before displaying the next menu."""
 
-    if GUI is False:
+    if Globals.GUI is False:
         #CLI
         
         message = "Press Enter to continue... "
@@ -43,7 +43,9 @@ def press_key_to_continue():
 
 def show_board_state(board, is_current=True):
 
-    if GUI is False:
+    print("Within show_board_state: ", Globals.WHITE_ON_BOTTOM)
+
+    if Globals.GUI is False:
         # CLI
 
         if is_current is True:
@@ -53,7 +55,7 @@ def show_board_state(board, is_current=True):
 
         print_text_to_cli(message)
 
-        print_board_cli(board, white_on_bottom=WHITE_ON_BOTTOM)
+        print_board_cli(board, Globals.WHITE_ON_BOTTOM)
 
     else:
         #GUI
@@ -64,7 +66,7 @@ def show_board_state(board, is_current=True):
 
 def declare_whose_turn_it_is(whose_turn):
 
-    if GUI is False:
+    if Globals.GUI is False:
         #CLI
 
         from Services import color_number_to_text
@@ -83,7 +85,7 @@ def request_user_input_for_square(source):
 
     # source is a bool. True means it's a source square. False means it's a destination square.
 
-    if GUI is False:
+    if Globals.GUI is False:
         #CLI
 
 
@@ -143,7 +145,7 @@ def validate_user_input_square_selection(user_input):
 def request_user_input_for_move_confirmation():
     # Returns True if user confirms move, False if user cancels move.
 
-    if GUI is False:
+    if Globals.GUI is False:
         #CLI   
         prompt = "\nConfirm move with 'y' or cancel move with anything else: "
         confirmation = get_text_input_from_cli(prompt)
@@ -158,7 +160,7 @@ def request_user_input_for_move_confirmation():
 
 def display_error_message(error_type):
 
-    if GUI is False:
+    if Globals.GUI is False:
         #CLI
 
         if error_type == 1:
@@ -185,9 +187,13 @@ def display_error_message(error_type):
 
 
 
-def print_board_cli(board, white_on_bottom = True):
-    # board is a dictionary of 64 square objects.
+def print_board_cli(board, white_on_bottom): # = Globals.WHITE_ON_BOTTOM):
+    # board is a Board object.
     # white_on_bottom is True if the white player is displayed on the bottom and the black player is displayed on the top. False otherwise.
+
+    print("Within print_board_cli for white_on_bottom: ", white_on_bottom)
+    print("Within print_board_cli for WHITE_ON_BOTTOM: ", Globals.WHITE_ON_BOTTOM)
+
 
     from Services import letter_index_to_letter
 
@@ -224,6 +230,6 @@ def print_board_cli(board, white_on_bottom = True):
             )
         print(row)
 
-    print()
+    print(horizontal_line)
     print(title)
 

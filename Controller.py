@@ -10,7 +10,7 @@ my_game = Game()
 
 # Begin game cycle.
 while True:
-  game_loop(my_game)
+    game_loop(my_game)
 
 
 

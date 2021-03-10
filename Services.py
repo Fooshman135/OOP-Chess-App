@@ -2,6 +2,7 @@
 
 from Model import *
 from View import *
+import Globals
 
 
 
@@ -172,6 +173,9 @@ def produce_path_between_two_squares(square_one, square_two, board):
 
 def game_loop(current_game):
     """
+
+    Should this be a Game method?
+
     This function should be called once per turn (rather than having each turn be a loop iteration).
     This cleans up unused variables after each turn.
 
@@ -200,6 +204,12 @@ def game_loop(current_game):
 
     """
 
+    if current_game.whose_turn.color == 1:
+        Globals.WHITE_ON_BOTTOM = True
+    else:
+        Globals.WHITE_ON_BOTTOM = False
+
+    print("Within game_loop: ", Globals.WHITE_ON_BOTTOM)
 
     while True:
 

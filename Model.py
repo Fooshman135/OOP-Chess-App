@@ -114,9 +114,9 @@ class Board(object):
 
 
     def __init__(self, white_player, black_player, is_current = True):
-        self.is_current = is_current        # A bool        # Is this attribute necessary?
+        self.is_current = is_current        # A bool        # Is this attribute necessary? It's not used anywhere in the code.
 
-        self.whose_turn = white_player      # Is this attribute necessary?
+        self.whose_turn = white_player      # Is this attribute necessary? It's not used anywhere in the code.
 
         # Create the 64 square objects that make up the board.
         self.dict_of_64_squares = self.generate_empty_board()
