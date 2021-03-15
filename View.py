@@ -43,8 +43,6 @@ def press_key_to_continue():
 
 def show_board_state(board, is_current=True):
 
-    print("Within show_board_state: ", Globals.WHITE_ON_BOTTOM)
-
     if Globals.GUI is False:
         # CLI
 
@@ -55,7 +53,7 @@ def show_board_state(board, is_current=True):
 
         print_text_to_cli(message)
 
-        print_board_cli(board, Globals.WHITE_ON_BOTTOM)
+        print_board_cli(board)
 
     else:
         #GUI
@@ -187,12 +185,9 @@ def display_error_message(error_type):
 
 
 
-def print_board_cli(board, white_on_bottom): # = Globals.WHITE_ON_BOTTOM):
+def print_board_cli(board):
     # board is a Board object.
     # white_on_bottom is True if the white player is displayed on the bottom and the black player is displayed on the top. False otherwise.
-
-    print("Within print_board_cli for white_on_bottom: ", white_on_bottom)
-    print("Within print_board_cli for WHITE_ON_BOTTOM: ", Globals.WHITE_ON_BOTTOM)
 
 
     from Services import letter_index_to_letter
@@ -204,7 +199,7 @@ def print_board_cli(board, white_on_bottom): # = Globals.WHITE_ON_BOTTOM):
  
     horizontal_line =  "    ---------------------------------"
 
-    if white_on_bottom is True:
+    if Globals.WHITE_ON_BOTTOM is True:
         outer_range = range(8,0,-1)
         inner_range = range(1,9)
         title = "      a   b   c   d   e   f   g   h  "

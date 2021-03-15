@@ -209,7 +209,6 @@ def game_loop(current_game):
     else:
         Globals.WHITE_ON_BOTTOM = False
 
-    print("Within game_loop: ", Globals.WHITE_ON_BOTTOM)
 
     while True:
 
