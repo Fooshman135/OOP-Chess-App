@@ -127,6 +127,48 @@ class Game:
         
 
 
+    def determine_if_checkmate(self):
+
+        # This method returns True if the game's current player has been checkmated (in the current board).
+
+        # First confirm that the current player's King is in check.
+        if self.current_board.is_king_not_in_check(self.whose_turn.color) is True:
+            # The King is not in check.
+            return False
+
+        # Now check every move that the opponent can perform and confirm if any of them can get the King out of check.
+
+
+
+        ## Can the king move to get out of check?
+
+
+        ### Produce the set of all squares the King could move to (assuming an empty board).
+        ### For each of those squares, create a Turn object with that square as the King's destination.
+        ### Confirm whether each Turn object passes all validation checks, especially #6.
+        ### If any Turn does pass all validation checks, return False.
+
+
+        ## Can any of the other pieces move to block the path?
+
+
+        ### Confirm whether there even is a path between the King and the threat.
+
+        ### If there is a path, loop through every non-King piece to see if they can legally reach any square in the path.
+        #### For every non-King piece, produce every square that they can move to, and then see if any of these squares lies on the path.
+
+        ### If any non-King piece can legally move to a square that lies on the path, return False.
+
+
+        ## Can any piece kill the threatening piece?
+
+
+        ### For every non-King piece (we previously checked for the King), produce every square that they can move to, and then see if any of these squares intersect with the threat's square.
+
+
+
+
+
 
 class Player:
 
@@ -404,21 +446,7 @@ class Turn:
 
 
     def set_is_checkmate(self):
-
-        # Should this be a Board method instead of a turn method?
-
-        # First confirm that the opponents King is in check.
-        if self.is_check is False:
-            return False
-
-        # Now check every move that the opponent can perform and confirm if any of them can get the King out of check.
         pass    #TODO
-
-        # Can the king move to get out of check?
-
-        # Can any of the other pieces move to block the path?
-
-        # Can any piece kill the threatening piece?
 
 
 
