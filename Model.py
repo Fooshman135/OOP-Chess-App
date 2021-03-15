@@ -1,6 +1,7 @@
 # Model
 
-
+from Services import *
+from View import *
 
 
 
@@ -17,6 +18,78 @@ class Game:
         self.whose_turn = self.white_player
         self.list_of_confirmed_turns = []
         
+
+
+    def game_loop(self):
+        """
+
+        This function should be called once per turn (rather than having each turn be a loop iteration).
+        This cleans up unused variables after each turn.
+
+        """
+
+        # Flip global variable WHITE_ON_BOTTOM
+        set_global_white_on_bottom(self.whose_turn.color)
+
+
+        while True:
+
+            # Show user the current board state
+            show_board_state(self.current_board, is_current = True)
+
+            # Declare whose turn it is now.
+            declare_whose_turn_it_is(self.whose_turn)
+
+            # Get validated user inputs.
+            source_square, destination_square = get_and_validate_two_user_inputs(self)
+
+            # Create and instantiate a Turn object.
+            current_turn = Turn(
+                starting_board = self.current_board, 
+                player = self.whose_turn, 
+                starting_square = source_square, 
+                ending_square = destination_square
+            )
+
+            # Confirm move is legal for validation type 4.
+            if current_turn.is_legal_move_can_reach() is False:
+                # Reject move.
+                display_error_message(4)
+                del current_turn
+                continue
+
+            # Confirm move is legal for validation type 5.
+            if current_turn.is_legal_move_path_unblocked() is False:
+                # Reject move.
+                display_error_message(5)
+                del current_turn
+                continue
+
+            # Confirm move is legal for validation type 6.
+            if current_turn.is_legal_move_king_safe() is False:
+                # Reject move.
+                display_error_message(6)
+                del current_turn
+                continue
+
+            # Set captured_piece attribute.
+            current_turn.set_captured_piece()
+
+            # Show user the proposed board state.
+            show_board_state(current_turn.ending_board, is_current = False)
+
+            # Ask user to confirm move.
+            if request_user_input_for_move_confirmation() is False:
+                # User has cancelled move.
+                del current_turn
+                continue
+
+            # The move has been confirmed.
+            break
+
+        # Now do all the tasks that happen as a result of move confirmation.
+        self.confirm_turn(current_turn)
+
 
 
     def confirm_turn(self, confirmed_turn):
