@@ -163,7 +163,15 @@ def produce_path_between_two_squares(square_one, square_two, board):
 
 
 
+def set_global_white_on_bottom(color_on_bottom):
 
+    if color_on_bottom == 1:
+        Globals.WHITE_ON_BOTTOM = True
+    elif color_on_bottom == 0:
+        Globals.WHITE_ON_BOTTOM = False
+    else:
+        # Throw error
+        raise Exception("This is an error!")
 
 
 
@@ -179,35 +187,10 @@ def game_loop(current_game):
     This function should be called once per turn (rather than having each turn be a loop iteration).
     This cleans up unused variables after each turn.
 
-    High level approach for each turn:
-    - Show user the current board state.
-    - Declare whose turn it is.
-    - Get user inputs for starting square and ending square, and perform validation types 1 and 2 and 3.
-    - Create and instantiate a Turn object.
-    - Confirm move is legal using piece-specific logic. [Reject move otherwise, display error text, ask for new inputs]
-    - If move is castle-ing, do additional logic to check that it’s valid.
-    - Set ending_board attribute.
-    - Confirm that King is not put in check by this move. [Reject move otherwise, display error text, ask for new inputs].
-    - Set is_check attribute.
-    - Set is_checkmate attribute (only if is_check attribute is set to 1 in previous step).
-    - Set is_capture attribute.
-    - Set notation attribute.
-    - Show ending_board to user.
-    - Ask user to confirm move. [If rejected, destroy Turn object and return to top step.]
-    - If confirmed, do confirmation tasks: 
-        Update is_confirmed Turn attribute, 
-        Update relevant Piece attributes, 
-        Update relevant Square attributes, 
-        Update Board is_current attribute, 
-        Update Game current_board attribute, 
-        Update Player captured_enemy_pieces and points and is_current_turn attributes.
-
     """
 
-    if current_game.whose_turn.color == 1:
-        Globals.WHITE_ON_BOTTOM = True
-    else:
-        Globals.WHITE_ON_BOTTOM = False
+    # Flip global variable WHITE_ON_BOTTOM
+    set_global_white_on_bottom(current_game.whose_turn.color)
 
 
     while True:
