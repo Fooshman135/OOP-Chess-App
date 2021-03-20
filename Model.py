@@ -17,6 +17,8 @@ class Game:
         )
         self.whose_turn = self.white_player
         self.list_of_confirmed_turns = []
+
+        self.checkmate_achieved = False
         
 
 
@@ -91,6 +93,9 @@ class Game:
         self.confirm_turn(current_turn)
 
 
+        # Determine whether checkmate has been achieved.
+        self.determine_if_checkmate()
+
 
     def confirm_turn(self, confirmed_turn):
 
@@ -134,7 +139,7 @@ class Game:
         # First confirm that the current player's King is in check.
         if self.current_board.is_king_not_in_check(self.whose_turn.color) is True:
             # The King is not in check.
-            return False
+            return
 
         # Now check every move that the opponent can perform and confirm if any of them can get the King out of check.
 
@@ -179,11 +184,12 @@ class Game:
 
 
                 # If you reach this point, then checkmate has not been reached.
-                return False
+                return
 
 
         # If you reach this point, then checkmate HAS been reached.
-        return True
+        self.checkmate_achieved = True
+        return
 
 
 
