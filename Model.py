@@ -138,32 +138,53 @@ class Game:
 
         # Now check every move that the opponent can perform and confirm if any of them can get the King out of check.
 
+        ## Produce a list of all pieces belonging to the current player.
+        list_of_piece_squares = []
+        for square in self.current_board.dict_of_64_squares.values():
+            if square.current_occupant is not None and square.current_occupant.owner.color == self.whose_turn.color:
+                # Square contains current player's piece.
+                list_of_piece_squares.append(square)
 
 
-        ## Can the king move to get out of check?
+        ## For each piece, iterate over every square on the board and see if that piece can legally move to that square and get the King out of check.
+        for source_square in list_of_piece_squares:
+            for destination_square in self.current_board.dict_of_64_squares.values():
+                # Determine whether the selected piece can legally move to the selected square.
+
+                ## Create and instantiate a Turn object.
+                current_turn = Turn(
+                    starting_board = self.current_board, 
+                    player = self.whose_turn, 
+                    starting_square = source_square, 
+                    ending_square = destination_square
+                )
+
+                ## Confirm move is legal for validation type 4.
+                if current_turn.is_legal_move_can_reach() is False:
+                    # Reject move.
+                    del current_turn
+                    continue
+
+                ## Confirm move is legal for validation type 5.
+                if current_turn.is_legal_move_path_unblocked() is False:
+                    # Reject move.
+                    del current_turn
+                    continue
+
+                ## Confirm move is legal for validation type 6.
+                if current_turn.is_legal_move_king_safe() is False:
+                    # Reject move.
+                    del current_turn
+                    continue
 
 
-        ### Produce the set of all squares the King could move to (assuming an empty board).
-        ### For each of those squares, create a Turn object with that square as the King's destination.
-        ### Confirm whether each Turn object passes all validation checks, especially #6.
-        ### If any Turn does pass all validation checks, return False.
+                # If you reach this point, then checkmate has not been reached.
+                return False
 
 
-        ## Can any of the other pieces move to block the path?
+        # If you reach this point, then checkmate HAS been reached.
+        return True
 
-
-        ### Confirm whether there even is a path between the King and the threat.
-
-        ### If there is a path, loop through every non-King piece to see if they can legally reach any square in the path.
-        #### For every non-King piece, produce every square that they can move to, and then see if any of these squares lies on the path.
-
-        ### If any non-King piece can legally move to a square that lies on the path, return False.
-
-
-        ## Can any piece kill the threatening piece?
-
-
-        ### For every non-King piece (we previously checked for the King), produce every square that they can move to, and then see if any of these squares intersect with the threat's square.
 
 
 
