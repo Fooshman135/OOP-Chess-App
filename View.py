@@ -173,6 +173,8 @@ def display_error_message(error_type):
             message = "\nInvalid input: Path to ending square is blocked."
         elif error_type == 6:
             message = "\nInvalid input: This move would result in your own king being in check."
+        elif error_type == 7:
+            message = "\nInvalid input: Pawns can't capture enemy pieces within the same file."
 
         print_text_to_cli(message)
         press_key_to_continue()
