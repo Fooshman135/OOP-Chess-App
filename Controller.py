@@ -17,6 +17,5 @@ while True:
 
 # The game is over because one player checkmated the other.
 
-print("\n\nGAME OVER! {} WON!".format(color_number_to_text(my_game.whose_turn.get_opponents_color_index())))
-
+declare_game_over(my_game.get_other_player())
 

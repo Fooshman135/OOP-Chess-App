@@ -198,6 +198,14 @@ class Game:
         return
 
 
+  
+    def get_other_player(self):
+        # Return the Player obect for the player whose turn is not right now.
+
+        if self.whose_turn is self.white_player:
+            return self.black_player
+        else:
+            return self.white_player
 
 
 

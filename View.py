@@ -228,3 +228,19 @@ def print_board_cli(board):
     print(horizontal_line)
     print(title)
 
+
+
+def declare_game_over(winner):
+    # winner is a Player object.
+
+    if Globals.GUI is False:
+        #CLI
+
+        from Services import color_number_to_text
+
+        message ="\n\nGAME OVER! {} won!".format(color_number_to_text(winner.color))
+        print_text_to_cli(message)
+
+    else:
+        #GUI
+        pass    #TODO
