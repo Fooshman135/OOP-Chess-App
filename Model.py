@@ -143,7 +143,8 @@ class Game:
 
         # Now check every move that the opponent can perform and confirm if any of them can get the King out of check.
 
-        ## Produce a list of all pieces belonging to the current player.
+        ## Produce a list of all squares containing pieces belonging to the current player.
+        ## This essentially performs validation types 1 and 2.
         list_of_piece_squares = []
         for square in self.current_board.dict_of_64_squares.values():
             if square.current_occupant is not None and square.current_occupant.owner.color == self.whose_turn.color:
@@ -156,6 +157,11 @@ class Game:
             for destination_square in self.current_board.dict_of_64_squares.values():
                 # Determine whether the selected piece can legally move to the selected square.
 
+                ## Confirm move is legal for validation type 3.
+                if destination_square.contains_current_players_piece(self.whose_turn) is True:
+                    # Reject this iteration.
+                    continue
+
                 ## Create and instantiate a Turn object.
                 current_turn = Turn(
                     starting_board = self.current_board, 
@@ -166,19 +172,19 @@ class Game:
 
                 ## Confirm move is legal for validation type 4.
                 if current_turn.is_legal_move_can_reach() is False:
-                    # Reject move.
+                    # Reject this iteration.
                     del current_turn
                     continue
 
                 ## Confirm move is legal for validation type 5.
                 if current_turn.is_legal_move_path_unblocked() is False:
-                    # Reject move.
+                    # Reject this iteration.
                     del current_turn
                     continue
 
                 ## Confirm move is legal for validation type 6.
                 if current_turn.is_legal_move_king_safe() is False:
-                    # Reject move.
+                    # Reject this iteration.
                     del current_turn
                     continue
 
