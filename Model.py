@@ -480,17 +480,13 @@ class Turn:
         # This method returns a new board object that is the result of taking this turn.
         # This method should not worry about game logic or turn legality.
 
-        # from Services import letter_index_to_letter
-
         # Create a new board object which is the same as the inital board object. We will return this new board later.
         new_board = self.starting_board.duplicate_board()
 
         # Update the turn's starting square on the board.
-        #new_board.dict_of_64_squares[letter_index_to_letter(self.starting_square.letter_index) + str(self.starting_square.number_index)].current_occupant = None
         new_board.dict_of_64_squares[self.starting_square.get_square_index_string()].current_occupant = None
 
         # Update the turn's ending square on the board.
-        #new_board.dict_of_64_squares[letter_index_to_letter(self.ending_square.letter_index) + str(self.ending_square.number_index)].current_occupant = self.starting_square.current_occupant
         new_board.dict_of_64_squares[self.ending_square.get_square_index_string()].current_occupant = self.starting_square.current_occupant
 
         # Set the updated board as the ending_board.

@@ -16,6 +16,7 @@ def print_text_to_cli(display_text):
 
 
 def get_text_input_from_cli(prompt):
+    # TODO (Put the 3.X in the try block and the 2.X in the except block)
     try:
         user_input = raw_input(prompt).strip()    # Python 2.X
     except NameError:
@@ -189,8 +190,6 @@ def display_error_message(error_type):
 
 def print_board_cli(board):
     # board is a Board object.
-    # white_on_bottom is True if the white player is displayed on the bottom and the black player is displayed on the top. False otherwise.
-
 
     from Services import letter_index_to_letter
 
@@ -209,6 +208,8 @@ def print_board_cli(board):
         outer_range = range(1,9)
         inner_range = range(8,0,-1)
         title = "      h   g   f   e   d   c   b   a  "
+
+    # Now print the board line by line.
 
     print(title)
 
