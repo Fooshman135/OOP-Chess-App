@@ -231,15 +231,19 @@ def print_board_cli(board):
 
 
 
-def declare_game_over(winner):
-    # winner is a Player object.
+def declare_game_over(finished_game):
 
     if Globals.GUI is False:
         #CLI
 
-        from Services import color_number_to_text
+        if finished_game.checkmate_achieved is True:
+            winner = finished_game.get_other_player()
+            from Services import color_number_to_text
+            message = "\n\nGAME OVER! {} won!".format(color_number_to_text(winner.color))
+        
+        elif finished_game.stalemate_achieved is True:
+            message = "\n\nGAME OVER! Stalemate!"
 
-        message ="\n\nGAME OVER! {} won!".format(color_number_to_text(winner.color))
         print_text_to_cli(message)
 
     else:

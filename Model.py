@@ -17,7 +17,6 @@ class Game:
         )
         self.whose_turn = self.white_player
         self.list_of_confirmed_turns = []
-
         self.checkmate_achieved = False
         self.stalemate_achieved = False
         
@@ -97,7 +96,7 @@ class Game:
 
         # Determine whether endgame has been achieved.
         self.determine_if_endgame()
-        
+
 
 
     def confirm_turn(self, confirmed_turn):

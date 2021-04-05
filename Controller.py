@@ -15,7 +15,7 @@ while True:
         break
 
 
-# The game is over because one player checkmated the other.
+# The game is over because one player checkmated the other or stalemate was reached.
 
-declare_game_over(my_game.get_other_player())
+declare_game_over(my_game)
 
