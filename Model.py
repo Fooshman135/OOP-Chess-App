@@ -74,13 +74,6 @@ class Game:
                 del current_turn
                 continue
 
-            # Confirm move is legal for validation type 7.
-            if current_turn.is_legal_move_pawn_no_straight_capture() is False:
-                # Reject move.
-                display_error_message(7)
-                del current_turn
-                continue
-
 
             # Set captured_piece attribute.
             current_turn.set_captured_piece()
@@ -186,12 +179,6 @@ class Game:
 
                 ## Confirm move is legal for validation type 5.
                 if current_turn.is_legal_move_path_unblocked() is False:
-                    # Reject this iteration.
-                    del current_turn
-                    continue
-
-                # Confirm move is legal for validation type 7.
-                if current_turn.is_legal_move_pawn_no_straight_capture() is False:
                     # Reject this iteration.
                     del current_turn
                     continue
@@ -463,19 +450,6 @@ class Turn:
 
 
 
-    def is_legal_move_pawn_no_straight_capture(self):
-        # Usef for INPUT VALIDATION TYPE 7
-        # Returns False if the player is attemping to have a pawn capture an enemy piece in the same file (letter index).
-
-        return not(
-            isinstance(self.starting_square.current_occupant, Pawn) 
-            and self.starting_square.letter_index == self.ending_square.letter_index
-            and self.ending_square.current_occupant is not None
-            and self.ending_square.current_occupant.owner.color != self.starting_square.current_occupant.owner.color
-            )
-
-
-
     def set_ending_board(self):
         # This method returns a new board object that is the result of taking this turn.
         # This method should not worry about game logic or turn legality.
@@ -583,9 +557,9 @@ class Pawn(Piece):
 
         if self.owner.color == 1:
             # White pawns
-            if x1 == x2 and y2 == y1 + 1:
+            if x1 == x2 and y2 == y1 + 1 and target_square.current_occupant is None:
                 valid = True
-            elif x1 == x2 and y1 == 2 and y2 == 4:
+            elif x1 == x2 and y1 == 2 and y2 == 4 and target_square.current_occupant is None:
                 valid = True
             elif abs(x2 - x1) == 1 and y2 == y1 + 1 and target_square.current_occupant is not None and target_square.current_occupant.owner.color == 0:
                 valid = True
@@ -593,9 +567,9 @@ class Pawn(Piece):
                 valid = False
         elif self.owner.color == 0:
             # Black pawns
-            if x1 == x2 and y2 == y1 - 1:
+            if x1 == x2 and y2 == y1 - 1 and target_square.current_occupant is None:
                 valid = True
-            elif x1 == x2 and y1 == 7 and y2 == 5:
+            elif x1 == x2 and y1 == 7 and y2 == 5 and target_square.current_occupant is None:
                 valid = True
             elif abs(x2 - x1) == 1 and y2 == y1 - 1 and target_square.current_occupant is not None and target_square.current_occupant.owner.color == 1:
                 valid = True
