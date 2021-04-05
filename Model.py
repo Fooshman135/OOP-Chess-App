@@ -19,6 +19,7 @@ class Game:
         self.list_of_confirmed_turns = []
 
         self.checkmate_achieved = False
+        self.stalemate_achieved = False
         
 
 
@@ -94,8 +95,9 @@ class Game:
         self.confirm_turn(current_turn)
 
 
-        # Determine whether checkmate has been achieved.
-        self.determine_if_checkmate()
+        # Determine whether endgame has been achieved.
+        self.determine_if_endgame()
+        
 
 
     def confirm_turn(self, confirmed_turn):
@@ -133,16 +135,27 @@ class Game:
         
 
 
-    def determine_if_checkmate(self):
+    def determine_if_endgame(self):
 
-        # This method returns True if the game's current player has been checkmated (in the current board).
+        # This method checks for stalemate and checkmate conditions, and then sets the checkmate_achieved attribute or the stalemate_achieved attribute accordingly.
 
-        # First confirm that the current player's King is in check.
-        if self.current_board.is_king_not_in_check(self.whose_turn.color) is True:
-            # The King is not in check.
-            return
+        # First see if any piece can move.
+        if self.can_any_piece_legally_move() is False:
+            # No piece can move, so endgame as been achieved.
+            # But is it checkmate or stalemate?
+            if self.current_board.is_king_not_in_check(self.whose_turn.color) is True:
+                # The King is not in check.
+                self.stalemate_achieved = True
+            else:
+                # The King is in check.
+                self.checkmate_achieved = True
 
-        # Now check every move that the opponent can perform and confirm if any of them can get the King out of check.
+
+
+    def can_any_piece_legally_move(self):
+
+        # Returns True if at least one piece can move, False otherwise.
+
 
         ## Produce a list of all squares containing pieces belonging to the current player.
         ## This essentially performs validation types 1 and 2.
@@ -190,13 +203,12 @@ class Game:
                     continue
 
 
-                # If you reach this point, then checkmate has not been reached.
-                return
+                # If you reach this point, then this move is legal so this piece can move.
+                return True
 
 
-        # If you reach this point, then checkmate HAS been reached.
-        self.checkmate_achieved = True
-        return
+        # If you reach this point, then all moves are illegal and therefore no piece can move.
+        return False
 
 
   

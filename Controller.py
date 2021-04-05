@@ -11,7 +11,7 @@ my_game = Game()
 while True:
     my_game.game_loop()
 
-    if my_game.checkmate_achieved is True:
+    if my_game.checkmate_achieved is True or my_game.stalemate_achieved is True:
         break
 
 
