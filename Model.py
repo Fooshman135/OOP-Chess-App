@@ -23,6 +23,18 @@ class Game:
 
 
     def game_loop(self):
+
+        while True:
+            self.game_turn_loop()
+            if self.checkmate_achieved is True or self.stalemate_achieved is True:
+                break
+
+        # The game is over because one player checkmated the other or stalemate was reached.
+        declare_game_over(self)
+
+
+
+    def game_turn_loop(self):
         """
 
         This function should be called once per turn (rather than having each turn be a loop iteration).
