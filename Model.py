@@ -233,8 +233,6 @@ class Game:
 
 
 
-
-
 class Player:
 
     def __init__(self,color):
@@ -255,8 +253,6 @@ class Player:
 
     def get_opponents_color_index(self):
         return (self.color + 1) % 2
-
-
 
 
 
@@ -420,9 +416,6 @@ class Board(object):
 
 
 
-
-
-
 class Turn:
 
     # One instance created per player per turn.
@@ -446,6 +439,7 @@ class Turn:
         self.captured_piece = None
         self.is_check = None
         self.is_checkmate = None
+        self.is_promotion = False
 
 
 
@@ -483,8 +477,14 @@ class Turn:
         # Update the turn's starting square on the board.
         new_board.dict_of_64_squares[self.starting_square.get_square_index_string()].current_occupant = None
 
+
         # Update the turn's ending square on the board.
-        new_board.dict_of_64_squares[self.ending_square.get_square_index_string()].current_occupant = self.starting_square.current_occupant
+        self.set_is_promotion()
+        if self.is_promotion is True:
+            # A pawn is to be promoted, so ending square should contain promoted piece instead of pawn.
+            new_board.dict_of_64_squares[self.ending_square.get_square_index_string()].current_occupant = Queen(self.ending_square, self.player)
+        else:
+            new_board.dict_of_64_squares[self.ending_square.get_square_index_string()].current_occupant = self.starting_square.current_occupant
 
         # Set the updated board as the ending_board.
         self.ending_board = new_board
@@ -505,6 +505,20 @@ class Turn:
         self.is_check = not(self.ending_board.is_king_not_in_check(self.player.get_opponents_color_index()))
 
 
+
+    def set_is_promotion(self):
+        if isinstance(self.starting_square.current_occupant, Pawn):
+            if self.ending_square.number_index == 1 and self.player.color == 0:    # Black pawn
+                self.is_promotion = True
+            elif self.ending_square.number_index == 8 and self.player.color == 1:    # White pawn
+                self.is_promotion = True
+
+
+
+
+
+
+
     def set_is_checkmate(self):
         pass    #TODO
 
@@ -513,12 +527,6 @@ class Turn:
 
     def set_notation(self):
         pass    #TODO
-
-
-
-
-
-
 
 
 
@@ -546,7 +554,6 @@ class Piece(object):
                     ###print("This square is clear.")
         ###print("Passed check 5")
         return True
-
 
 
 
@@ -614,9 +621,6 @@ class Pawn(Piece):
 
 
 
-
-
-
 class Rook(Piece):
 
     def __init__(self, current_square, owner):
@@ -649,8 +653,6 @@ class Rook(Piece):
             return True
         else:
             return False
-
-
 
 
 
@@ -698,9 +700,6 @@ class Knight(Piece):
 
 
 
-
-
-
 class Bishop(Piece):
 
     def __init__(self, current_square, owner):
@@ -733,8 +732,6 @@ class Bishop(Piece):
 
 
 
-
-
 class Queen(Piece):
 
     def __init__(self, current_square, owner):
@@ -764,8 +761,6 @@ class Queen(Piece):
             return True
         else:
             return False
-
-
 
 
 
