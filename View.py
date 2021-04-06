@@ -18,9 +18,9 @@ def print_text_to_cli(display_text):
 def get_text_input_from_cli(prompt):
     # TODO (Put the 3.X in the try block and the 2.X in the except block)
     try:
-        user_input = raw_input(prompt).strip()    # Python 2.X
-    except NameError:
         user_input = input(prompt).strip()      # Python 3.X
+    except NameError: 
+        user_input = raw_input(prompt).strip()    # Python 2.X  
     return user_input
 
 
