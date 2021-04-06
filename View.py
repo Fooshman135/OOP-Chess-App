@@ -112,8 +112,30 @@ def request_user_input_for_square(source):
         pass    #TODO
 
 
+def request_user_input_for_promotion():
+
+    if Globals.GUI is False:
+        #CLI
 
 
+        prompt = "\nChoose piece type to promote to: (q)ueen, (k)night, (b)ishop, (r)ook: "
+
+        while True:
+
+            promotion_selection_input = get_text_input_from_cli(prompt)
+
+            if validate_user_input_promotion_selection(promotion_selection_input) is False:
+                # Input was invalid.
+                display_error_message(7)
+                continue
+
+            # Input was valid.
+            return promotion_selection_input
+
+
+    else:
+        #GUI
+        pass    #TODO
 
 
 
@@ -138,6 +160,10 @@ def validate_user_input_square_selection(user_input):
     # If all tests pass, the input is valid.
     return True
 
+
+def validate_user_input_promotion_selection(user_input):
+    # Confirm that user_input uniquely identifies one of the 4 possible promotion pieces.
+    return user_input in ('q','Q','r','R','b','B','k','K')
 
 
 
@@ -174,6 +200,8 @@ def display_error_message(error_type):
             message = "\nInvalid input: Path to ending square is blocked."
         elif error_type == 6:
             message = "\nInvalid input: This move would result in your own king being in check."
+        elif error_type == 7:
+            message = "\nInvalid input: Doesn't map to one of the four possible promotion pieces."
 
         print_text_to_cli(message)
         press_key_to_continue()
