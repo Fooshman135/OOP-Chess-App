@@ -178,7 +178,6 @@ def set_global_white_on_bottom(color_on_bottom):
 
 
 def get_and_validate_two_user_inputs(game):
-    # Display whose turn it is.
     # Ask for source square input.
     # Retrieve corresponding square and validate it contains player's own piece.
     # Ask for destination square input.

@@ -544,6 +544,16 @@ class Turn:
 class Piece(object):
 
 
+    def __init__(self, current_square, owner, unicode_pieces):
+        self.current_square = current_square
+        self.owner = owner  # Should be a Player object.
+        self.unicode = unicode_pieces[self.owner.color]
+
+        self.has_moved_previously = False
+        self.turn_captured = None
+
+
+
     def path_to_target_is_unblocked(self, target_square, board):
         # INPUT VALIDATION TYPE 5: Check to see if any square along the path is occupied.
 
@@ -571,16 +581,8 @@ class Piece(object):
 class Pawn(Piece):
 
     def __init__(self, current_square, owner):
-        self.current_square = current_square
-        self.owner = owner  # Should be a Player object.        
-        if self.owner.color == 0:
-            # Black
-            self.unicode = "♙"
-        else:
-            # White
-            self.unicode = "♟"
-
-        self.turn_captured = None
+        unicode_pieces = ["♙", "♟"]
+        super().__init__(current_square, owner, unicode_pieces)
         self.points = 1
 
         
@@ -600,7 +602,7 @@ class Pawn(Piece):
             # White pawns
             if x1 == x2 and y2 == y1 + 1 and target_square.current_occupant is None:
                 valid = True
-            elif x1 == x2 and y1 == 2 and y2 == 4 and target_square.current_occupant is None:
+            elif x1 == x2 and y2 == y1 + 2 and self.has_moved_previously is False and target_square.current_occupant is None:
                 valid = True
             elif abs(x2 - x1) == 1 and y2 == y1 + 1 and target_square.current_occupant is not None and target_square.current_occupant.owner.color == 0:
                 valid = True
@@ -610,7 +612,7 @@ class Pawn(Piece):
             # Black pawns
             if x1 == x2 and y2 == y1 - 1 and target_square.current_occupant is None:
                 valid = True
-            elif x1 == x2 and y1 == 7 and y2 == 5 and target_square.current_occupant is None:
+            elif x1 == x2 and y2 == y1 - 2 and self.has_moved_previously is False and target_square.current_occupant is None:
                 valid = True
             elif abs(x2 - x1) == 1 and y2 == y1 - 1 and target_square.current_occupant is not None and target_square.current_occupant.owner.color == 1:
                 valid = True
