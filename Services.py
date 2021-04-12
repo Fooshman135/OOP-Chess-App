@@ -192,7 +192,7 @@ def get_and_validate_two_user_inputs(game):
 
 
         # INPUT VALIDATION TYPE 2: Confirm that the source input references a square that contains one of the player's pieces.
-        if game.current_board.dict_of_64_squares[source_input].contains_current_players_piece(game.whose_turn) is False:
+        if game.current_board.dict_of_64_squares[source_input].contains_specified_players_piece(game.whose_turn) is False:
             # Starting square does not contain a piece belonging to the current player.
             display_error_message(2)
             continue
@@ -210,7 +210,7 @@ def get_and_validate_two_user_inputs(game):
 
 
         # INPUT VALIDATION TYPE 3: Confirm that the destination input references a square that does not contain the current player’s piece (and isn't the same as the source square).
-        if game.current_board.dict_of_64_squares[destination_input].contains_current_players_piece(game.whose_turn) is True:
+        if game.current_board.dict_of_64_squares[destination_input].contains_specified_players_piece(game.whose_turn) is True:
             # Ending square contains a piece belonging to the current player.
             display_error_message(3)
             continue

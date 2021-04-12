@@ -12,8 +12,7 @@ class Game:
         self.black_player = Player(0)
         self.current_board = Board(
             white_player = self.white_player, 
-            black_player = self.black_player,
-            is_current = 1
+            black_player = self.black_player
         )
         self.whose_turn = self.white_player
         self.list_of_confirmed_turns = []
@@ -113,36 +112,25 @@ class Game:
 
     def confirm_turn(self, confirmed_turn):
 
-        # Finish the old move
-        ## Update is_confirmed Turn attribute.
+        # Update is_confirmed Turn attribute.
         confirmed_turn.is_confirmed = True
 
-        ## Add turn to list of confirm turns.
+        # Add turn to list of confirm turns.
         self.list_of_confirmed_turns.append(confirmed_turn)
 
-        ## Update Game current_board attribute.
+        # Update Game current_board attribute.
         self.current_board = confirmed_turn.ending_board
 
-        ## Update the moved piece's location.
+        # Update the moved piece's location.
         confirmed_turn.starting_square.current_occupant.current_square = confirmed_turn.ending_square
 
-        ## Update current player's captured enemy pieces and points.
+        # Update current player's captured enemy pieces and points.
         if confirmed_turn.captured_piece is not None:
             self.whose_turn.captured_enemy_pieces.append(confirmed_turn.captured_piece)
             self.whose_turn.points += confirmed_turn.captured_piece.points
 
-        # Set up the new move.
-        ## Update is_current_turn for old current player.
-        self.whose_turn.is_current_turn = 0
-
-        ## Switch players
-        if confirmed_turn.player is self.white_player:
-            self.whose_turn = self.black_player
-        else:
-            self.whose_turn = self.white_player
-
-        ## Update is_current_turn for new current player.
-        self.whose_turn.is_current_turn = 1
+        # Switch players
+        self.whose_turn = self.get_other_player()
         
 
 
@@ -183,7 +171,7 @@ class Game:
                 # Determine whether the selected piece can legally move to the selected square.
 
                 ## Confirm move is legal for validation type 3.
-                if destination_square.contains_current_players_piece(self.whose_turn) is True:
+                if destination_square.contains_specified_players_piece(self.whose_turn) is True:
                     # Reject this iteration.
                     continue
 
@@ -213,10 +201,8 @@ class Game:
                     del current_turn
                     continue
 
-
                 # If you reach this point, then this move is legal so this piece can move.
                 return True
-
 
         # If you reach this point, then all moves are illegal and therefore no piece can move.
         return False
@@ -224,7 +210,7 @@ class Game:
 
   
     def get_other_player(self):
-        # Return the Player obect for the player whose turn is not right now.
+        # Return the Player object for the player whose turn is not right now.
 
         if self.whose_turn is self.white_player:
             return self.black_player
@@ -235,20 +221,11 @@ class Game:
 
 class Player:
 
-    def __init__(self,color):
+    def __init__(self, color):
         self.color = color    # This should be either 0 or 1.
 
         self.points = 0
         self.captured_enemy_pieces = []
-        
-        # The is_current_turn attribute may not be necessary.
-        if color == 0:
-            # Black
-            self.is_current_turn = 0
-        else:
-            # White
-            self.is_current_turn = 1
-
 
 
     def get_opponents_color_index(self):
@@ -262,14 +239,10 @@ class Board(object):
     class Square(object):
 
         def __init__(self, letter_index, number_index, square_color):
-            self.letter_index = letter_index
+            self.letter_index = letter_index    # A = 1, B = 2, ..., H = 8
             self.number_index = number_index
-            self.square_color = square_color
-            self.current_occupant = None
-
-            # letter_index: A = 1, B = 2, ..., H = 8
-            # color: White = 1, Black = 2
-            # current_occupant: Points to a Piece object
+            self.square_color = square_color    # 1 for White, 0 for Black
+            self.current_occupant = None        # Points to a Piece object
 
 
         def get_square_index_string(self):
@@ -277,23 +250,19 @@ class Board(object):
             return letter_index_to_letter(self.letter_index) + str(self.number_index)
 
 
-        def contains_current_players_piece(self, current_player):
+        def contains_specified_players_piece(self, player):
             # Used for INPUT VALIDATION TYPES 2 and 3.
-            # Returns True if current_occupant belong's to the player whose turn it is now.
+            # Returns True if current_occupant belongs to the player passed in as input.
             if self.current_occupant is None:
                 return False
-            elif self.current_occupant.owner.color != current_player.color:
+            elif self.current_occupant.owner.color != player.color:
                 return False
             else:
                 return True
 
 
 
-    def __init__(self, white_player, black_player, is_current = True):
-        self.is_current = is_current        # A bool        # Is this attribute necessary? It's not used anywhere in the code.
-
-        self.whose_turn = white_player      # Is this attribute necessary? It's not used anywhere in the code.
-
+    def __init__(self, white_player, black_player):
         # Create the 64 square objects that make up the board.
         self.dict_of_64_squares = self.generate_empty_board()
 
@@ -362,8 +331,6 @@ class Board(object):
                     square.current_occupant = King(square, black_player)           # Black king   
                 else:
                     raise Exception("This is an error!")    
-            else:
-                pass
 
 
 
@@ -585,9 +552,6 @@ class Pawn(Piece):
         super().__init__(current_square, owner, unicode_characters)
         self.points = 1
 
-        
-
-
 
 
     def target_can_be_reached(self, target_square):
@@ -628,11 +592,6 @@ class Pawn(Piece):
 
 
 
-    def check_for_promotion(self):
-        # Checks to see if the pawn can be promoted.
-        pass    #TODO
-
-
 
 class Rook(Piece):
 
@@ -640,9 +599,6 @@ class Rook(Piece):
         unicode_characters = ["♖", "♜"]
         super().__init__(current_square, owner, unicode_characters)
         self.points = 5
-
-
-
 
 
 
@@ -672,8 +628,6 @@ class Knight(Piece):
 
         
 
-
-
     def target_can_be_reached(self, target_square):
         # INPUT VALIDATION TYPE 4: Check to see if the target square can be reached, assuming an empty board.
 
@@ -689,7 +643,6 @@ class Knight(Piece):
         else:
             return False
         
-
 
 
     def path_to_target_is_unblocked(self, target_square, board):
@@ -755,8 +708,6 @@ class King(Piece):
         super().__init__(current_square, owner, unicode_characters)
 
 
-
-
     def target_can_be_reached(self, target_square):
         # INPUT VALIDATION TYPE 4: Check to see if the target square can be reached, assuming an empty board.
 
@@ -771,7 +722,6 @@ class King(Piece):
             return True
         else:
             return False
-
 
 
 
