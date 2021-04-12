@@ -53,38 +53,54 @@ class Game:
             # Declare whose turn it is now.
             declare_whose_turn_it_is(self.whose_turn)
 
-            # Get validated user inputs.
-            source_square, destination_square = get_and_validate_two_user_inputs(self)
+            # Get validated user input for source square.
+            source_square = get_and_validate_user_input(self, True)
 
-            # Create and instantiate a Turn object.
-            current_turn = Turn(
-                starting_board = self.current_board, 
-                player = self.whose_turn, 
-                starting_square = source_square, 
-                ending_square = destination_square
-            )
+            while True:
 
-            # Confirm move is legal for validation type 4.
-            if current_turn.is_legal_move_can_reach() is False:
-                # Reject move.
-                display_error_message(4)
-                del current_turn
+                # Get validated user input for destination square.
+                destination_square = get_and_validate_user_input(self, False)
+                if isinstance(destination_square, Board.Square) is False:
+                    # User has cancelled selecting destination square.
+                    break
+
+                # Create and instantiate a Turn object.
+                current_turn = Turn(
+                    starting_board = self.current_board, 
+                    player = self.whose_turn, 
+                    starting_square = source_square, 
+                    ending_square = destination_square
+                )
+
+                # Confirm move is legal for validation type 4.
+                if current_turn.is_legal_move_can_reach() is False:
+                    # Reject move.
+                    display_error_message(4)
+                    del current_turn
+                    continue
+
+                # Confirm move is legal for validation type 5.
+                if current_turn.is_legal_move_path_unblocked() is False:
+                    # Reject move.
+                    display_error_message(5)
+                    del current_turn
+                    continue
+
+                # Confirm move is legal for validation type 6.
+                if current_turn.is_legal_move_king_safe() is False:
+                    # Reject move.
+                    display_error_message(6)
+                    del current_turn
+                    continue
+
+                # Break out of inner loop.
+                break
+
+            # Check to see if user cancelled selecting destination square.
+            if isinstance(destination_square, Board.Square) is False:
+                # User has cancelled selecting destination square.
+                # Go to top of outer loop.
                 continue
-
-            # Confirm move is legal for validation type 5.
-            if current_turn.is_legal_move_path_unblocked() is False:
-                # Reject move.
-                display_error_message(5)
-                del current_turn
-                continue
-
-            # Confirm move is legal for validation type 6.
-            if current_turn.is_legal_move_king_safe() is False:
-                # Reject move.
-                display_error_message(6)
-                del current_turn
-                continue
-
 
             # Set captured_piece attribute.
             current_turn.set_captured_piece()

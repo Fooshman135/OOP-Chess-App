@@ -176,52 +176,25 @@ def set_global_white_on_bottom(color_on_bottom):
 
 
 
-
-def get_and_validate_two_user_inputs(game):
-    # Ask for source square input.
-    # Retrieve corresponding square and validate it contains player's own piece.
-    # Ask for destination square input.
-    # Retrieve corresponding square and validate it doesn't contain player's own piece.
-    # Return the two square objects.
-
+def get_and_validate_user_input(game, is_source):
 
     while True:
 
-        # Ask user to select a starting square whose occupying piece is to be moved.
-        source_input = request_user_input_for_square(source=True)
+        user_input = request_user_input_for_square(is_source)
+
+        if is_source is False and len(user_input) == 0:
+            # User wants to cancel choosing destination square.
+            return user_input
 
 
         # INPUT VALIDATION TYPE 2: Confirm that the source input references a square that contains one of the player's pieces.
-        if game.current_board.dict_of_64_squares[source_input].contains_specified_players_piece(game.whose_turn) is False:
-            # Starting square does not contain a piece belonging to the current player.
-            display_error_message(2)
+        # INPUT VALIDATION TYPE 3: Confirm that the destination input references a square that does not contain the current player’s piece.
+        if game.current_board.dict_of_64_squares[user_input].contains_specified_players_piece(game.whose_turn) is not is_source:
+            if is_source:
+                display_error_message(2)
+            else:
+                display_error_message(3)
             continue
 
-        # Starting square does contain a piece belonging to the current player.
-        source_square = game.current_board.dict_of_64_squares[source_input]
-        break
-
-
-
-    while True:
-        
-        # Ask user to select an ending square to move that piece to. 
-        destination_input = request_user_input_for_square(source=False)
-
-
-        # INPUT VALIDATION TYPE 3: Confirm that the destination input references a square that does not contain the current player’s piece (and isn't the same as the source square).
-        if game.current_board.dict_of_64_squares[destination_input].contains_specified_players_piece(game.whose_turn) is True:
-            # Ending square contains a piece belonging to the current player.
-            display_error_message(3)
-            continue
-
-        # Ending square is does not contain a piece belonging to the current player.
-        destination_square = game.current_board.dict_of_64_squares[destination_input]
-        break
-
-
-    return source_square, destination_square
-
-
-
+        return game.current_board.dict_of_64_squares[user_input]
 

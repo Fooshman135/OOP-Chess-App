@@ -91,20 +91,22 @@ def request_user_input_for_square(source):
         if source is True:
             prompt = "Type in the square containing the piece you want to move (such as 'e2'): "
         else:
-            prompt = "Now type in the square that you want to move the selected piece to (such as 'e4'): "
+            prompt = "Now type in the square that you want to move the selected piece to (such as 'e4'), or Enter to cancel: "
 
 
         while True:
 
             square_input = get_text_input_from_cli(prompt)
 
-            # INPUT VALIDATION TYPE 1: Is the syntax valid? Does it actually identify one of the 64 possible squares?
-            if validate_user_input_square_selection(square_input) is False:
-                # Input was invalid.
-                display_error_message(1)
-                continue
+            if len(square_input) > 0 or source is True:
 
-            # Input was valid.
+                # INPUT VALIDATION TYPE 1: Is the syntax valid? Does it actually identify one of the 64 possible squares?
+                if validate_user_input_square_selection(square_input) is False:
+                    # Input was invalid.
+                    display_error_message(1)
+                    continue
+
+            # Input was valid (or empty).
             return square_input
 
     else:
