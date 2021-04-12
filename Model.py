@@ -112,8 +112,8 @@ class Game:
 
     def confirm_turn(self, confirmed_turn):
 
-        # Update is_confirmed Turn attribute.
-        confirmed_turn.is_confirmed = True
+        # Set ordinal_number.
+        confirmed_turn.set_ordinal_number(self.list_of_confirmed_turns)
 
         # Add turn to list of confirm turns.
         self.list_of_confirmed_turns.append(confirmed_turn)
@@ -278,13 +278,13 @@ class Board(object):
         from Services import color_number_to_text, letter_index_to_letter
 
         dict_of_squares = {}
-        color = 1
+        square_color = 1
 
         for letter_index in range(1,9):
-            color += 1      # Flip the square color back (every time we increment the row).
+            square_color = (square_color + 1) % 2      # Flip the square color back (every time we increment to the next row).
             for number_index in range(1,9):
-                dict_of_squares[letter_index_to_letter(letter_index) + str(number_index)] = self.Square(letter_index, number_index, color_number_to_text(color % 2))
-                color += 1      # Flip the square color
+                dict_of_squares[letter_index_to_letter(letter_index) + str(number_index)] = self.Square(letter_index, number_index, square_color)
+                square_color = (square_color + 1) % 2      # Flip the square color as we step along a single row
 
         return dict_of_squares
 
@@ -293,7 +293,7 @@ class Board(object):
     def pieces_into_starting_positions(self, white_player, black_player):
         # This function instantiates all pieces and assigns them to their starting position Squares.
         # white_player and black_player are both Player objects.
-        # It is not necessary for all the Square objects in the board to be empty, as they will be overwritten.
+        # It is not necessary for the Square objects in the board to start empty, as they will be overwritten.
         
 
         for square in self.dict_of_64_squares.values():
@@ -330,7 +330,9 @@ class Board(object):
                 elif square.letter_index == 5:
                     square.current_occupant = King(square, black_player)           # Black king   
                 else:
-                    raise Exception("This is an error!")    
+                    raise Exception("This is an error!")
+            else:
+                square.current_occupant = None
 
 
 
@@ -346,7 +348,7 @@ class Board(object):
 
         # self is a board in a state that you want to examine to see if the king is in check.
         # king_color identifies which King you want to examine. Values can be either 0 or 1.
-        # Returns bool depending on whether the proposed board has your king in check.
+        # Returns bool depending on whether the proposed board has that king in check.
 
         # First, identify all pieces of the opposite color as the king.
         opponents_pieces = []
@@ -389,7 +391,6 @@ class Turn:
     # This class can be used for hypothetical turns as well (meaning turns which haven't been confirmed yet).
 
     # The is_capture attribute is a bool of signaling whether the turn involving capturing an enemy piece.
-    # The is_confirmed attribute is a bool for signaling whether the turn was actually taken by the player.
     # The is_check attribute is a bool for signaling whether the turn puts the opponent's King in check.
     # The is_checkmate attribute is a bool for signaling whether the turn puts the opponent's King in checkmate.
 
@@ -402,7 +403,6 @@ class Turn:
         self.ordinal_number = None
         self.ending_board = None
         self.notation = None
-        self.is_confirmed = False   # Is this attribute necessary?
         self.captured_piece = None
         self.is_check = None
         self.is_checkmate = None
@@ -469,10 +469,6 @@ class Turn:
 
 
 
-    def set_ordinal_number(self):
-        pass    #TODO
-
-
     def set_captured_piece(self):
         if self.ending_square.current_occupant is not None and self.ending_square.current_occupant.owner.color != self.player.color:
             self.captured_piece = self.ending_square.current_occupant
@@ -495,6 +491,27 @@ class Turn:
 
 
 
+    def set_ordinal_number(self, list_of_confirmed_turns):
+        if len(list_of_confirmed_turns) == 0:
+            # This is the first white turn.
+            current_ordinal = 1
+        elif len(list_of_confirmed_turns) == 1:
+            # This is the first black turn.
+            current_ordinal = 1
+        else:
+            # Both players have taken at least one turn.
+            last_turn_ordinal = list_of_confirmed_turns[-1].ordinal_number
+            two_turns_ago_ordinal = list_of_confirmed_turns[-2].ordinal_number
+
+            if last_turn_ordinal == two_turns_ago_ordinal:
+                # It's white's turn, so ordinal should increment by 1.
+                current_ordinal = last_turn_ordinal + 1
+            else:
+                # It's black's turn, so ordinal should be the same as last turn.
+                current_ordinal = last_turn_ordinal
+
+        self.ordinal_number = current_ordinal
+
 
 
     def set_is_checkmate(self):
@@ -505,6 +522,8 @@ class Turn:
 
     def set_notation(self):
         pass    #TODO
+
+
 
 
 
