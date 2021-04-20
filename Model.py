@@ -5,7 +5,7 @@ from View import *
 
 
 
-class Game:
+class Game(object):
 
     def __init__(self):
         self.white_player = Player(1)
@@ -235,7 +235,7 @@ class Game:
 
 
 
-class Player:
+class Player(object):
 
     def __init__(self, color):
         self.color = color    # This should be either 0 or 1.
@@ -401,7 +401,7 @@ class Board(object):
 
 
 
-class Turn:
+class Turn(object):
 
     # One instance created per player per turn.
     # This class can be used for hypothetical turns as well (meaning turns which haven't been confirmed yet).
@@ -541,8 +541,6 @@ class Turn:
 
 
 
-
-
 class Piece(object):
 
 
@@ -585,6 +583,7 @@ class Pawn(Piece):
     def __init__(self, current_square, owner):
         unicode_characters = ["♙", "♟"]
         super().__init__(current_square, owner, unicode_characters)
+
         self.points = 1
 
 
@@ -627,12 +626,12 @@ class Pawn(Piece):
 
 
 
-
 class Rook(Piece):
 
     def __init__(self, current_square, owner):
         unicode_characters = ["♖", "♜"]
         super().__init__(current_square, owner, unicode_characters)
+
         self.points = 5
 
 
@@ -659,6 +658,7 @@ class Knight(Piece):
     def __init__(self, current_square, owner):
         unicode_characters = ["♘", "♞"]
         super().__init__(current_square, owner, unicode_characters)
+
         self.points = 3
 
         
@@ -693,6 +693,7 @@ class Bishop(Piece):
     def __init__(self, current_square, owner):
         unicode_characters = ["♗", "♝"]
         super().__init__(current_square, owner, unicode_characters)
+
         self.points = 3
 
 
@@ -717,6 +718,7 @@ class Queen(Piece):
     def __init__(self, current_square, owner):
         unicode_characters = ["♕", "♛"]
         super().__init__(current_square, owner, unicode_characters)
+
         self.points = 9
 
 

@@ -5,10 +5,6 @@ import Globals
 
 
 
-
-
-
-
 def print_text_to_cli(display_text):
 
     print("{}\n".format(display_text))
@@ -22,7 +18,6 @@ def get_text_input_from_cli(prompt):
     except NameError: 
         user_input = raw_input(prompt).strip()    # Python 2.X  
     return user_input
-
 
 
 
@@ -62,7 +57,6 @@ def show_board_state(board, is_current=True):
 
 
 
-
 def declare_whose_turn_it_is(whose_turn):
 
     if Globals.GUI is False:
@@ -76,7 +70,6 @@ def declare_whose_turn_it_is(whose_turn):
     else:
         #GUI
         pass    #TODO
-
 
 
 
@@ -112,6 +105,7 @@ def request_user_input_for_square(source):
     else:
         #GUI
         pass    #TODO
+
 
 
 def request_user_input_for_promotion():
@@ -163,6 +157,7 @@ def validate_user_input_square_selection(user_input):
     return True
 
 
+
 def validate_user_input_promotion_selection(user_input):
     # Confirm that user_input uniquely identifies one of the 4 possible promotion pieces.
     return user_input in ('q','Q','r','R','b','B','k','K')
@@ -181,7 +176,6 @@ def request_user_input_for_move_confirmation():
     else:
         #GUI
         pass    #TODO
-
 
 
 
@@ -212,7 +206,6 @@ def display_error_message(error_type):
     else:
         #GUI
         pass    #TODO
-
 
 
 
@@ -279,3 +272,5 @@ def declare_game_over(finished_game):
     else:
         #GUI
         pass    #TODO
+
+
