@@ -262,8 +262,8 @@ class Board(object):
 
 
         def get_square_index_string(self):
-            from Services import letter_index_to_letter
-            return letter_index_to_letter(self.letter_index) + str(self.number_index)
+            from Services import square_indices_to_string
+            return square_indices_to_string(self.letter_index, self.number_index)
 
 
         def contains_specified_players_piece(self, player):
@@ -299,7 +299,7 @@ class Board(object):
         for letter_index in range(1,9):
             square_color = (square_color + 1) % 2      # Flip the square color back (every time we increment to the next row).
             for number_index in range(1,9):
-                dict_of_squares[letter_index_to_letter(letter_index) + str(number_index)] = self.Square(letter_index, number_index, square_color)
+                dict_of_squares[square_indices_to_string(letter_index, number_index)] = self.Square(letter_index, number_index, square_color)
                 square_color = (square_color + 1) % 2      # Flip the square color as we step along a single row
 
         return dict_of_squares

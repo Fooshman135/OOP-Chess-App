@@ -15,6 +15,11 @@ def letter_index_to_letter(letter_index):
 
 
 
+def square_indices_to_string(letter_index, number_index):
+    return letter_index_to_letter(letter_index) + str(number_index)
+
+
+
 def color_number_to_text(num):
 
     # Black = 0, White = 1
@@ -55,7 +60,7 @@ def produce_path_between_two_squares(square_one, square_two, board):
                 # Reached the end of the path.
                 break
             else:
-                path.append(board.dict_of_64_squares[letter_index_to_letter(x1) + str(y)])
+                path.append(board.dict_of_64_squares[square_indices_to_string(x1,y)])
                 y += 1
     elif y1 == y2:
         # Same row
@@ -65,7 +70,7 @@ def produce_path_between_two_squares(square_one, square_two, board):
                 # Reached the end of the path.
                 break
             else:
-                path.append(board.dict_of_64_squares[letter_index_to_letter(x) + str(y1)])
+                path.append(board.dict_of_64_squares[square_indices_to_string(x,y1)])
                 x += 1
     elif abs(x1 - x2) == abs(y1 - y2):
         # Same diagonal
@@ -78,7 +83,7 @@ def produce_path_between_two_squares(square_one, square_two, board):
                     # Reached the end of the path.
                     break
                 else:
-                    path.append(board.dict_of_64_squares[letter_index_to_letter(x) + str(y)])
+                    path.append(board.dict_of_64_squares[square_indices_to_string(x,y)])
                     x += 1
                     y += 1
         elif (x1 < x2 and y1 > y2) or (x1 > x2 and y1 < y2):
@@ -90,7 +95,7 @@ def produce_path_between_two_squares(square_one, square_two, board):
                     # Reached the end of the path.
                     break
                 else:
-                    path.append(board.dict_of_64_squares[letter_index_to_letter(x) + str(y)])
+                    path.append(board.dict_of_64_squares[square_indices_to_string(x,y)])
                     x += 1
                     y -= 1
     else:

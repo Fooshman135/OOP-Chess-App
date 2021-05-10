@@ -220,7 +220,7 @@ def display_error_message(error_type):
 def print_board_cli(board):
     # board is a Board object.
 
-    from Services import letter_index_to_letter
+    from Services import square_indices_to_string
 
     # The following dictionary comprehension assigns a space to empty squares, and assigns the piece's unicode to occupied squares.
     unicode_dict = {k: (" " if v.current_occupant == None else v.current_occupant.unicode) for (k,v) in board.dict_of_64_squares.items()}
@@ -246,7 +246,7 @@ def print_board_cli(board):
         print(horizontal_line)
         square_index = []
         for letter_index in inner_range:
-            square_index.append(letter_index_to_letter(letter_index) + str(number_index))
+            square_index.append(square_indices_to_string(letter_index, number_index))
 
         row = "{number}   | {a} | {b} | {c} | {d} | {e} | {f} | {g} | {h} |  {number}".format(
             number = number_index,
