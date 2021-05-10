@@ -10,10 +10,8 @@ class Game(object):
     def __init__(self):
         self.white_player = Player(1)
         self.black_player = Player(0)
-        self.current_board = Board(
-            white_player = self.white_player, 
-            black_player = self.black_player
-        )
+        self.current_board = Board()
+        self.current_board.pieces_into_starting_positions(self.white_player, self.black_player)
         self.whose_turn = self.white_player
         self.list_of_confirmed_turns = []
         self.checkmate_achieved = False
@@ -278,12 +276,9 @@ class Board(object):
 
 
 
-    def __init__(self, white_player, black_player):
+    def __init__(self):
         # Create the 64 square objects that make up the board.
         self.dict_of_64_squares = self.generate_empty_board()
-
-        # Now place the pieces onto the board in the starting configuration.
-        self.pieces_into_starting_positions(white_player = white_player, black_player = black_player)
 
 
 
@@ -312,44 +307,55 @@ class Board(object):
         # It is not necessary for the Square objects in the board to start empty, as they will be overwritten.
         
 
-        for square in self.dict_of_64_squares.values():
+        starting_positions_dict = {
+            "a1": Rook(None, white_player),
+            "b1": Knight(None, white_player),
+            "c1": Bishop(None, white_player),
+            "d1": Queen(None, white_player),
+            "e1": King(None, white_player),
+            "f1": Bishop(None, white_player),
+            "g1": Knight(None, white_player),
+            "h1": Rook(None, white_player),
 
-            if square.number_index == 1:
-                if square.letter_index == 1 or square.letter_index == 8:
-                    square.current_occupant = Rook(square, white_player)           # White rooks
-                elif square.letter_index == 2 or square.letter_index == 7:
-                    square.current_occupant = Knight(square, white_player)         # White knights
-                elif square.letter_index == 3 or square.letter_index == 6:
-                    square.current_occupant = Bishop(square, white_player)         # White bishops
-                elif square.letter_index == 4:
-                    square.current_occupant = Queen(square, white_player)          # White queen
-                elif square.letter_index == 5:
-                    square.current_occupant = King(square, white_player)           # White king 
-                else:
-                    raise Exception("This is an error!")         
-            
-            elif square.number_index == 2:
-                square.current_occupant = Pawn(square, white_player)               # White pawns
+            "a2": Pawn(None, white_player),
+            "b2": Pawn(None, white_player),
+            "c2": Pawn(None, white_player),
+            "d2": Pawn(None, white_player),
+            "e2": Pawn(None, white_player),
+            "f2": Pawn(None, white_player),
+            "g2": Pawn(None, white_player),
+            "h2": Pawn(None, white_player),
 
-            elif square.number_index == 7:
-                square.current_occupant = Pawn(square, black_player)               # Black pawns
+            "a7": Pawn(None, black_player),
+            "b7": Pawn(None, black_player),
+            "c7": Pawn(None, black_player),
+            "d7": Pawn(None, black_player),
+            "e7": Pawn(None, black_player),
+            "f7": Pawn(None, black_player),
+            "g7": Pawn(None, black_player),
+            "h7": Pawn(None, black_player),
+            "a8": Rook(None, black_player),
 
-            elif square.number_index == 8:
-                if square.letter_index == 1 or square.letter_index == 8:
-                    square.current_occupant = Rook(square, black_player)           # Black rooks
-                elif square.letter_index == 2 or square.letter_index == 7:
-                    square.current_occupant = Knight(square, black_player)         # Black knights
-                elif square.letter_index == 3 or square.letter_index == 6:
-                    square.current_occupant = Bishop(square, black_player)         # Black bishops
-                elif square.letter_index == 4:
-                    square.current_occupant = Queen(square, black_player)          # Black queen
-                elif square.letter_index == 5:
-                    square.current_occupant = King(square, black_player)           # Black king   
-                else:
-                    raise Exception("This is an error!")
-            else:
-                square.current_occupant = None
+            "b8": Knight(None, black_player),
+            "c8": Bishop(None, black_player),
+            "d8": Queen(None, black_player),
+            "e8": King(None, black_player),
+            "f8": Bishop(None, black_player),
+            "g8": Knight(None, black_player),
+            "h8": Rook(None, black_player),
+        }
 
+        self.pieces_into_specified_positions(starting_positions_dict)
+
+
+
+    def pieces_into_specified_positions(self, dict_of_squares_and_pieces):
+        # dict_of_squares_and_pieces is a dictionary whose keys are strings specifying squares and whose values are Piece objects.
+        # This method maps the pieces to the square objects, and maps the square objects to the pieces.
+
+        for k,v in dict_of_squares_and_pieces.items():
+            self.dict_of_64_squares[k].current_occupant = v
+            v.current_square = self.dict_of_64_squares[k]
 
 
 
