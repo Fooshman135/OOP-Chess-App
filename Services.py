@@ -15,32 +15,6 @@ def letter_index_to_letter(letter_index):
 
 
 
-def letter_to_letter_index(letter):
-    
-    if letter_index == "a":
-        x = 1
-    elif letter_index == "b":
-        x = 2
-    elif letter_index == "c":
-        x = 3
-    elif letter_index == "d":
-        x = 4
-    elif letter_index == "e":
-        x = 5
-    elif letter_index == "f":
-        x = 6
-    elif letter_index == "g":
-        x = 7
-    elif letter_index == "h":
-        x = 8
-    else:
-        # Throw error
-        raise Exception("This is an error!")
-    
-    return x
-
-
-
 def color_number_to_text(num):
 
     # Black = 0, White = 1
@@ -54,25 +28,6 @@ def color_number_to_text(num):
         raise Exception("This is an error!")        
 
     return text
-
-
-
-def get_square_from_indexes(array_of_squares,letter_index_here, number_index_here):
-
-    # TODO (IS THIS NEEDED ANYMORE NOW THAT WE USE DICTIONARIES INSTEAD OF LISTS?)
-    
-    x = None
-
-    for i in range(len(array_of_squares)):
-        if (array_of_squares[i].letter_index == letter_index_here and array_of_squares[i].number_index == number_index_here):
-            x = array_of_squares[i]
-            break
-
-    if x is None:
-        # Throw error
-        raise Exception("This is an error!")
-
-    return x
 
 
 

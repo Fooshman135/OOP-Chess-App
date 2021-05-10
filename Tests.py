@@ -9,6 +9,8 @@
 
 import pytest
 from Services import letter_index_to_letter
+from Services import color_number_to_text
+
 
 class TestLetterIndexToLetter:
 
@@ -31,7 +33,7 @@ class TestLetterIndexToLetter:
 		(8, "h"),
 	])
 	def test_works_for_expected_input(self, test_input, expected):
-		# Returns expected value when passed 5.
+		# Returns expected value when passed valid input.
 		result = letter_index_to_letter(test_input)
 		assert result == expected, "Expected letter to match but it did not."
 
@@ -47,5 +49,29 @@ class TestLetterIndexToLetter:
 		with pytest.raises(Exception):
 			letter_index_to_letter(test_input)
 
+
+
+class TestColorNumberToText:
+
+	@pytest.mark.parametrize("test_input,expected",[
+		(0, "Black"),
+		(1, "White"),
+	])
+	def test_works_for_expected_input(self, test_input, expected):
+		# Returns expected value when passed valid input.
+		result = color_number_to_text(test_input)
+		assert result == expected, "Expected letter to match but it did not."
+
+
+	@pytest.mark.parametrize("test_input",[
+		None,
+		-1,
+		2,
+		"foobar",
+	])
+	def test_fails_for_invalid_input(self, test_input):
+		# Raises an exception when bad input is passed in.
+		with pytest.raises(Exception):
+			color_number_to_text(test_input)
 
 
