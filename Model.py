@@ -466,13 +466,13 @@ class Turn(object):
         if self.is_promotion is True:
             # A pawn is to be promoted, so ending square should contain promoted piece instead of pawn.
             promotion_piece_code = request_user_input_for_promotion()
-            if promotion_piece_code in ('q','Q'):
+            if promotion_piece_code in ('q'):
                 promotion_piece = Queen(self.ending_square, self.player)
-            elif promotion_piece_code in ('k','K'):
+            elif promotion_piece_code in ('k'):
                 promotion_piece = Knight(self.ending_square, self.player)
-            elif promotion_piece_code in ('b','B'):
+            elif promotion_piece_code in ('b'):
                 promotion_piece = Bishop(self.ending_square, self.player)
-            elif promotion_piece_code in ('r','R'):
+            elif promotion_piece_code in ('r'):
                 promotion_piece = Rook(self.ending_square, self.player)
 
             new_board.dict_of_64_squares[self.ending_square.get_square_index_string()].current_occupant = promotion_piece

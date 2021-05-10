@@ -12,11 +12,13 @@ def print_text_to_cli(display_text):
 
 
 def get_text_input_from_cli(prompt):
-    # TODO (Put the 3.X in the try block and the 2.X in the except block)
     try:
         user_input = input(prompt).strip()      # Python 3.X
     except NameError: 
         user_input = raw_input(prompt).strip()    # Python 2.X  
+
+    if user_input == "":
+        user_input = None
     return user_input
 
 
@@ -91,7 +93,7 @@ def request_user_input_for_square(source):
 
             square_input = get_text_input_from_cli(prompt)
 
-            if len(square_input) > 0 or source is True:
+            if source is True or square_input is not None:
 
                 # INPUT VALIDATION TYPE 1: Is the syntax valid? Does it actually identify one of the 64 possible squares?
                 if validate_user_input_square_selection(square_input) is False:
@@ -126,7 +128,7 @@ def request_user_input_for_promotion():
                 continue
 
             # Input was valid.
-            return promotion_selection_input
+            return promotion_selection_input.lower()
 
 
     else:
@@ -141,15 +143,19 @@ def validate_user_input_square_selection(user_input):
     # user_input should be a string.
 
 
-    # Test 1: String should be only two characters.
+    # Test 1: user_input should be a string.
+    if not isinstance(user_input, str):
+        return False
+
+    # Test 2: String should be only two characters.
     if len(user_input) != 2:
         return False
 
-    # Test 2: First character should be a letter between a and h inclusive.
+    # Test 3: First character should be a letter between a and h inclusive.
     if user_input[0] not in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']:
         return False
 
-    # Test 3: Second character should be a number between 1 and 8 inclusive.
+    # Test 4: Second character should be a number between 1 and 8 inclusive.
     if user_input[1] not in ['1', '2', '3', '4', '5', '6', '7', '8']:
         return False
 
@@ -160,7 +166,9 @@ def validate_user_input_square_selection(user_input):
 
 def validate_user_input_promotion_selection(user_input):
     # Confirm that user_input uniquely identifies one of the 4 possible promotion pieces.
-    return user_input in ('q','Q','r','R','b','B','k','K')
+    if user_input is None:
+        return False
+    return user_input.lower() in ('q','r','b','k')      # Returns a bool
 
 
 

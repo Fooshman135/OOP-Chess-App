@@ -7,28 +7,11 @@ import Globals
 
 
 def letter_index_to_letter(letter_index):
-    
-    if letter_index == 1:
-        x = "a"
-    elif letter_index == 2:
-        x = "b"
-    elif letter_index == 3:
-        x = "c"
-    elif letter_index == 4:
-        x = "d"
-    elif letter_index == 5:
-        x = "e"
-    elif letter_index == 6:
-        x = "f"
-    elif letter_index == 7:
-        x = "g"
-    elif letter_index == 8:
-        x = "h"
+    if 1 <= letter_index <= 8:
+        return chr(97 + letter_index - 1)      # chr(97) produces the ASCII value "a"
     else:
         # Throw error
         raise Exception("This is an error!")
-    
-    return x
 
 
 
@@ -55,7 +38,6 @@ def letter_to_letter_index(letter):
         raise Exception("This is an error!")
     
     return x
-
 
 
 
@@ -91,6 +73,7 @@ def get_square_from_indexes(array_of_squares,letter_index_here, number_index_her
         raise Exception("This is an error!")
 
     return x
+
 
 
 def produce_path_between_two_squares(square_one, square_two, board):
@@ -175,14 +158,13 @@ def set_global_white_on_bottom(color_on_bottom):
 
 
 
-
 def get_and_validate_user_input(game, is_source):
 
     while True:
 
         user_input = request_user_input_for_square(is_source)
 
-        if is_source is False and len(user_input) == 0:
+        if is_source is False and user_input is None:
             # User wants to cancel choosing destination square.
             return user_input
 
