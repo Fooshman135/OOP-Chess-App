@@ -1,122 +1,51 @@
 # Tests
 
-from Model import *
-from Services import *
+# HOW TO RUN THESE TESTS:
+#
+# 1) Install the pytest module using Pip (if not already installed).
+# 2) Run the following command at the Terminal prompt (not the Python prompt):
+#       pytest Tests.py
+#
+
+import pytest
+from Services import letter_index_to_letter
+
+class TestLetterIndexToLetter:
+
+	def test_works(self):
+		# Returns expected value ("e") when passed 5.
+		# Note that this test is unnecessary due to the below parametrized test.
+
+		result = letter_index_to_letter(5)
+		assert result == "e", "Expected letter to match but it did not."
 
 
-#############################
+	@pytest.mark.parametrize("test_input,expected",[
+		(1, "a"),
+		(2, "b"),
+		(3, "c"),
+		(4, "d"),
+		(5, "e"),
+		(6, "f"),
+		(7, "g"),
+		(8, "h"),
+	])
+	def test_works_for_expected_input(self, test_input, expected):
+		# Returns expected value when passed 5.
+		result = letter_index_to_letter(test_input)
+		assert result == expected, "Expected letter to match but it did not."
 
 
-# Unit tests for the King's is_move_legal method.
-
-
-# Unit test #1: King in center of empty board.
-
-# First, generate empty board.
-# Second, initialize King on square e5.
-# Third, run the method using d4 as the target_square.
-# Fourth, confirm that output is TRUE.
-
-
-
-
-#############################
-
-
-# Unit tests for the get_square_from_indexes function.
-# Assumes that the generate_empty_board() function works perfectly.
-# Assumes that the letter_index_to_letter() function works perfectly.
-
-
-def unit_test_for__get_square_from_indexes():
-
-
-	print("Unit test #1: Given empty board, return square a1.\n")
-
-	my_empty_board = generate_empty_board()
-	my_square = get_square_from_indexes(my_empty_board,1,1)
-
-	print("The type of object returned is: ", type(my_square))
-	print("The returned square is: ", letter_index_to_letter(my_square.letter_index), my_square.number_index, sep='')
-
-
-	print("\n------------")
-	print("Unit test #2: Given empty board, try to return square a9 but throw error instead.\n")
-
-	my_empty_board = generate_empty_board()
-
-	try:
-		my_square = get_square_from_indexes(my_empty_board,1,9)
-	except:
-		print("It successfully threw an error!")
-
-
-
-
-
-#############################
-
-
-# Unit tests for letter_index_to_letter() function.
-
-def unit_test_for__letter_index_to_letter():
-
-
-	print("Unit test #1: Given number 5, return 'e'.\n")
-
-	my_letter = letter_index_to_letter(5)
-	print("The returned letter is:", my_letter)
-
-
-	print("\n------------")
-	print("Unit test #2: Given number 9, throw exception.\n")
-
-	try:
-		my_letter = letter_index_to_letter(9)
-	except:
-		print("It successfully threw an error!")
-
-
-
-#############################
-
-
-# Tests for generate_empty_board() function.
-
-def tests_for__generate_empty_board():
-
-
-	print("Test by showing the letter and number and color of each square in the board.")
-
-	list_of_squares = generate_empty_board()
-
-	for square in list_of_squares:
-		letter = letter_index_to_letter(list_of_squares[square].letter_index)
-		number = list_of_squares[square].number_index
-		color = list_of_squares[square].square_color
-		print(letter, number, "    ", color, sep='')
-
-
-
-
-
-#############################
-
-
-# Here's where I can run the tests (uncomment whichever test I want to run):
-
-
-
-# unit_test_for__get_square_from_indexes()
-
-# unit_test_for__letter_index_to_letter()
-
-# tests_for__generate_empty_board()
-
-
-
-
-#############################
+	@pytest.mark.parametrize("test_input",[
+		None,
+		-7,
+		50,
+		"foobar",
+	])
+	def test_fails_for_invalid_input(self, test_input):
+		# Raises an exception when bad input is passed in.
+		with pytest.raises(Exception):
+			letter_index_to_letter(test_input)
 
 
 

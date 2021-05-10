@@ -9,3 +9,6 @@ __pycache__
 
 # Ignore .DS_Store
 .DS_Store
+
+# Ignore files containing inputs for the app.
+inputs_read_from_file
