@@ -302,9 +302,8 @@ class Board(object):
 
 
     def pieces_into_starting_positions(self, white_player, black_player):
-        # This function instantiates all pieces and assigns them to their starting position Squares.
+        # This function instantiates all pieces and maps them to their starting position Squares.
         # white_player and black_player are both Player objects.
-        # It is not necessary for the Square objects in the board to start empty, as they will be overwritten.
         
 
         starting_positions_dict = {
@@ -334,8 +333,8 @@ class Board(object):
             "f7": Pawn(None, black_player),
             "g7": Pawn(None, black_player),
             "h7": Pawn(None, black_player),
-            "a8": Rook(None, black_player),
 
+            "a8": Rook(None, black_player),
             "b8": Knight(None, black_player),
             "c8": Bishop(None, black_player),
             "d8": Queen(None, black_player),

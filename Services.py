@@ -40,6 +40,7 @@ def produce_path_between_two_squares(square_one, square_two, board):
     """
     board: Container from which any square on the board can be retrieved from.
     square_one and square_two do not necessarily need to be members of board.
+    path: A list whose members are Square objects that comprise the full path between square_one and square_two.
     """
 
     x1 = square_one.letter_index
