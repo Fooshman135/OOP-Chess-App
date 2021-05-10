@@ -286,7 +286,7 @@ class Board(object):
 
         # Generate the empty board by instantiating 64 Square objects and return them in a dictionary.
 
-        from Services import color_number_to_text, letter_index_to_letter
+        from Services import square_indices_to_string
 
         dict_of_squares = {}
         square_color = 1
