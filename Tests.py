@@ -9,6 +9,7 @@
 
 import pytest
 from Services import letter_index_to_letter
+from Services import square_indices_to_string
 from Services import color_number_to_text
 
 
@@ -48,6 +49,21 @@ class TestLetterIndexToLetter:
 		# Raises an exception when bad input is passed in.
 		with pytest.raises(Exception):
 			letter_index_to_letter(test_input)
+
+
+
+class TestSquareIndicesToString:
+
+	@pytest.mark.parametrize("test_input_1,test_input_2,expected",[
+		(1,1, "a1"),
+		(1,8, "a8"),
+		(8,1, "h1"),
+		(8,8, "h8"),
+	])
+	def test_works_for_expected_input(self, test_input_1, test_input_2, expected):
+		# Returns expected value when passed valid input.
+		result = square_indices_to_string(test_input_1,test_input_2)
+		assert result == expected, "Expected letter to match but it did not."
 
 
 
