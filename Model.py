@@ -138,6 +138,10 @@ class Game(object):
         # Update the moved piece's location.
         confirmed_turn.starting_square.current_occupant.current_square = confirmed_turn.ending_square
 
+        # Update the moved piece's has_moved_previously attribute.
+        if confirmed_turn.starting_square.current_occupant.has_moved_previously is False:
+            confirmed_turn.starting_square.current_occupant.has_moved_previously = True
+
         # Update current player's captured enemy pieces and points.
         if confirmed_turn.captured_piece is not None:
             self.whose_turn.captured_enemy_pieces.append(confirmed_turn.captured_piece)
