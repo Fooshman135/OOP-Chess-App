@@ -435,6 +435,91 @@ class Turn(object):
 
 
 
+    def is_legal_move_castling(self):
+        # Returns True if the move is legal for castling, False otherwise.
+
+        # Need to confirm each of the following:
+        # (1) Starting square contains a King (don't need to check color because that was done previously).
+        # (2) King hasn't moved previously.
+        # (3) Ending square is in the same row as starting square (this is first half of INPUT VALIDATION TYPE 4).
+        # (4) Ending square is two squares away from starting square (this is second half of INPUT VALIDATION TYPE 4).
+        # (5) Path between King and ending square is not blocked (this is INPUT VALIDATION TYPE 5).
+        # (6) The final square beyond the ending square contains a Rook.
+        # (7) Rook hasn't moved previously.
+        # (8) Path between Rook and ending square is not blocked.
+        # (9) King is not currently in check.
+        # (10) King does not pass through check in the one square on the path.
+
+
+        # (1)
+        if isinstance(self.starting_square.current_occupant, Model.King) is False:
+            # The piece on the starting square is not a King.
+            return False
+
+        # (2)
+        if self.starting_square.current_occupant.has_moved_previously is True:
+            # The King was moved in a previous turn.
+            return False
+
+        # (3)
+        if self.starting_square.number_index != self.ending_square.number_index:
+            # Ending square is not in same row as starting square.
+            return False
+
+        # (4)
+        king_path = produce_path_between_two_squares(self.starting_square, self.ending_square, self.starting_board)
+        if len(king_path) != 1:
+            # Ending square is either too close or too far away.
+            return False
+
+        # (5)
+        if king_path[0].current_occupant is not None:
+            # Path between King and ending square is blocked.
+            return False
+
+        # (6)
+        if self.starting_square.letter_index < self.ending_square.letter_index:
+            # King side castle
+            rook_letter_index = 8
+        else:
+            # Queen side castle
+            rook_letter_index = 1            
+        rook_square = self.starting_board.dict_of_64_squares[square_indices_to_string(rook_letter_index, starting_square.number_index)]
+        if rook_square.current_occupant is None or isinstance(rook_square.current_occupant, Model.Rook) is False:
+            # The final square doesn't contain a Rook.
+            return False
+
+        # (7)
+        if rook_square.current_occupant.has_moved_previously is True:
+            # The Rook was moved in a previous turn.
+            return False
+
+        # (8)
+        rook_path = produce_path_between_two_squares(rook_square, self.ending_square, self.starting_board)
+        for square in rook_path:
+            if square.current_occupant is not None:
+                # Path between Rook and ending square is blocked.
+                return False
+
+        # (9)
+        if self.starting_board.is_king_not_in_check(self.player.color) is False:
+            # King is currently in check.
+            return False
+
+        # (10)
+        ## Create a new board that is the result of moving the King into the one square in king_path
+        new_board = self.starting_board.duplicate_board()
+        new_board.dict_of_64_squares[self.starting_square.get_square_index_string()].current_occupant = None
+        new_board.dict_of_64_squares[king_path[0].get_square_index_string()].current_occupant = self.starting_square.current_occupant
+        ## Now determine if the King is in check while in this square.
+        if new_board.is_king_not_in_check(self.player.color) is False:
+            # King would pass through check while castling.
+            return False
+
+        # If you have reached this point, the move is a legal castling.
+        return True
+
+
 
     def is_legal_move_can_reach(self):
         # Used for INPUT VALIDATION TYPE 4
