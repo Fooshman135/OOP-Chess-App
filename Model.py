@@ -682,9 +682,9 @@ class Piece(object):
 
 class Pawn(Piece):
 
-    def __init__(self, current_square, owner):
+    def __init__(self, current_square, owner, has_moved_previously=False):
         unicode_characters = ["♙", "♟"]
-        super().__init__(current_square, owner, unicode_characters)
+        super().__init__(current_square, owner, unicode_characters, has_moved_previously)
 
         self.points = 1
 
@@ -730,9 +730,9 @@ class Pawn(Piece):
 
 class Rook(Piece):
 
-    def __init__(self, current_square, owner):
+    def __init__(self, current_square, owner, has_moved_previously=False):
         unicode_characters = ["♖", "♜"]
-        super().__init__(current_square, owner, unicode_characters)
+        super().__init__(current_square, owner, unicode_characters, has_moved_previously)
 
         self.points = 5
 
@@ -757,9 +757,9 @@ class Rook(Piece):
 
 class Knight(Piece):
 
-    def __init__(self, current_square, owner):
+    def __init__(self, current_square, owner, has_moved_previously=False):
         unicode_characters = ["♘", "♞"]
-        super().__init__(current_square, owner, unicode_characters)
+        super().__init__(current_square, owner, unicode_characters, has_moved_previously)
 
         self.points = 3
 
@@ -792,9 +792,9 @@ class Knight(Piece):
 
 class Bishop(Piece):
 
-    def __init__(self, current_square, owner):
+    def __init__(self, current_square, owner, has_moved_previously=False):
         unicode_characters = ["♗", "♝"]
-        super().__init__(current_square, owner, unicode_characters)
+        super().__init__(current_square, owner, unicode_characters, has_moved_previously)
 
         self.points = 3
 
@@ -817,9 +817,9 @@ class Bishop(Piece):
 
 class Queen(Piece):
 
-    def __init__(self, current_square, owner):
+    def __init__(self, current_square, owner, has_moved_previously=False):
         unicode_characters = ["♕", "♛"]
-        super().__init__(current_square, owner, unicode_characters)
+        super().__init__(current_square, owner, unicode_characters, has_moved_previously)
 
         self.points = 9
 
@@ -842,9 +842,9 @@ class Queen(Piece):
 
 class King(Piece):
 
-    def __init__(self, current_square, owner):
+    def __init__(self, current_square, owner, has_moved_previously=False):
         unicode_characters = ["♔", "♚"]
-        super().__init__(current_square, owner, unicode_characters)
+        super().__init__(current_square, owner, unicode_characters, has_moved_previously)
 
 
     def target_can_be_reached(self, target_square):
