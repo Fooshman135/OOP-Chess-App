@@ -134,3 +134,69 @@ class TestProducePathBetweenTwoSquares:
 		# Returns expected value when passed valid input.
 		result = produce_path_between_two_squares(test_input_1, test_input_2, test_input_3)
 		assert set(result) == set(expected), "Expected path to match expected set of Squares but it did not."
+
+
+
+class TestIsLegalMoveCastling:
+
+	from Model import Turn, Board, Player, Rook, Knight, Bishop, Queen, King, Pawn
+
+	white_player = Player(1)
+	black_player = Player(0)
+
+	board_one = Board()
+	board_one.pieces_into_specified_positions({
+		"a1": Rook(None, white_player),
+		"b1": Knight(None, white_player),
+		"c1": Bishop(None, white_player),
+		"d1": Queen(None, white_player),
+		"e1": King(None, white_player),
+		"h1": Rook(None, white_player),
+
+		"a2": Pawn(None, white_player),
+		"b2": Pawn(None, white_player),
+		"c2": Pawn(None, white_player),
+		"d2": Pawn(None, white_player),
+		"e4": Pawn(None, white_player),
+		"f2": Pawn(None, white_player),
+		"g2": Pawn(None, white_player),
+		"h2": Pawn(None, white_player),
+
+		"a7": Pawn(None, black_player),
+		"b7": Pawn(None, black_player),
+		"c7": Pawn(None, black_player),
+		"d6": Pawn(None, black_player),
+		"e5": Pawn(None, black_player),
+		"f7": Pawn(None, black_player),
+		"g7": Pawn(None, black_player),
+		"h7": Pawn(None, black_player),
+
+		"a8": Rook(None, black_player),
+		"b8": Knight(None, black_player),
+		"g4": Bishop(None, black_player),
+		"d8": Queen(None, black_player),
+		"e8": King(None, black_player),
+		"f8": Bishop(None, black_player),
+		"g8": Knight(None, black_player),
+		"h8": Rook(None, black_player),
+	})
+	test_turn_one = Turn(
+		starting_board = board_one, 
+		player = white_player, 
+		starting_square = board_one.dict_of_64_squares["e1"], 
+		ending_square = board_one.dict_of_64_squares["g1"]
+	)
+
+
+
+
+	@pytest.mark.parametrize("test_input, expected",[
+		(test_turn_one, True),
+	])
+	def test_works_for_expected_input(self, test_input, expected):
+		# Returns expected value when passed valid input.
+		result = test_input.is_legal_move_castling()
+		assert result == expected, "Expected Turn to identify legal castling move."
+
+
+

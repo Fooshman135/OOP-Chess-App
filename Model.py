@@ -356,6 +356,11 @@ class Board(object):
         # dict_of_squares_and_pieces is a dictionary whose keys are strings specifying squares and whose values are Piece objects.
         # This method maps the pieces to the square objects, and maps the square objects to the pieces.
 
+        # First clear the board of any old pieces.
+        for square in self.dict_of_64_squares.values():
+            square.current_occupant = None
+
+        # Now assign the new pieces.
         for k,v in dict_of_squares_and_pieces.items():
             self.dict_of_64_squares[k].current_occupant = v
             v.current_square = self.dict_of_64_squares[k]
@@ -451,8 +456,11 @@ class Turn(object):
         # (10) King does not pass through check in the one square on the path.
 
 
+        from Services import produce_path_between_two_squares, square_indices_to_string
+
+
         # (1)
-        if isinstance(self.starting_square.current_occupant, Model.King) is False:
+        if isinstance(self.starting_square.current_occupant, King) is False:
             # The piece on the starting square is not a King.
             return False
 
@@ -484,8 +492,8 @@ class Turn(object):
         else:
             # Queen side castle
             rook_letter_index = 1            
-        rook_square = self.starting_board.dict_of_64_squares[square_indices_to_string(rook_letter_index, starting_square.number_index)]
-        if rook_square.current_occupant is None or isinstance(rook_square.current_occupant, Model.Rook) is False:
+        rook_square = self.starting_board.dict_of_64_squares[square_indices_to_string(rook_letter_index, self.starting_square.number_index)]
+        if rook_square.current_occupant is None or isinstance(rook_square.current_occupant, Rook) is False:
             # The final square doesn't contain a Rook.
             return False
 
@@ -638,12 +646,12 @@ class Turn(object):
 class Piece(object):
 
 
-    def __init__(self, current_square, owner, unicode_characters):
+    def __init__(self, current_square, owner, unicode_characters, has_moved_previously=False):
         self.current_square = current_square
         self.owner = owner  # Should be a Player object.
         self.unicode = unicode_characters[self.owner.color]     # Since Black = 0 and White = 1, can index the list using color value.
+        self.has_moved_previously = has_moved_previously
 
-        self.has_moved_previously = False
         self.turn_captured = None
 
 
