@@ -70,19 +70,30 @@ class Game(object):
                     ending_square = destination_square
                 )
 
-                # Confirm move is legal for validation type 4.
-                if current_turn.is_legal_move_can_reach() is False:
-                    # Reject move.
-                    display_error_message(4)
-                    del current_turn
-                    continue
+                # Determine if player is move is a legal castling move.
+                if current_turn.is_legal_move_castling() is True:
+                    # Player is castling, so no need to check validation types 4 and 5.
+                    current_turn.is_castling = True
 
-                # Confirm move is legal for validation type 5.
-                if current_turn.is_legal_move_path_unblocked() is False:
-                    # Reject move.
-                    display_error_message(5)
-                    del current_turn
-                    continue
+                else:
+                    # Player is not castling.
+
+                    # Confirm move is legal for validation type 4.
+                    if current_turn.is_legal_move_can_reach() is False:
+                        # Reject move.
+                        display_error_message(4)
+                        del current_turn
+                        continue
+
+                    # Confirm move is legal for validation type 5.
+                    if current_turn.is_legal_move_path_unblocked() is False:
+                        # Reject move.
+                        display_error_message(5)
+                        del current_turn
+                        continue
+
+                # Set the ending board.
+                current_turn.set_ending_board()
 
                 # Confirm move is legal for validation type 6.
                 if current_turn.is_legal_move_king_safe() is False:
@@ -212,6 +223,9 @@ class Game(object):
                     # Reject this iteration.
                     del current_turn
                     continue
+
+                current_turn.set_ending_board()
+
 
                 ## Confirm move is legal for validation type 6.
                 if current_turn.is_legal_move_king_safe() is False:
@@ -487,7 +501,7 @@ class Turn(object):
             return False
 
         # (6)
-        rook_square = get_castling_rook_start_and_end_squares()[0]
+        rook_square = self.get_castling_rook_start_and_end_squares()[0]
         if rook_square.current_occupant is None or isinstance(rook_square.current_occupant, Rook) is False:
             # The final square doesn't contain a Rook.
             return False
@@ -520,7 +534,6 @@ class Turn(object):
             return False
 
         # If you have reached this point, the move is a legal castling (with the possible exception of INPUT VALIDATION TYPE 6).
-        self.is_castling = True
         return True
 
 
@@ -539,10 +552,7 @@ class Turn(object):
     def is_legal_move_king_safe(self):
         # Used for INPUT VALIDATION TYPE 6
 
-        # First create the proposed board.
-        if self.ending_board is None:
-            self.set_ending_board()
-        # Then check the proposed board for putting your King in check.
+        # Check the proposed board for putting your King in check.
         return self.ending_board.is_king_not_in_check(self.player.color)
 
 
