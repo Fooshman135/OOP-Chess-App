@@ -437,6 +437,7 @@ class Turn(object):
         self.is_check = None
         self.is_checkmate = None
         self.is_promotion = False
+        self.is_castling = False
 
 
 
@@ -448,10 +449,10 @@ class Turn(object):
         # (2) King hasn't moved previously.
         # (3) Ending square is in the same row as starting square (this is first half of INPUT VALIDATION TYPE 4).
         # (4) Ending square is two squares away from starting square (this is second half of INPUT VALIDATION TYPE 4).
-        # (5) Path between King and ending square is not blocked (this is INPUT VALIDATION TYPE 5).
+        # (5) Path between King and ending square is not blocked (this is first half of INPUT VALIDATION TYPE 5).
         # (6) The final square beyond the ending square contains a Rook.
         # (7) Rook hasn't moved previously.
-        # (8) Path between Rook and ending square is not blocked.
+        # (8) Path between Rook and ending square is not blocked (this is second half of INPUT VALIDATION TYPE 5).
         # (9) King is not currently in check.
         # (10) King does not pass through check in the one square on the path.
 
@@ -486,13 +487,7 @@ class Turn(object):
             return False
 
         # (6)
-        if self.starting_square.letter_index < self.ending_square.letter_index:
-            # King side castle
-            rook_letter_index = 8
-        else:
-            # Queen side castle
-            rook_letter_index = 1            
-        rook_square = self.starting_board.dict_of_64_squares[square_indices_to_string(rook_letter_index, self.starting_square.number_index)]
+        rook_square = get_castling_rook_start_and_end_squares()[0]
         if rook_square.current_occupant is None or isinstance(rook_square.current_occupant, Rook) is False:
             # The final square doesn't contain a Rook.
             return False
@@ -516,17 +511,17 @@ class Turn(object):
 
         # (10)
         ## Create a new board that is the result of moving the King into the one square in king_path
-        new_board = self.starting_board.duplicate_board()
-        new_board.dict_of_64_squares[self.starting_square.get_square_index_string()].current_occupant = None
-        new_board.dict_of_64_squares[king_path[0].get_square_index_string()].current_occupant = self.starting_square.current_occupant
+        new_board_path = self.starting_board.duplicate_board()
+        new_board_path.dict_of_64_squares[self.starting_square.get_square_index_string()].current_occupant = None
+        new_board_path.dict_of_64_squares[king_path[0].get_square_index_string()].current_occupant = self.starting_square.current_occupant
         ## Now determine if the King is in check while in this square.
-        if new_board.is_king_not_in_check(self.player.color) is False:
+        if new_board_path.is_king_not_in_check(self.player.color) is False:
             # King would pass through check while castling.
             return False
 
-        # If you have reached this point, the move is a legal castling.
+        # If you have reached this point, the move is a legal castling (with the possible exception of INPUT VALIDATION TYPE 6).
+        self.is_castling = True
         return True
-
 
 
     def is_legal_move_can_reach(self):
@@ -582,6 +577,15 @@ class Turn(object):
         else:
             new_board.dict_of_64_squares[self.ending_square.get_square_index_string()].current_occupant = self.starting_square.current_occupant
 
+        # Update the Rook's position if castling.
+        if self.is_castling is True:
+            # Create variable pointing to the Rook for ease of use.
+            castling_rook = new_board.dict_of_64_squares[self.get_castling_rook_start_and_end_squares()[0].get_square_index_string()].current_occupant
+            # Remove the Rook from its original square.
+            new_board.dict_of_64_squares[self.get_castling_rook_start_and_end_squares()[0].get_square_index_string()].current_occupant = None
+            # Add the Rook to its new square.
+            new_board.dict_of_64_squares[self.get_castling_rook_start_and_end_squares()[1].get_square_index_string()].current_occupant = castling_rook
+
         # Set the updated board as the ending_board.
         self.ending_board = new_board
 
@@ -629,6 +633,25 @@ class Turn(object):
                 current_ordinal = last_turn_ordinal
 
         self.ordinal_number = current_ordinal
+
+
+
+    def get_castling_rook_start_and_end_squares(self):
+        # Assuming that the Turn's starting and ending squares make sense for the King's moves when castling,
+        # then return the starting and ending squares for the Rook.
+
+        if self.starting_square.letter_index < self.ending_square.letter_index:
+            # King side castle
+            rook_letter_index = 8
+        else:
+            # Queen side castle
+            rook_letter_index = 1  
+
+        rook_starting_square = self.starting_board.dict_of_64_squares[square_indices_to_string(rook_letter_index, self.starting_square.number_index)]
+
+        rook_ending_square = produce_path_between_two_squares(self.starting_square, self.ending_square, self.starting_board)[0]
+
+        return [rook_starting_square, rook_ending_square]
 
 
 
