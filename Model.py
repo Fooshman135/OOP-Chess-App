@@ -70,7 +70,7 @@ class Game(object):
                     ending_square = destination_square
                 )
 
-                # Determine if player is move is a legal castling move.
+                # Determine if move is a legal castling move.
                 if current_turn.is_legal_move_castling() is True:
                     # Player is castling, so no need to check validation types 4 and 5.
                     current_turn.is_castling = True
@@ -169,7 +169,7 @@ class Game(object):
 
         # First see if any piece can move.
         if self.can_any_piece_legally_move() is False:
-            # No piece can move, so endgame as been achieved.
+            # No piece can move, so endgame has been achieved.
             # But is it checkmate or stalemate?
             if self.current_board.is_king_not_in_check(self.whose_turn.color) is True:
                 # The King is not in check.
@@ -649,6 +649,8 @@ class Turn(object):
     def get_castling_rook_start_and_end_squares(self):
         # Assuming that the Turn's starting and ending squares make sense for the King's moves when castling,
         # then return the starting and ending squares for the Rook.
+
+        from Services import square_indices_to_string, produce_path_between_two_squares
 
         if self.starting_square.letter_index < self.ending_square.letter_index:
             # King side castle
