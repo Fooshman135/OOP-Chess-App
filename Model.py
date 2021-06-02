@@ -567,25 +567,23 @@ class Turn(object):
         # Update the turn's starting square on the board.
         new_board.dict_of_64_squares[self.starting_square.get_square_index_string()].current_occupant = None
 
-
         # Update the turn's ending square on the board.
         self.set_is_promotion()
         if self.is_promotion is True:
             # A pawn is to be promoted, so ending square should contain promoted piece instead of pawn.
             promotion_piece_code = request_user_input_for_promotion()
             if promotion_piece_code in ('q'):
-                promotion_piece = Queen(self.ending_square, self.player)
+                ending_square_piece = Queen(self.ending_square, self.player)
             elif promotion_piece_code in ('k'):
-                promotion_piece = Knight(self.ending_square, self.player)
+                ending_square_piece = Knight(self.ending_square, self.player)
             elif promotion_piece_code in ('b'):
-                promotion_piece = Bishop(self.ending_square, self.player)
+                ending_square_piece = Bishop(self.ending_square, self.player)
             elif promotion_piece_code in ('r'):
-                promotion_piece = Rook(self.ending_square, self.player)
-
-            new_board.dict_of_64_squares[self.ending_square.get_square_index_string()].current_occupant = promotion_piece
-
+                ending_square_piece = Rook(self.ending_square, self.player)
         else:
-            new_board.dict_of_64_squares[self.ending_square.get_square_index_string()].current_occupant = self.starting_square.current_occupant
+            ending_square_piece = self.starting_square.current_occupant
+
+        new_board.dict_of_64_squares[self.ending_square.get_square_index_string()].current_occupant = ending_square_piece
 
         # Update the Rook's position if castling.
         if self.is_castling is True:
