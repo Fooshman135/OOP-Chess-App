@@ -537,6 +537,7 @@ class Turn(object):
         return True
 
 
+
     def is_legal_move_can_reach(self):
         # Used for INPUT VALIDATION TYPE 4
         return self.starting_square.current_occupant.target_can_be_reached(self.ending_square)
@@ -606,6 +607,7 @@ class Turn(object):
 
 
     def set_is_check(self):
+        # Sets the is_check Turn attribute by checking whether the opponents King is in check after the move is made.
         self.is_check = not(self.ending_board.is_king_not_in_check(self.player.get_opponents_color_index()))
 
 
@@ -616,8 +618,6 @@ class Turn(object):
                 self.is_promotion = True
             elif self.ending_square.number_index == 8 and self.player.color == 1:    # White pawn
                 self.is_promotion = True
-
-
 
 
 
@@ -666,13 +666,14 @@ class Turn(object):
 
 
     def set_is_checkmate(self):
-        pass    #TODO
-
+        # TODO
+        pass
 
 
 
     def set_notation(self):
-        pass    #TODO
+        # TODO
+        pass
 
 
 

@@ -16,6 +16,7 @@ def letter_index_to_letter(letter_index):
 
 
 def square_indices_to_string(letter_index, number_index):
+    # Takes two ints as input and returns a string to identify the Square.
     return letter_index_to_letter(letter_index) + str(number_index)
 
 
