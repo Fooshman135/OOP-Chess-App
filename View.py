@@ -206,6 +206,8 @@ def display_error_message(error_type):
             message = "\nInvalid input: This move would result in your own king being in check."
         elif error_type == 7:
             message = "\nInvalid input: Doesn't map to one of the four possible promotion pieces."
+        elif error_type == 8:
+            message = "\nInvalid input: Castling not allowed."
 
         print_text_to_cli(message)
         press_key_to_continue()
